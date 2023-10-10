@@ -11,10 +11,16 @@
 
 <p align="center">
   <a href="https://github.com/Kythuen/ephemeras/blob/main/LICENSE" target="__blank">
-    <img src="https://img.shields.io/npm/l/ephemeras" alt="license">
+    <img src="https://img.shields.io/github/license/Kythuen/ephemeras" alt="license">
   </a>
   <a href="https://github.com/Kythuen/ephemeras/actions/workflows/release.yml" target="__blank">
-    <img src="https://img.shields.io/github/actions/workflow/status/Kythuen/ephemeras/release.yml" alt="GitHub actions">
+    <img src="https://img.shields.io/github/actions/workflow/status/Kythuen/ephemeras/deploy.yml" alt="GitHub actions">
+  </a>
+  <a href="https://github.com/Kythuen/ephemeras/issues" target="__blank">
+   <img  alt="GitHub issues" src="https://img.shields.io/github/issues/Kythuen/ephemeras">
+  </a>
+  <a href="https://github.com/Kythuen/ephemeras/discussions" target="__blank">
+   <img alt="GitHub Discussions" src="https://img.shields.io/github/discussions/Kythuen/ephemeras">
   </a>
 </p>
 <p align="center">
