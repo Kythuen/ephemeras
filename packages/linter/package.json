@@ -1,0 +1,17 @@
+{
+  "name": "@ephemeras/linter",
+  "version": "0.0.1",
+  "description": "Command line tool, quickly configuring and completing project code standardization construction",
+  "keywords": [
+    "ephemeras",
+    "command line",
+    "code linter",
+    "commit standardized"
+  ],
+  "author": {
+    "name": "ephemeras",
+    "email": "ephemeras@qq.com"
+  },
+  "license": "MIT",
+  "type": "module"
+}

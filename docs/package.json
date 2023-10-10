@@ -1,0 +1,23 @@
+{
+  "name": "@ephemeras/docs",
+  "version": "0.0.1",
+  "description": "Documents for ephemeras",
+  "keywords": [
+    "ephemeras",
+    "documents"
+  ],
+  "author": {
+    "name": "ephemeras",
+    "email": "ephemeras@qq.com"
+  },
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "dev": "vitepress dev",
+    "build": "vitepress build",
+    "preview": "vitepress preview"
+  },
+  "dependencies": {
+    "vitepress": "1.0.0-rc.12"
+  }
+}

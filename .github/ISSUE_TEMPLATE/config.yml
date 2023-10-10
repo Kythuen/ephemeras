@@ -1,0 +1,5 @@
+blank_issues_enabled: true
+contact_links:
+  - name: create issue 讨论和反馈
+    url: https://Tencent.github.io/tdesign/issue-helper/?lang=zh-CN&repo=Tencent/tdesign-vue-next
+    about: Features Feedback or Bugs Report 新特性需求反馈或报告缺陷
