@@ -7,6 +7,11 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
+node_modules
+dist
+dist-ssr
+*.local
+
 # Lock file
 package-lock.json
 yarn.lock
@@ -22,18 +27,3 @@ yarn.lock
 *.njsproj
 *.sln
 *.sw?
-.cache
-.nuxt
-docs/.vitepress/cache/
-docs/.vitepress/dist/
-test/temp
-
-# Output
-node_modules
-dist
-dist-ssr
-coverage
-*.local
-
-# Test
-packages/*-example

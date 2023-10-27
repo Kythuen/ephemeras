@@ -1,0 +1,6 @@
+{
+  "*.md": ["prettier --write"],
+  "*.{js,jsx,ts,tsx}": ["eslint"],
+  "*.vue": ["eslint"],
+  "*.{less,css,html}": ["prettier --write"]
+}

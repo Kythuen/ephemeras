@@ -37,9 +37,9 @@ export function getPackageManagers() {
     try {
       execSync(`${cmd} -v`, { stdio: 'ignore' })
       result.push(cmd)
-    } catch (e: any) {
+    } catch (e) {
       // eslint-disable-next-line no-console
-      console.log(e.message)
+      // console.log(e.message)
     }
   }
   return result

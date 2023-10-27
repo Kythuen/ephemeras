@@ -13,8 +13,47 @@
     "email": "ephemeras@qq.com"
   },
   "license": "MIT",
-  "type": "module",
+  "files": [
+    "dist",
+    "files"
+  ],
+  "typings": "dist/index.d.ts",
+  "bin": {
+    "linter": "dist/index.js"
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\""
+    "dev": "tsup --watch src",
+    "build": "tsup",
+    "test": "vitest",
+    "coverage": "vitest --coverage"
+  },
+  "dependencies": {
+    "@clack/prompts": "^0.6.3",
+    "@ephemeras/utils": "workspace:*",
+    "@types/eslint": "8.37.0",
+    "cac": "^6.7.14",
+    "execa": "4.1.0",
+    "i18next": "^23.5.1",
+    "picocolors": "^1.0.0"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/",
+    "access": "public"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "17.4.4",
+    "@commitlint/config-conventional": "17.4.4",
+    "@typescript-eslint/eslint-plugin": "5.54.0",
+    "@typescript-eslint/parser": "5.54.0",
+    "commitizen": "4.3.0",
+    "cz-conventional-changelog": "3.3.0",
+    "eslint": "8.35.0",
+    "eslint-config-airbnb-base": "15.0.0",
+    "eslint-config-prettier": "8.6.0",
+    "eslint-plugin-import": "2.27.5",
+    "eslint-plugin-vue": "9.13.0",
+    "husky": "8.0.3",
+    "lint-staged": "13.1.2",
+    "typescript": "5.0.2"
   }
 }
