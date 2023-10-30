@@ -1,14 +1,6 @@
 import { basename, resolve } from 'node:path'
 import execa from 'execa'
-import {
-  existsSync,
-  ensureFileSync,
-  ensureDirSync,
-  writeFileSync,
-  copySync,
-  removeSync,
-  CopyOptionsSync
-} from 'fs-extra'
+import fs, { CopyOptionsSync } from 'fs-extra'
 import { validateParam } from '../validate'
 import { SchemaCreateFile, SchemaCopyFile, SchemaRemoveFile } from './schema'
 
@@ -28,7 +20,7 @@ export async function createFile(options: TCreateFileOptions) {
   const { context, path, data } = options
   const baseDir = context || process.cwd()
 
-  if (context && !existsSync(context)) {
+  if (context && !fs.existsSync(context)) {
     throw Error(`base directory: "${context}" is not exists`)
   }
   if (path && !basename(path).includes('.')) {
@@ -36,8 +28,8 @@ export async function createFile(options: TCreateFileOptions) {
   }
 
   const url: string = resolve(baseDir, path)
-  ensureFileSync(url)
-  writeFileSync(url, JSON.stringify(data))
+  fs.ensureFileSync(url)
+  fs.writeFileSync(url, JSON.stringify(data))
   await execa('prettier', ['--write', url])
   return url
 }
@@ -45,26 +37,26 @@ export async function createFile(options: TCreateFileOptions) {
 export function copyFile(copyOptions: TCopyOptions) {
   validateParam('options', copyOptions, SchemaCopyFile)
   const { source, dest, options } = copyOptions
-  copySync(source, dest, options)
+  fs.copySync(source, dest, options)
   return dest
 }
 
 export function removeFile(file: string) {
   validateParam('file', file, SchemaRemoveFile)
-  removeSync(file)
+  fs.removeSync(file)
   return file
 }
 
 export function copyDirectory(copyOptions: TCopyOptions) {
   validateParam('options', copyOptions, SchemaCopyFile)
   const { source, dest, options } = copyOptions
-  ensureDirSync(dest)
-  copySync(source, dest, options)
+  fs.ensureDirSync(dest)
+  fs.copySync(source, dest, options)
   return dest
 }
 
 export function removeDirectory(directory: string) {
   validateParam('directory', directory, SchemaRemoveFile)
-  removeSync(directory)
+  fs.removeSync(directory)
   return directory
 }

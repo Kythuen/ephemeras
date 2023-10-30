@@ -13,6 +13,7 @@
     "email": "ephemeras@qq.com"
   },
   "license": "MIT",
+  "type": "module",
   "files": [
     "dist",
     "files"
@@ -33,16 +34,17 @@
     "@types/eslint": "8.37.0",
     "cac": "^6.7.14",
     "execa": "4.1.0",
+    "gradient-string": "^2.0.2",
     "i18next": "^23.5.1",
-    "picocolors": "^1.0.0"
-  },
-  "publishConfig": {
-    "registry": "https://registry.npmjs.org/",
-    "access": "public"
+    "ora": "^7.0.1",
+    "picocolors": "^1.0.0",
+    "prompts": "^2.4.2"
   },
   "devDependencies": {
     "@commitlint/cli": "17.4.4",
     "@commitlint/config-conventional": "17.4.4",
+    "@types/gradient-string": "^1.1.4",
+    "@types/prompts": "^2.4.7",
     "@typescript-eslint/eslint-plugin": "5.54.0",
     "@typescript-eslint/parser": "5.54.0",
     "commitizen": "4.3.0",

@@ -1,7 +1,7 @@
 import { afterAll, describe, expect, it } from 'vitest'
 import { resolve } from 'node:path'
 import { homedir } from 'node:os'
-import { existsSync, removeSync } from 'fs-extra'
+import fs from 'fs-extra'
 import { Profile } from '../src/profile'
 import {
   serializer as yamlSerializer,
@@ -60,8 +60,7 @@ describe('# profile', () => {
           data: {},
           transformer: yamlTransformer
         },
-        error:
-          '"options" contains [transformer] without its required peers [serializer]'
+        error: '"options" contains [transformer] without its required peers [serializer]'
       },
       {
         name: '### serializer: not peer transformer',
@@ -70,8 +69,7 @@ describe('# profile', () => {
           data: {},
           serializer: yamlSerializer
         },
-        error:
-          '"options" contains [serializer] without its required peers [transformer]'
+        error: '"options" contains [serializer] without its required peers [transformer]'
       }
     ]
     for (const item of cases) {
@@ -201,7 +199,7 @@ describe('# profile', () => {
         expect(file.getData()).toEqual({})
         file.remove()
         const filepath = file.getUrl()
-        expect(existsSync(filepath)).toBeFalsy()
+        expect(fs.existsSync(filepath)).toBeFalsy()
       })
       it('## error', () => {
         const file = new Profile({
@@ -226,6 +224,6 @@ describe('# profile', () => {
     })
   })
   afterAll(() => {
-    removeSync(resolve(homedir(), '.utils-test'))
+    fs.removeSync(resolve(homedir(), '.utils-test'))
   })
 })

@@ -1,12 +1,11 @@
 export const DEFAULT_PRESET_VALUE = {
-  value: '',
-  hint: '',
-  configs: {
-    environment: '',
-    typescript: false,
-    vue: false,
-    style: 'airbnb',
-    commit: false,
-    format: false
-  }
+  name: '',
+  description: '',
+  features: [],
+  environment: [],
+  typescript: false,
+  vue: false,
+  style: '',
+  validate: false,
+  message: false
 }

@@ -6,6 +6,5 @@ export const tsup: Options = {
   dts: true,
   splitting: true,
   clean: true,
-  shims: false,
-  external: []
+  shims: false
 }

@@ -3,10 +3,12 @@ import { cac } from 'cac'
 import { readPKG, Profile } from '@ephemeras/utils'
 import { changeLanguage } from './locales'
 import TEXT from './locales/text'
+import init from './command/init'
 import add from './command/add'
 import remove from './command/remove'
 import preset from './command/preset'
 import config from './command/config'
+import { prettifyOutput } from './utils'
 import type { TFeature } from './command/common'
 
 async function run() {
@@ -15,7 +17,7 @@ async function run() {
   const configProfile = new Profile({ path: '.ephemeras/linter/config.json' })
   const presetProfile = new Profile({ path: '.ephemeras/linter/preset.json' })
   const lang = configProfile.get('language') || 'en'
-  changeLanguage(lang)
+  await changeLanguage(lang)
 
   cli
     .command('[root]')
@@ -26,60 +28,63 @@ async function run() {
     .allowUnknownOptions()
     .action((_: string, options: Record<string, any>) => {
       if (!options.init && !options.clear) {
-        console.log()
-        cli.outputHelp()
-        console.log()
+        prettifyOutput(() => cli.outputHelp())
         return
       }
       if (options.clear) {
-        console.log()
-        remove(['format', 'commit'])
-        console.log()
+        prettifyOutput(remove, ['format', 'commit'])
         return
       }
-      console.log()
-      add(['format', 'commit'], presetProfile)
-      console.log()
+      prettifyOutput(init, presetProfile)
     })
 
   cli
     .command('init', TEXT.USAGE_COMMAND_INITIAL)
     .example('  $ linter init')
     .action(() => {
-      console.log()
-      add(['format', 'commit'], presetProfile)
-      console.log()
+      prettifyOutput(init, presetProfile)
     })
 
   cli
     .command('clear', TEXT.USAGE_COMMAND_CLEAR)
     .example('  $ linter clear')
     .action(() => {
-      console.log()
-      remove(['format', 'commit'])
-      console.log()
+      prettifyOutput(async () => {
+        console.log(TEXT.TIP_WELCOME)
+        await remove(['format', 'commit'])
+      })
     })
 
   cli
-    .command('add <...features>', TEXT.USAGE_COMMAND_ADD)
+    .command('add [...features]', TEXT.USAGE_COMMAND_ADD)
     .example('  $ linter add format')
     .example('  $ linter add commit')
     .example('  $ linter add format commit')
-    .action((features: TFeature | TFeature[]) => {
-      console.log()
-      add(features, presetProfile)
-      console.log()
+    .action(async (features: TFeature[]) => {
+      if (!features?.length) {
+        prettifyOutput(() => cli.outputHelp())
+        return
+      }
+      prettifyOutput(async () => {
+        console.log(TEXT.TIP_WELCOME)
+        await add(features, presetProfile)
+      })
     })
 
   cli
-    .command('remove <...features>', TEXT.USAGE_COMMAND_REMOVE)
+    .command('remove [...features]', TEXT.USAGE_COMMAND_REMOVE)
     .example('  $ linter remove format')
     .example('  $ linter remove commit')
     .example('  $ linter remove format commit')
-    .action((features: TFeature | TFeature[]) => {
-      console.log()
-      remove(features)
-      console.log()
+    .action((features: TFeature[]) => {
+      if (!features?.length) {
+        prettifyOutput(() => cli.outputHelp())
+        return
+      }
+      prettifyOutput(async () => {
+        console.log(TEXT.TIP_WELCOME)
+        await remove(features)
+      })
     })
 
   cli
@@ -93,9 +98,11 @@ async function run() {
     .example('  $ linter preset --edit presetName')
     .example('  $ linter preset --unset presetName')
     .action((presetName: string, _: Record<string, any>) => {
-      console.log()
-      preset(presetName, _, presetProfile)
-      console.log()
+      if (!presetName && Object.keys(_).length === 1) {
+        prettifyOutput(() => cli.outputHelp())
+        return
+      }
+      prettifyOutput(preset, presetName, _, presetProfile)
     })
 
   cli
@@ -107,13 +114,13 @@ async function run() {
     .example('  $ linter config --get language')
     .example('  $ linter config language zh-CN')
     .example('  $ linter config --unset language')
-    .action(
-      (configKey: string, configValue: string, _: Record<string, any>) => {
-        console.log()
-        config(configKey, configValue, _, configProfile)
-        console.log()
+    .action((configKey: string, configValue: string, _: Record<string, any>) => {
+      if (!configKey && Object.keys(_).length === 1) {
+        prettifyOutput(() => cli.outputHelp())
+        return
       }
-    )
+      prettifyOutput(config, configKey, configValue, _, configProfile)
+    })
 
   cli.help(() => {})
 

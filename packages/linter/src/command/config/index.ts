@@ -1,11 +1,13 @@
 import { Profile } from '@ephemeras/utils'
 import TEXT from '../../locales/text'
+import { boldText } from '../../utils'
 
 function showConfigs(configs: Record<string, any>) {
   if (!Object.keys(configs).length) {
-    console.log(TEXT.COMMON_NO_DATA)
+    console.log(TEXT.TIP_NO_DATA)
     return
   }
+  console.log(`${TEXT.TITLE_CONFIG_LIST}\n`)
   const configsText: any = []
   Object.keys(configs).forEach(key => {
     configsText.push(`${key}=${configs[key]}`)
@@ -30,11 +32,11 @@ export default async function (
   }
   if (options.unset) {
     profile.delete(configKey)
-    console.log(`${TEXT.COMMON_SUCCESS_DELETE}: ${configKey}`)
+    console.log(boldText(`${TEXT.TIP_SUCCESS_DELETE}: ${configKey}`))
     return
   }
   if (configKey && configValue) {
     profile.set(configKey, configValue)
-    console.log(TEXT.COMMON_SUCCESS_OPERATION)
+    console.log(boldText(TEXT.TIP_SUCCESS_OPERATION))
   }
 }

@@ -2,7 +2,7 @@
 import { resolve, extname } from 'node:path'
 import { homedir } from 'node:os'
 import { existsSync, readFileSync, writeFileSync } from 'node:fs'
-import { ensureFileSync, removeSync } from 'fs-extra'
+import fs from 'fs-extra'
 import { validateParam } from '../validate'
 import { SchemaProfileOptions } from './schema'
 import { SchemaString } from '../schema'
@@ -49,10 +49,9 @@ export class Profile {
     if (transformer) {
       this.transformer = transformer
     }
-    ensureFileSync(this.url)
+    fs.ensureFileSync(this.url)
 
-    const fileContent =
-      readFileSync(this.url, 'utf-8') || (extname(path) === '.json' ? '{}' : '')
+    const fileContent = readFileSync(this.url, 'utf-8') || (extname(path) === '.json' ? '{}' : '')
 
     const fileData = this.transformer(fileContent)
     this.data = data || fileData || {}
@@ -87,9 +86,7 @@ export class Profile {
   public set(propOrData: string | ProfileData, propValue?: any) {
     if (typeof propOrData === 'string') {
       this.data[propOrData] = propValue
-    } else if (
-      Object.prototype.toString.call(propOrData) === '[object Object]'
-    ) {
+    } else if (Object.prototype.toString.call(propOrData) === '[object Object]') {
       this.data = {
         ...this.data,
         ...propOrData
@@ -115,6 +112,6 @@ export class Profile {
   }
 
   public remove() {
-    removeSync(this.url)
+    fs.removeSync(this.url)
   }
 }

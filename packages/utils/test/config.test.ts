@@ -38,18 +38,12 @@ describe('# config', () => {
         {
           name: '#### file not exist',
           params: ['not-exist'],
-          error: `config file "${resolve(
-            process.cwd(),
-            'not-exist'
-          )}" not found`
+          error: `config file "${resolve(process.cwd(), 'not-exist')}" not found`
         },
         {
           name: '#### no files',
           params: ['not-exist', { files: [] }],
-          error: `config file "${resolve(
-            process.cwd(),
-            'not-exist'
-          )}" not found`
+          error: `config file "${resolve(process.cwd(), 'not-exist')}" not found`
         },
         {
           name: '#### not exist file/files',
@@ -67,8 +61,8 @@ describe('# config', () => {
           file: resolve(process.cwd(), 'tsconfig.json'),
           data: {
             compilerOptions: {
-              module: 'ESNext',
-              target: 'ES2020',
+              module: 'CommonJS',
+              target: 'ES2015',
               moduleResolution: 'node',
               outDir: 'dist',
               esModuleInterop: true,
@@ -91,8 +85,8 @@ describe('# config', () => {
           file: resolve(process.cwd(), 'tsconfig.json'),
           data: {
             compilerOptions: {
-              module: 'ESNext',
-              target: 'ES2020',
+              module: 'CommonJS',
+              target: 'ES2015',
               moduleResolution: 'node',
               outDir: 'dist',
               esModuleInterop: true,
@@ -120,8 +114,7 @@ describe('# config', () => {
             dts: true,
             splitting: true,
             clean: true,
-            shims: false,
-            external: []
+            shims: false
           }
         }
       ]

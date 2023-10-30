@@ -1,100 +1,72 @@
 import execa from 'execa'
 import { resolve } from 'node:path'
 import { existsSync } from 'node:fs'
-import { intro, spinner, note, outro } from '@clack/prompts'
-import { bgYellow, black } from 'picocolors'
-import {
-  readPKG,
-  getPackageManager,
-  isPnpmWorkspaceRepo
-} from '@ephemeras/utils'
+import ora from 'ora'
+import { readPKG, getPackageManager, isPnpmWorkspaceRepo } from '@ephemeras/utils'
 import TEXT from '../../locales/text'
-import {
-  supportFeatures,
-  featuresMap,
-  TFeature,
-  cancelHandler
-} from '../common'
-import {
-  listIntersection,
-  ConfigResolver,
-  removePackagesVersion
-} from '../../utils'
-import { removeFeaturesPrompt, TRemoveFeaturesPrompt } from './prompts'
+import { TFeature } from '../common'
+import { ConfigResolver, listIntersection, removePackagesVersion, answerPrompts } from '../../utils'
+import { getRemoveFormatPrompt, getRemoveCommitPrompt, getUninstallPrompt } from '../../prompts'
 import removeCommitFeature from './commit'
 import removeFormatFeature from './format'
 
-export default async function remove(features: TFeature | TFeature[]) {
-  const resolveFeatures: TFeature[] = listIntersection<TFeature>(
-    [...supportFeatures],
-    features
-  )
-  const removeFeatures: string = resolveFeatures
-    .map((i: TFeature) => featuresMap[i])
-    .join(' & ')
-
-  const promptTitle = resolveFeatures.length
-    ? ` ${TEXT.REMOVE_FEATURES}: ${resolveFeatures
-        .map((i: TFeature) => featuresMap[i])
-        .join(' & ')} `
-    : TEXT.REMOVE_FEATURES
-
-  intro(`${bgYellow(black(promptTitle))}`)
-
-  const prompts = (await removeFeaturesPrompt(
-    resolveFeatures,
-    removeFeatures
-  )) as TRemoveFeaturesPrompt
-  cancelHandler(prompts)
-
-  let selectedFeatures = resolveFeatures
-  if (
-    (typeof prompts === 'boolean' && !prompts) ||
-    (typeof prompts !== 'boolean' && !prompts.confirm)
-  ) {
-    process.exit(0)
-  }
-  if (typeof prompts !== 'boolean') {
-    selectedFeatures = prompts.features
-  }
-
+export default async function remove(features: TFeature[]) {
   const resolver = new ConfigResolver()
-  if (selectedFeatures.includes('commit')) {
-    const s = spinner()
-    s.start(`${TEXT.COMMON_FEATURE_COMMIT}...`)
-    const logs = await removeCommitFeature(resolver)
-    s.stop(`${TEXT.COMMON_FEATURE_COMMIT}`)
-    logs.length && note(logs)
+  if (features.includes('format')) {
+    console.log()
+    console.log(TEXT.TITLE_REMOVE_FORMAT)
+    const removeFormat = await answerPrompts(getRemoveFormatPrompt())
+    if (removeFormat) {
+      const logs = await removeFormatFeature(resolver)
+      if (logs.length) {
+        console.log()
+        console.log(logs)
+      }
+    }
   }
-  if (selectedFeatures.includes('format')) {
-    const s = spinner()
-    s.start(`${TEXT.COMMON_FEATURE_FORMAT}...`)
-    const logs = await removeFormatFeature(resolver)
-    s.stop(`${TEXT.COMMON_FEATURE_FORMAT}`)
-    logs.length && note(logs)
+  if (features.includes('commit')) {
+    console.log()
+    console.log(TEXT.TITLE_REMOVE_COMMIT)
+    const removeCommit = await answerPrompts(getRemoveCommitPrompt())
+    if (removeCommit) {
+      const logs = await removeCommitFeature(resolver)
+      if (logs.length) {
+        console.log()
+        console.log(logs)
+      }
+    }
   }
 
   if (existsSync(resolve(process.cwd(), 'node_modules'))) {
+    console.log()
+    console.log(TEXT.TITLE_UNINSTALL_DEPENDENCIES)
     const { packages } = resolver.data
     const { devDependencies } = await readPKG(process.cwd())
-    if (!devDependencies || !Object.keys(devDependencies).length)
-      process.exit(0)
-
+    if (!devDependencies || !Object.keys(devDependencies).length) process.exit(0)
     const resolvePackage = listIntersection(
       Object.keys(devDependencies),
       removePackagesVersion(packages)
     )
     if (resolvePackage.length) {
+      const { uninstall } = await answerPrompts(getUninstallPrompt())
       const pm = getPackageManager()
-      const s = spinner()
-      s.start(`remove dependencies via ${pm}`)
       const args = pm === 'npm' ? ['uninstall', '--save-dev'] : ['remove', '-D']
       if (pm === 'pnpm' && isPnpmWorkspaceRepo()) {
         args.push('-w')
       }
-      await execa('pnpm', [...args, ...resolvePackage], { encoding: 'utf8' })
-      s.stop('successfully remove dependencies')
+      if (uninstall) {
+        const spinner = ora('uninstall dependencies...').start()
+        await execa(pm, [...args, ...resolvePackage], { encoding: 'utf8' })
+        spinner.succeed('successfully uninstall dependencies')
+      } else {
+        console.log()
+        console.log(TEXT.TITLE_INSTALL_LATER, '\n')
+        console.log([pm, ...args, ...resolvePackage].join(' '))
+        console.log()
+        console.log(TEXT.TIP_PROBLEM_FEEDBACK)
+      }
     }
   }
-  outro(TEXT.COMMON_TIP_REMOVE_DONE)
+  console.log()
+  console.log(TEXT.TIP_SUCCESS_REMOVE_DONE)
 }

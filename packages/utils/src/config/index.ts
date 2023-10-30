@@ -1,5 +1,5 @@
 import { resolve } from 'node:path'
-import { existsSync, readJSONSync } from 'fs-extra'
+import fs from 'fs-extra'
 import { bundleRequire } from 'bundle-require'
 import { validateParams } from '../validate'
 import { SchemaLoadConfigFile, SchemaLoadConfigOptions } from './schema'
@@ -12,10 +12,7 @@ export interface LoadConfigOptions {
   files?: string[]
   context?: string
 }
-export async function loadConfig(
-  file: string,
-  options: LoadConfigOptions = {}
-) {
+export async function loadConfig(file: string, options: LoadConfigOptions = {}) {
   validateParams([
     {
       name: 'file',
@@ -31,13 +28,13 @@ export async function loadConfig(
   const { files, context = process.cwd() } = options || {}
   const optionFile = resolve(context, file)
   let resolveFile = ''
-  if (existsSync(optionFile)) {
+  if (fs.existsSync(optionFile)) {
     resolveFile = optionFile
   } else if (files?.length) {
     let fileFound = ''
     for (const f of files) {
       const filePath = resolve(context, f)
-      if (!existsSync(filePath)) continue
+      if (!fs.existsSync(filePath)) continue
       fileFound = filePath
       break
     }
@@ -51,7 +48,7 @@ export async function loadConfig(
 
   let resolveData: any = {}
   if (resolveFile.endsWith('.json')) {
-    resolveData = readJSONSync(resolveFile)
+    resolveData = fs.readJSONSync(resolveFile)
   } else {
     const result = await bundleRequire({
       filepath: resolveFile

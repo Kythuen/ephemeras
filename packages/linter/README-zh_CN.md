@@ -57,7 +57,15 @@
 
 ## 使用效果
 ![](https://mmbiz.qpic.cn/mmbiz_gif/ujHTnqg0Diag7icpUdOJLLLhSUGRsC8J3KuZ17FCXhsKbRLSRnp1ia8Nqom04pTMt7S7tTfTVTz9bg3F6HCs9WibWw/640?wx_fmt=gif&tp=wxpic&wxfrom=5&wx_lazy=1)
-
+### 添加
+流程图
+gif
+### 移除
+流程图
+gif
+### 全局配置
+流程图
+gif
 
 ## 更多工具
 - [@ephemeras/linter](https://kythuen.github.io/ephemeras/linter/) - 方便的代码质量控制工具，快速配置完成项目的代码规范化搭建。

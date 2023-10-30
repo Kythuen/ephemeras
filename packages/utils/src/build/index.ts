@@ -1,5 +1,5 @@
 import { resolve } from 'node:path'
-import { readFileSync, existsSync } from 'fs-extra'
+import fs from 'fs-extra'
 import { execSync } from 'node:child_process'
 import { validateParam } from '../validate'
 import { SchemaReadPKG } from './schemas'
@@ -9,7 +9,7 @@ export function readPKG(context: string = '.') {
   validateParam('context', context, SchemaReadPKG)
   try {
     const url = resolve(context, 'package.json')
-    const content = readFileSync(url, { encoding: 'utf-8' })
+    const content = fs.readFileSync(url, { encoding: 'utf-8' })
     return JSON.parse(content)
   } catch (err: any) {
     if (err.code === 'ENOENT') {
@@ -21,10 +21,10 @@ export function readPKG(context: string = '.') {
 }
 
 export function getPackageManager() {
-  let result = 'npm'
+  let result = 'pnpm'
   for (const pm in PM_LOCK_FILES) {
     const filePath = resolve(process.cwd(), (PM_LOCK_FILES as any)[pm])
-    if (!existsSync(filePath)) continue
+    if (!fs.existsSync(filePath)) continue
     result = pm
     break
   }
@@ -52,12 +52,12 @@ export function isPnpmWorkspaceRepo() {
   }
   for (const file of PNPM_WORKSPACE_CONFIG_FILES) {
     const filePath = resolve(process.cwd(), file)
-    if (!existsSync(filePath)) continue
+    if (!fs.existsSync(filePath)) continue
     return true
   }
   return false
 }
 
 export function isProject(contextPath: string = process.cwd()) {
-  return existsSync(resolve(contextPath, 'package.json'))
+  return fs.existsSync(resolve(contextPath, 'package.json'))
 }

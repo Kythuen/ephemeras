@@ -17,65 +17,78 @@ const USAGE = {
   COMMAND_CONFIG_UNSET: '移除指定配置项'
 }
 
-const COMMON = {
-  FEATURE_COMMIT: '提交校验',
-  FEATURE_FORMAT: '代码格式化',
-  NO_DATA: '没有数据',
+const TIP = {
+  WELCOME: '🚀 欢迎使用 Code Linter',
   SUCCESS_OPERATION: '操作成功',
-  CANCEL_OPERATION: '操作取消',
   SUCCESS_DELETE: '删除成功',
-  TIP_NOT_CHANGE: '代码无变更',
-  TIP_INSTALL_LATER: '手动复制脚本以便稍后安装依赖',
-  TIP_ADD_INSTALL_DONE: '依赖安装完成',
-  TIP_ADD_INSTALL_TIP: '安装依赖通过: ',
-  TIP_ADD_DONE: '已成功添加代码规范化配置',
-  TIP_REMOVE_DONE: '已成功移除代码规范化配置'
+  SUCCESS_ADD_DONE: '🎉 已成功添加代码规范化配置',
+  SUCCESS_REMOVE_DONE: '已成功移除代码规范化配置',
+  PROBLEM_FEEDBACK: '遇到问题?',
+  NOT_CHANGE: '无操作变更',
+  NO_DATA: '没有数据',
+  NEED_PRESET_NAME: '❌ 需要指定预设名称',
+  PRESET_NOT_FOUND: '❌ 没有找到指定预设',
+  PRESET_ADD: '添加预设成功',
+  PRESET_EDIT: '编辑预设成功',
+  PRESET_DELETE: '删除预设成功',
+  CANCEL_OPERATION: '❌ 操作取消',
 }
 
-const ADD = {
-  ADD_FEATURES: '添加功能',
-  PROMPT_MANUAL_SELECT: '手动选择',
-  PROMPT_CHOOSE_ADD_FEATURES: '选择你要的特性:',
-  PROMPT_USE_PRESET: '是否使用预设快速配置?',
-  PROMPT_CONFIRM_ADD_FORMAT: '确认添加代码格式化特性?',
-  PROMPT_CHOOSE_ENVIRONMENT: '选择项目运行环境:',
-  PROMPT_USE_TYPESCRIPT: '是否使用 TypeScript ?',
-  PROMPT_USE_VUE: '是否使用 Vue 框架?',
-  PROMPT_CHOOSE_CODE_STYLE_GUIDE: '选择代码风格:',
-  PROMPT_CONFIRM_ADD_COMMIT: '确认添加规范化提交特性?',
-  PROMPT_SAVE_AS_PRESET: '是否保存为预设?',
-  PROMPT_INSTALL_NOW: '现在安装依赖?',
-  PROMPT_CHOOSE_PACKAGE_MANAGER: '选择包管理器:'
+const TITLE = {
+  USE_PRESET: '💬 是否使用预设:',
+  ADD_FORMAT: '💬 添加代码格式化:',
+  REMOVE_FORMAT: '💬 移除代码格式化:',
+  ADD_COMMIT: '💬 添加代码提交校验:',
+  REMOVE_COMMIT: '💬 移除代码提交校验:',
+  ADD_PRESET: '💬 保存为预设:',
+  INSTALL_DEPENDENCIES: '💬 安装依赖:',
+  UNINSTALL_DEPENDENCIES: '💬 移除依赖:',
+  INSTALL_LATER: '💬 复制脚本稍后安装:',
+  PRESET_LIST: '💬 预设列表:',
+  PRESET_ADD: '💬 添加预设:',
+  PRESET_EDIT: '💬 编辑预设',
+  CONFIG_LIST: '💬 全局配置列表:',
 }
 
-const REMOVE = {
-  REMOVE_FEATURES: '移除功能',
-  REMOVE_FEATURE_CONFIRM: '确定移除功能',
-  PROMPT_CHOOSE_FEATURES: '选择要已移除的功能:'
+const PROMPT = {
+  SELECT_PRESET: '选择一个预设:',
+  SELECT_ADD_FEATURES: '选择你要的功能:',
+  SELECT_ENVIRONMENT: '选择项目运行环境:',
+  USE_TYPESCRIPT: '是否使用 TypeScript?',
+  USE_VUE: '是否使用 Vue 框架?',
+  SELECT_CODE_STYLE_GUIDE: '选择代码风格:',
+  USE_COMMIT_VALIDATE: '是否开启代码提交校验',
+  CHECK_COMMIT_MESSAGE: '是否规范化提交信息',
+  SAVE_AS_PRESET: '保存当前配置为预设?',
+  PRESET_NAME: '输入预设名称:',
+  PRESET_DESCRIPTION: '输入预设描述:',
+  INSTALL_NOW: '现在安装依赖?',
+  SELECT_PACKAGE_MANAGER: '选择包管理器:',
+  REMOVE_FORMAT: '确定移除代码格式化?',
+  REMOVE_COMMIT: '确定移除代码提交校验?',
+  REMOVE_UNINSTALL: '现在移除依赖?',
 }
 
-const PRESET = {
-  ADD_PRESET: '添加预设',
-  PROMPT_TITLE_ADD: ' 添加预设 ',
-  EDIT_PRESET: '编辑预设',
-  PROMPT_PRESET_NAME: '输入预设名称:',
+const TEXT = {
+  FEATURE_COMMIT: '代码提交校验',
+  FEATURE_FORMAT: '代码格式化',
+  MANUAL_SELECT: '手动选择',
   PRESET_NAME: '预设名称',
-  PRESET_NAME_RULE_REQUIRED: '请输入预设名称',
-  PRESET_NAME_RULE_LENGTH: '预设名称须大于3个字符.',
-  PROMPT_PRESET_DESCRIPTION: '输入预设描述:',
   PRESET_DESCRIPTION: '预设描述',
-  PRESET_DESCRIPTION_RULE_REQUIRED: '请输入预设描述',
-  PRESET_DESCRIPTION_RULE_LENGTH: '预设描述须大于3个字符',
+}
 
-  OPERATION_SUCCESS_EDIT: '编辑预设成功',
-  ERROR_NEED_NAME: '编辑时需要指定预设',
-  ERROR_PRESET_NOT_FOUND: '没有找到指定预设'
+const RULE = {
+  PRESET_NAME_REQUIRED: '请输入预设名称',
+  PRESET_NAME_LENGTH: '预设名称须大于3个字符',
+  PRESET_DESCRIPTION_REQUIRED: '请输入预设描述',
+  PRESET_DESCRIPTION_LENGTH: '预设描述须大于3个字符',
 }
 
 export default {
   USAGE,
-  COMMON,
-  ADD,
-  REMOVE,
-  PRESET
+  TIP,
+  TITLE,
+  PROMPT,
+  TEXT,
+  RULE
 }

@@ -2,7 +2,7 @@ import type { TConfigResolverData } from '../../utils'
 
 export function formatBase(
   configData: TConfigResolverData,
-  userConfigs: { environment: string }
+  userConfigs: { environment: string; vue: boolean }
 ) {
   // eslint-disable-next-line no-param-reassign
   configData.packages = configData.packages.concat([
@@ -36,11 +36,12 @@ export function formatBase(
     }
   }
   if (userConfigs.environment === 'web' && configData.eslintOverrides.env) {
-    // eslint-disable-next-line no-param-reassign
     configData.eslintOverrides.env.browser = true
   }
   if (userConfigs.environment === 'node' && configData.eslintOverrides.env) {
-    // eslint-disable-next-line no-param-reassign
     configData.eslintOverrides.env.node = true
+  }
+  if (userConfigs.vue && configData.eslintOverrides.env) {
+    configData.eslintOverrides.env['vue/setup-compiler-macros'] = true
   }
 }

@@ -1,11 +1,7 @@
 import { resolve, join } from 'node:path'
+import { fileURLToPath } from 'node:url'
 import { existsSync } from 'node:fs'
-import {
-  copyFile,
-  removeFile,
-  copyDirectory,
-  removeDirectory
-} from '@ephemeras/utils'
+import { copyFile, removeFile, copyDirectory, removeDirectory } from '@ephemeras/utils'
 
 export interface TItem {
   name: string
@@ -16,7 +12,7 @@ export async function copyItemsToPWD(items: TItem[]) {
   for (const item of items) {
     const handler = item.type === 'directory' ? copyDirectory : copyFile
     const itemPath = await handler({
-      source: resolve(__dirname, '../files', item.name),
+      source: resolve(fileURLToPath(import.meta.url), '../../files', item.name),
       dest: resolve(process.cwd(), item.name)
     })
     const text = `${item.type === 'directory' ? '📁' : '📃'} create ${itemPath}`

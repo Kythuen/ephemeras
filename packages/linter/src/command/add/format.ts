@@ -1,18 +1,18 @@
 import { createFile } from '@ephemeras/utils'
-import { ConfigResolver, copyItemsToPWD, TItem } from '../../utils'
 import { formatBase, formatTypeScript, formatVue } from '../../resolvers'
+import { ConfigResolver, TItem, copyItemsToPWD } from '../../utils'
 
-export default async function (resolver: ConfigResolver, prompts: any) {
-  resolver.use(formatBase, prompts)
-  if (prompts.typescript) {
+export default async function (resolver: ConfigResolver, answerData: any) {
+  resolver.use(formatBase, answerData)
+  if (answerData.typescript) {
     resolver.use(formatTypeScript)
   }
-  if (prompts.vue) {
+  if (answerData.vue) {
     resolver.use(formatVue)
   }
 
-  if (resolver.data.eslintOverrides?.extends) {
-    ;(resolver.data.eslintOverrides?.extends as string[]).push('prettier')
+  if (resolver.data.eslintOverrides.extends) {
+    ;(resolver.data.eslintOverrides.extends as string[]).push('prettier')
   }
 
   const resolverConfigData = resolver.data
@@ -27,9 +27,6 @@ export default async function (resolver: ConfigResolver, prompts: any) {
     { name: '.prettierrc', type: 'file' },
     { name: '.vscode', type: 'directory' }
   ]
-  if (prompts.environment === 'node') {
-    files.unshift({ name: 'tsconfig.json', type: 'file' })
-  }
   const logs = await copyItemsToPWD(files)
   return `${eslintFile}\n${logs}`
 }
