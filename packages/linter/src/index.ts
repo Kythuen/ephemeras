@@ -1,7 +1,6 @@
 #!/usr/bin/env node
 import { cac } from 'cac'
 import { readPKG, Profile } from '@ephemeras/utils'
-import { changeLanguage } from './locales'
 import TEXT from './locales/text'
 import init from './command/init'
 import add from './command/add'
@@ -14,10 +13,7 @@ import type { TFeature } from './command/common'
 async function run() {
   const { name = '', version = '' } = readPKG()
   const cli = cac(name).version(version)
-  const configProfile = new Profile({ path: '.ephemeras/linter/config.json' })
-  const presetProfile = new Profile({ path: '.ephemeras/linter/preset.json' })
-  const lang = configProfile.get('language') || 'en'
-  await changeLanguage(lang)
+  const profile = new Profile({ path: '.ephemeras/linter/preset.json' })
 
   cli
     .command('[root]')
@@ -35,14 +31,14 @@ async function run() {
         prettifyOutput(remove, ['format', 'commit'])
         return
       }
-      prettifyOutput(init, presetProfile)
+      prettifyOutput(init, profile)
     })
 
   cli
     .command('init', TEXT.USAGE_COMMAND_INITIAL)
     .example('  $ linter init')
     .action(() => {
-      prettifyOutput(init, presetProfile)
+      prettifyOutput(init, profile)
     })
 
   cli
@@ -67,7 +63,7 @@ async function run() {
       }
       prettifyOutput(async () => {
         console.log(TEXT.TIP_WELCOME)
-        await add(features, presetProfile)
+        await add(features, profile)
       })
     })
 
@@ -102,7 +98,7 @@ async function run() {
         prettifyOutput(() => cli.outputHelp())
         return
       }
-      prettifyOutput(preset, presetName, _, presetProfile)
+      prettifyOutput(preset, presetName, _, profile)
     })
 
   cli
@@ -119,7 +115,7 @@ async function run() {
         prettifyOutput(() => cli.outputHelp())
         return
       }
-      prettifyOutput(config, configKey, configValue, _, configProfile)
+      prettifyOutput(config, configKey, configValue, _)
     })
 
   cli.help(() => {})

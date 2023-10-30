@@ -1,9 +1,13 @@
-import picocolors from 'picocolors'
+import { Profile } from '@ephemeras/utils'
 import gradient from 'gradient-string'
-import { $t } from '.'
+import picocolors from 'picocolors'
+import { $t, changeLanguage } from '.'
 
+const configProfile = new Profile({ path: '.ephemeras/linter/config.json' })
+const lang = configProfile.get('language') || 'en'
 const { reset, bold, underline, cyan } = picocolors
 const { retro, vice } = gradient
+changeLanguage(lang)
 
 export default {
   USAGE_ROOT_OPTION_INITIAL: $t('USAGE.ROOT_OPTION_INITIAL'),
