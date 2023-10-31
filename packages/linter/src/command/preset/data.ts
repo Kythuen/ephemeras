@@ -5,7 +5,7 @@ export const DEFAULT_PRESET_VALUE = {
   environment: [],
   typescript: false,
   vue: false,
-  style: '',
+  style: 'airbnb',
   validate: false,
   message: false
 }
