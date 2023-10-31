@@ -56,16 +56,25 @@
 
 
 ## 使用效果
-![](https://mmbiz.qpic.cn/mmbiz_gif/ujHTnqg0Diag7icpUdOJLLLhSUGRsC8J3KuZ17FCXhsKbRLSRnp1ia8Nqom04pTMt7S7tTfTVTz9bg3F6HCs9WibWw/640?wx_fmt=gif&tp=wxpic&wxfrom=5&wx_lazy=1)
-### 添加
-流程图
-gif
-### 移除
-流程图
-gif
-### 全局配置
-流程图
-gif
+### 初始化项目中的代码规范
+![init](https://kythuen.github.io/ephemeras/linter/init.gif)
+
+### 添加指定代码规范
+可选功能特性: `format`, `commit`
+![add](https://kythuen.github.io/ephemeras/linter/add.gif)
+
+### 移除项目中的代码规范
+![clear](https://kythuen.github.io/ephemeras/linter/clear.gif)
+
+### 移除指定代码规范配置
+可选功能特性: `format`, `commit`
+![remove](https://kythuen.github.io/ephemeras/linter/remove.gif)
+
+### 管理现有的预设配置
+![preset](https://kythuen.github.io/ephemeras/linter/preset.gif)
+
+### 全局配置管理
+![config](https://kythuen.github.io/ephemeras/linter/config.gif)
 
 ## 更多工具
 - [@ephemeras/linter](https://kythuen.github.io/ephemeras/linter/) - 方便的代码质量控制工具，快速配置完成项目的代码规范化搭建。

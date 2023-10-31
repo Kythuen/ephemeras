@@ -5,7 +5,7 @@ const USAGE = {
   COMMAND_INITIAL: 'add code linter features into your code manually',
   COMMAND_CLEAR: 'remove code linter features from your code manually',
   COMMAND_ADD: 'add target features into your code: format, commit',
-  COMMAND_REMOVE: 'remove target features into your code: format, commit',
+  COMMAND_REMOVE: 'remove target features from your code: format, commit',
   COMMAND_PRESET: 'presets for code linter',
   COMMAND_PRESET_OPTION_LIST: 'display all existing presets',
   COMMAND_PRESET_OPTION_ADD: 'get preset item',

@@ -57,7 +57,25 @@ For more details, Read [online documentation](https://kythuen.github.io/ephemera
 
 
 ## Usage
-![](https://mmbiz.qpic.cn/mmbiz_gif/ujHTnqg0Diag7icpUdOJLLLhSUGRsC8J3KuZ17FCXhsKbRLSRnp1ia8Nqom04pTMt7S7tTfTVTz9bg3F6HCs9WibWw/640?wx_fmt=gif&tp=wxpic&wxfrom=5&wx_lazy=1)
+### add code linter features into your code manually
+![init](https://kythuen.github.io/ephemeras/linter/init.gif)
+
+### add target features into your code
+available features: `format`, `commit`
+![add](https://kythuen.github.io/ephemeras/linter/add.gif)
+
+### remove code linter features from your code manually
+![clear](https://kythuen.github.io/ephemeras/linter/clear.gif)
+
+### remove target features from your code
+available features: `format`, `commit`
+![remove](https://kythuen.github.io/ephemeras/linter/remove.gif)
+
+### presets for code linter
+![preset](https://kythuen.github.io/ephemeras/linter/preset.gif)
+
+### global config for code linter
+![config](https://kythuen.github.io/ephemeras/linter/config.gif)
 
 
 ## Relative
