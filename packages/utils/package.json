@@ -1,6 +1,6 @@
 {
   "name": "@ephemeras/utils",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "Utils for ephemeras",
   "keywords": [
     "ephemeras",
@@ -11,9 +11,8 @@
     "email": "ephemeras@qq.com"
   },
   "license": "MIT",
-  "type": "module",
-  "main": "dist/index.cjs",
-  "module": "dist/index.js",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
   "typings": "dist/index.d.ts",
   "files": [
     "dist"
@@ -21,8 +20,8 @@
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "require": "./dist/index.cjs",
-      "import": "./dist/index.js"
+      "require": "./dist/index.js",
+      "import": "./dist/index.mjs"
     },
     "./dist/*": "./dist/*"
   },

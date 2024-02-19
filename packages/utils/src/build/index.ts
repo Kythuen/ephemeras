@@ -5,7 +5,7 @@ import { validateParam } from '../validate'
 import { SchemaReadPKG } from './schemas'
 import { PM_LOCK_FILES, PNPM_WORKSPACE_CONFIG_FILES } from './constant'
 
-export function readPKG(context: string = '.') {
+export function readPKG(context = process.cwd()) {
   validateParam('context', context, SchemaReadPKG)
   try {
     const url = resolve(context, 'package.json')

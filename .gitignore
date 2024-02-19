@@ -36,4 +36,5 @@ coverage
 *.local
 
 # Test
-packages/*-example
+packages/*/example
+packages/*/examples

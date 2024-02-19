@@ -1,5 +1,11 @@
 # @ephemeras/docs
 
+## 1.0.1
+
+### Patch Changes
+
+- add framework supports for command line tool
+
 ## 1.0.0
 
 ### Major Changes

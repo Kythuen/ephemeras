@@ -1,5 +1,11 @@
 # @ephemeras/linter
 
+## 1.3.0
+
+### Minor Changes
+
+- add framework supports for command line tool
+
 ## 1.2.1
 
 ### Patch Changes
