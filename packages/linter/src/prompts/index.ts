@@ -47,18 +47,25 @@ export function getAddFormatPrompt(): PromptObject[] {
       ]
     },
     {
+      name: 'framework',
+      type: (_: any, values: Answers<any>) =>
+        values.environment.includes('web') ? 'select' : null,
+      message: TEXT.PROMPT_SELECT_FRAMEWORK,
+      choices: [
+        {
+          title: 'Vue',
+          value: 'vue'
+        },
+        {
+          title: 'React',
+          value: 'react'
+        }
+      ]
+    },
+    {
       name: 'typescript',
       type: 'toggle',
       message: TEXT.PROMPT_USE_TYPESCRIPT,
-      initial: true,
-      active: 'yes',
-      inactive: 'no'
-    },
-    {
-      name: 'vue',
-      type: (_: any, values: Answers<any>) =>
-        values.environment.includes('web') ? 'toggle' : null,
-      message: TEXT.PROMPT_USE_VUE,
       initial: true,
       active: 'yes',
       inactive: 'no'
@@ -254,20 +261,27 @@ export function getPresetPrompt(presetData: any): PromptObject[] {
       ]
     },
     {
+      name: 'framework',
+      type: (_: any, values: Answers<any>) =>
+        values.environment.includes('web') ? 'select' : null,
+      message: TEXT.PROMPT_SELECT_FRAMEWORK,
+      choices: [
+        {
+          title: 'Vue',
+          value: 'vue'
+        },
+        {
+          title: 'React',
+          value: 'react'
+        }
+      ]
+    },
+    {
       name: 'typescript',
       type: (_: any, values: Answers<any>) =>
         values.features.includes('format') ? 'toggle' : null,
       message: TEXT.PROMPT_USE_TYPESCRIPT,
       initial: presetData.typescript,
-      active: 'yes',
-      inactive: 'no'
-    },
-    {
-      name: 'vue',
-      type: (_: any, values: Answers<any>) =>
-        values.environment.includes('web') ? 'toggle' : null,
-      message: TEXT.PROMPT_USE_VUE,
-      initial: presetData.vue,
       active: 'yes',
       inactive: 'no'
     },

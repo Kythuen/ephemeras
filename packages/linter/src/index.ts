@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+import { fileURLToPath, resolve } from 'node:url'
 import { cac } from 'cac'
 import { readPKG, Profile } from '@ephemeras/utils'
 import TEXT from './locales/text'
@@ -11,7 +12,8 @@ import { prettifyOutput } from './utils'
 import type { TFeature } from './command/common'
 
 async function run() {
-  const { name = '', version = '' } = readPKG()
+  const currentRoot = resolve(fileURLToPath(import.meta.url), '..')
+  const { name = '', version = '' } = readPKG(currentRoot)
   const cli = cac(name).version(version)
   const profile = new Profile({ path: '.ephemeras/linter/preset.json' })
 

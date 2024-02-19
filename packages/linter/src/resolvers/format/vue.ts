@@ -14,7 +14,18 @@ export function formatVue(configData: TConfigResolverData) {
       'vue/no-reserved-component-names': 0
     }
   }
-  // eslint-disable-next-line no-param-reassign
+  configData.extensions.recommendations = configData.extensions.recommendations.concat([
+    'Vue.volar'
+  ])
+  configData.settings = {
+    'editor.formatOnSave': true,
+    '[html]': { 'editor.defaultFormatter': 'esbenp.prettier-vscode' },
+    '[css]': { 'editor.defaultFormatter': 'esbenp.prettier-vscode' },
+    '[less]': { 'editor.defaultFormatter': 'esbenp.prettier-vscode' },
+    '[javascript]': { 'editor.defaultFormatter': 'esbenp.prettier-vscode' },
+    '[typescript]': { 'editor.defaultFormatter': 'esbenp.prettier-vscode' },
+    '[vue]': { 'editor.defaultFormatter': 'esbenp.prettier-vscode' }
+  }
   configData.eslintOverrides = deepMerge(configData.eslintOverrides, config, {
     arrayStrategy: 'concat'
   })

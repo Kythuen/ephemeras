@@ -55,7 +55,7 @@ const PROMPT = {
   SELECT_ADD_FEATURES: '选择你要的功能:',
   SELECT_ENVIRONMENT: '选择项目运行环境:',
   USE_TYPESCRIPT: '是否使用 TypeScript?',
-  USE_VUE: '是否使用 Vue 框架?',
+  SELECT_FRAMEWORK: '选择一个前端开发框架:',
   SELECT_CODE_STYLE_GUIDE: '选择代码风格:',
   USE_COMMIT_VALIDATE: '是否开启代码提交校验',
   CHECK_COMMIT_MESSAGE: '是否规范化提交信息',

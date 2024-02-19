@@ -77,6 +77,40 @@ available features: `format`, `commit`
 ### global config for code linter
 ![config](https://kythuen.github.io/ephemeras/linter/config.gif)
 
+## Questions
+### in Vue project
+#### Q：No Vue file declaration detected
+![declare](https://kythuen.github.io/ephemeras/linter/qa_vue.png)
+#### A：add declaration in `vite-env.d.ts` file
+```ts
+/// <reference types="vite/client" />
+
+declare module '*.vue' {
+  import type { DefineComponent } from 'vue'
+  const vueComponent: DefineComponent<{}, {}, any>
+  export default vueComponent
+}
+```
+### in React project
+#### Q：Unable to resolve path to module '@/*' (.eslintimport/no-unresolved)
+![alias](https://kythuen.github.io/ephemeras/linter/qa_react.png)
+#### A：add settings in `.eslintrc` file
+```json
+{
+  // ...
+  "settings": {
+    "typescript": {
+      "project": "./tsconfig.json"
+    },
+    "import/resolver": {
+      "alias": {
+        "map": [["@", "./src"]],
+        "extensions": [".js", ".jsx", ".ts", ".tsx"]
+      }
+    }
+  }
+}
+```
 
 ## Relative
 - [@ephemeras/linter](https://kythuen.github.io/ephemeras/linter/) - Command line tool, quickly configuring and completing project code standardization construction.

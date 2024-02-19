@@ -33,7 +33,7 @@ export default async function add(features: TFeature[], profile: Profile, preset
       features,
       environment: [],
       typescript: false,
-      vue: false,
+      framework: '',
       style: '',
       validate: false,
       message: false
@@ -78,7 +78,7 @@ export default async function add(features: TFeature[], profile: Profile, preset
   if (resolver.data.packages.length) {
     console.log()
     console.log(TEXT.TITLE_INSTALL_DEPENDENCIES)
-    const { install, pm } = await answerPrompts(getInstallPrompt())
+    const { install, pm = 'npm' } = await answerPrompts(getInstallPrompt())
     const args = pm === 'npm' ? ['install', '--save-dev'] : ['add', '-D']
     if (pm === 'pnpm' && isPnpmWorkspaceRepo()) {
       args.push('-w')

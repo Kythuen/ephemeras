@@ -76,6 +76,42 @@
 ### 全局配置管理
 ![config](https://kythuen.github.io/ephemeras/linter/config.gif)
 
+
+## 常见问题
+### 在 Vue 项目中使用
+#### 问题：找不到模块“*.vue”或其相应的类型声明
+![declare](https://kythuen.github.io/ephemeras/linter/qa_vue.png)
+#### 解答：增加模块声明
+```ts
+/// <reference types="vite/client" />
+
+declare module '*.vue' {
+  import type { DefineComponent } from 'vue'
+  const vueComponent: DefineComponent<{}, {}, any>
+  export default vueComponent
+}
+```
+### 在 React 项目中使用
+#### 问题：vite 项目中的 alias 配置 eslint 报异常
+![alias](https://kythuen.github.io/ephemeras/linter/qa_react.png)
+#### 解答：.eslintrc 文件中增加 settings 配置
+```json
+{
+  // ...
+  "settings": {
+    "typescript": {
+      "project": "./tsconfig.json"
+    },
+    "import/resolver": {
+      "alias": {
+        "map": [["@", "./src"]],
+        "extensions": [".js", ".jsx", ".ts", ".tsx"]
+      }
+    }
+  }
+}
+```
+
 ## 更多工具
 - [@ephemeras/linter](https://kythuen.github.io/ephemeras/linter/) - 方便的代码质量控制工具，快速配置完成项目的代码规范化搭建。
 - [@ephemeras/utils](https://kythuen.github.io/ephemeras/utils/) - 工具集，提供各种前端构建中常用的功能，高效开发、质量可靠。

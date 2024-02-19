@@ -1,18 +1,26 @@
 import { createFile } from '@ephemeras/utils'
-import { formatBase, formatTypeScript, formatVue } from '../../resolvers'
+import { formatBase, formatTypeScript, formatVue, formatReact } from '../../resolvers'
 import { ConfigResolver, TItem, copyItemsToPWD } from '../../utils'
 
 export default async function (resolver: ConfigResolver, answerData: any) {
   resolver.use(formatBase, answerData)
+  if (answerData.framework === 'vue') {
+    resolver.use(formatVue)
+  } else if (answerData.framework === 'react') {
+    resolver.use(formatReact)
+  }
+
   if (answerData.typescript) {
     resolver.use(formatTypeScript)
   }
-  if (answerData.vue) {
-    resolver.use(formatVue)
-  }
 
-  if (resolver.data.eslintOverrides.extends) {
-    ;(resolver.data.eslintOverrides.extends as string[]).push('prettier')
+  if (answerData.framework === 'vue') {
+    resolver.data.eslintOverrides.extends.push('prettier')
+  } else if (answerData.framework === 'react') {
+    resolver.data.eslintOverrides.extends = resolver.data.eslintOverrides.extends.concat([
+      'plugin:@typescript-eslint/recommended',
+      'plugin:prettier/recommended'
+    ])
   }
 
   const resolverConfigData = resolver.data
@@ -21,12 +29,22 @@ export default async function (resolver: ConfigResolver, answerData: any) {
     path: '.eslintrc',
     data: resolverConfigData.eslintOverrides
   })
-  const eslintFile = `📃 create ${eslintrc}`
+  const eslintLog = `📃 create ${eslintrc}`
   const files: TItem[] = [
     { name: '.editorconfig', type: 'file' },
-    { name: '.prettierrc', type: 'file' },
-    { name: '.vscode', type: 'directory' }
+    { name: '.prettierrc', type: 'file' }
   ]
+
+  const extension = await createFile({
+    path: '.vscode/extensions.json',
+    data: resolverConfigData.extensions
+  })
+  const extensionLog = `📃 create ${extension}`
+  const settings = await createFile({
+    path: '.vscode/settings.json',
+    data: resolverConfigData.settings
+  })
+  const settingsLog = `📃 create ${settings}`
   const logs = await copyItemsToPWD(files)
-  return `${eslintFile}\n${logs}`
+  return `${extensionLog}\n${settingsLog}\n${eslintLog}\n${logs}`
 }

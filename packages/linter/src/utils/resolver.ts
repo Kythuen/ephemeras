@@ -1,8 +1,9 @@
-import type { ESLint } from 'eslint'
-
 export type TConfigResolverData = {
+  env?: Record<string, any>
   packages: string[]
-  eslintOverrides: ESLint.ConfigData
+  eslintOverrides: Record<string, any>
+  extensions: { recommendations: string[] }
+  settings: Record<string, any>
 }
 
 export class ConfigResolver {
@@ -11,14 +12,15 @@ export class ConfigResolver {
   constructor() {
     this.data = {
       packages: [],
-      eslintOverrides: {}
+      eslintOverrides: {},
+      extensions: {
+        recommendations: []
+      },
+      settings: {}
     }
   }
 
-  use(
-    handlerFn: (data: TConfigResolverData, ...params: any) => void,
-    ...others: any
-  ): this {
+  use(handlerFn: (data: TConfigResolverData, ...params: any) => void, ...others: any): this {
     handlerFn(this.data, ...others)
     return this
   }

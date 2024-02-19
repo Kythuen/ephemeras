@@ -1,5 +1,18 @@
 # @ephemeras/linter
 
+## 1.2.1
+
+### Patch Changes
+
+- Updated dependencies
+  - @ephemeras/utils@2.1.0
+
+## 1.2.0
+
+### Minor Changes
+
+- fixed command line help
+
 ## 1.1.0
 
 ### Minor Changes

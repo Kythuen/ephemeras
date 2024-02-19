@@ -55,7 +55,7 @@ const PROMPT = {
   SELECT_ADD_FEATURES: 'select features your want:',
   SELECT_ENVIRONMENT: 'where does your code run on:',
   USE_TYPESCRIPT: 'use TypeScript?',
-  USE_VUE: 'use Vue framework?',
+  SELECT_FRAMEWORK: 'select a framework:',
   SELECT_CODE_STYLE_GUIDE: 'select code style guide you want:',
   USE_COMMIT_VALIDATE: 'use commit hook validate',
   CHECK_COMMIT_MESSAGE: 'check commit message',
