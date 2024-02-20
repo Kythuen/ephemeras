@@ -15,7 +15,11 @@ export default async function (resolver: ConfigResolver, answerData: any) {
   }
 
   if (answerData.framework === 'vue') {
-    resolver.data.eslintOverrides.extends.push('prettier')
+    resolver.data.eslintOverrides.extends = resolver.data.eslintOverrides.extends.concat([
+      'eslint:recommended',
+      'plugin:prettier/recommended'
+    ])
+    resolver.data.eslintOverrides.parser = 'vue-eslint-parser'
   } else if (answerData.framework === 'react') {
     resolver.data.eslintOverrides.extends = resolver.data.eslintOverrides.extends.concat([
       'plugin:@typescript-eslint/recommended',

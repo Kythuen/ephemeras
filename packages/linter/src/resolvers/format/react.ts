@@ -22,7 +22,9 @@ export function formatReact(configData: TConfigResolverData) {
     '[css]': { 'editor.defaultFormatter': 'esbenp.prettier-vscode' },
     '[less]': { 'editor.defaultFormatter': 'esbenp.prettier-vscode' },
     '[javascript]': { 'editor.defaultFormatter': 'esbenp.prettier-vscode' },
-    '[typescript]': { 'editor.defaultFormatter': 'esbenp.prettier-vscode' }
+    '[javascriptreact]': { 'editor.defaultFormatter': 'esbenp.prettier-vscode' },
+    '[typescript]': { 'editor.defaultFormatter': 'esbenp.prettier-vscode' },
+    '[typescriptreact]': { 'editor.defaultFormatter': 'esbenp.prettier-vscode' }
   }
 
   configData.eslintOverrides = deepMerge(configData.eslintOverrides, config, {

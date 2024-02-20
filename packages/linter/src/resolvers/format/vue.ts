@@ -5,7 +5,7 @@ export function formatVue(configData: TConfigResolverData) {
     env: {
       'vue/setup-compiler-macros': true
     },
-    extends: ['plugin:vue/vue3-recommend'],
+    extends: ['plugin:vue/vue3-recommended'],
     plugins: ['vue'],
     rules: {
       'vue/multi-word-component-names': 0,

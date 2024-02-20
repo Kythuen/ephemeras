@@ -1,5 +1,29 @@
 # @ephemeras/linter
 
+## 1.3.4
+
+### Patch Changes
+
+- fix jsx,tsx file support
+
+## 1.3.3
+
+### Patch Changes
+
+- fix eslint extends
+
+## 1.3.2
+
+### Patch Changes
+
+- fix eslint extends
+
+## 1.3.1
+
+### Patch Changes
+
+- fix eslint extends
+
 ## 1.3.0
 
 ### Minor Changes

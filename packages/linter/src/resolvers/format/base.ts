@@ -13,7 +13,9 @@ export function formatBase(
     'eslint@8.35.0',
     'eslint-config-airbnb-base@15.0.0',
     'eslint-config-prettier@8.6.0',
-    'eslint-plugin-import@2.27.5'
+    'eslint-plugin-import@2.27.5',
+    'eslint-plugin-prettier@5.1.3',
+    'prettier@2.8.8'
   ])
   configData.eslintOverrides = {
     root: true,
