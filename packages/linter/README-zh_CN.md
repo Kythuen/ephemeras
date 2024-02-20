@@ -112,6 +112,14 @@ declare module '*.vue' {
 }
 ```
 
+## 生成 changelog
+```shell
+$ pnpm install -g conventional-changelog-cli
+$ cd my-project
+$ conventional-changelog -p angular -i CHANGELOG.md -s
+```
+[查看更多使用方法](https://github.com/conventional-changelog/conventional-changelog/tree/master/packages/conventional-changelog-cli)
+
 ## 更多工具
 - [@ephemeras/linter](https://kythuen.github.io/ephemeras/linter/) - 方便的代码质量控制工具，快速配置完成项目的代码规范化搭建。
 - [@ephemeras/utils](https://kythuen.github.io/ephemeras/utils/) - 工具集，提供各种前端构建中常用的功能，高效开发、质量可靠。

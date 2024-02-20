@@ -112,6 +112,14 @@ declare module '*.vue' {
 }
 ```
 
+## create changelog document
+```shell
+$ pnpm install -g conventional-changelog-cli
+$ cd my-project
+$ conventional-changelog -p angular -i CHANGELOG.md -s
+```
+[More usage](https://github.com/conventional-changelog/conventional-changelog/tree/master/packages/conventional-changelog-cli)
+
 ## Relative
 - [@ephemeras/linter](https://kythuen.github.io/ephemeras/linter/) - Command line tool, quickly configuring and completing project code standardization construction.
 - [@ephemeras/utils](https://kythuen.github.io/ephemeras/utils/) - Tool collections provide useful features for front-end building, efficient and reliable.
