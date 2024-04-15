@@ -2,10 +2,7 @@
 import { resolve, extname } from 'node:path'
 import { homedir } from 'node:os'
 import { existsSync, readFileSync, writeFileSync } from 'node:fs'
-import fs from 'fs-extra'
-import { validateParam } from '../validate'
-import { SchemaProfileOptions } from './schema'
-import { SchemaString } from '../schema'
+import { remove } from '../fs'
 
 export type ProfileData = Record<string, any>
 export type ProfileTransformer = (text: string, ...args: any[]) => any
@@ -26,7 +23,6 @@ export class Profile {
   private serializer: ProfileSerializer = JSON.stringify
 
   constructor(options: ProfileOptions) {
-    validateParam('options', options, SchemaProfileOptions)
     const { base, path, data, transformer, serializer } = options
     if (base && !existsSync(base)) {
       throw Error(`base directory: "${base}" is not exists`)
@@ -49,9 +45,13 @@ export class Profile {
     if (transformer) {
       this.transformer = transformer
     }
-    fs.ensureFileSync(this.url)
 
-    const fileContent = readFileSync(this.url, 'utf-8') || (extname(path) === '.json' ? '{}' : '')
+    if (!existsSync(this.url)) {
+      writeFileSync(this.url, '{}', { encoding: 'utf-8' })
+    }
+
+    const fileContent =
+      readFileSync(this.url, 'utf-8') || (extname(path) === '.json' ? '{}' : '')
 
     const fileData = this.transformer(fileContent)
     this.data = data || fileData || {}
@@ -76,7 +76,6 @@ export class Profile {
   }
 
   public get(prop: string) {
-    validateParam('prop', prop, SchemaString)
     this.sync('get')
     return this.data[prop]
   }
@@ -86,7 +85,9 @@ export class Profile {
   public set(propOrData: string | ProfileData, propValue?: any) {
     if (typeof propOrData === 'string') {
       this.data[propOrData] = propValue
-    } else if (Object.prototype.toString.call(propOrData) === '[object Object]') {
+    } else if (
+      Object.prototype.toString.call(propOrData) === '[object Object]'
+    ) {
       this.data = {
         ...this.data,
         ...propOrData
@@ -99,7 +100,6 @@ export class Profile {
   }
 
   public delete(prop: string) {
-    validateParam('key', prop, SchemaString)
     delete this.data[prop]
     this.sync('set')
     return this.data
@@ -111,7 +111,7 @@ export class Profile {
     return this.data
   }
 
-  public remove() {
-    fs.removeSync(this.url)
+  public async remove() {
+    await remove(this.url)
   }
 }

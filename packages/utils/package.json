@@ -1,6 +1,6 @@
 {
   "name": "@ephemeras/utils",
-  "version": "2.1.0",
+  "version": "2.3.2",
   "description": "Utils for ephemeras",
   "keywords": [
     "ephemeras",
@@ -11,8 +11,9 @@
     "email": "ephemeras@qq.com"
   },
   "license": "MIT",
-  "main": "dist/index.js",
-  "module": "dist/index.mjs",
+  "type": "module",
+  "main": "dist/index.cjs",
+  "module": "dist/index.js",
   "typings": "dist/index.d.ts",
   "files": [
     "dist"
@@ -20,8 +21,8 @@
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "require": "./dist/index.js",
-      "import": "./dist/index.mjs"
+      "require": "./dist/index.cjs",
+      "import": "./dist/index.js"
     },
     "./dist/*": "./dist/*"
   },
@@ -33,10 +34,9 @@
   },
   "dependencies": {
     "bundle-require": "^4.0.1",
-    "execa": "4.1.0",
-    "fs-extra": "^11.1.1",
     "joi": "^17.10.2",
-    "prettier": "^2.8.8"
+    "minimatch": "^9.0.3",
+    "prettier": "3.2.5"
   },
   "optionalDependencies": {
     "@iarna/toml": "^2.2.5",
@@ -45,7 +45,6 @@
     "yaml": "^2.2.1"
   },
   "devDependencies": {
-    "@types/fs-extra": "^11.0.1",
     "@types/ini": "^1.3.31",
     "@types/js-yaml": "^4.0.5",
     "@types/prettier": "^2.7.2"

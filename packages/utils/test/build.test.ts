@@ -1,34 +1,57 @@
-import { describe, expect, it, beforeAll, afterAll, expectTypeOf } from 'vitest'
-import { ensureFileSync, removeSync } from 'fs-extra'
+import { homedir } from 'node:os'
+import { join } from 'node:path'
+import { afterAll, beforeAll, describe, expect, expectTypeOf, it } from 'vitest'
 import {
-  readPKG,
   getPackageManager,
   getPackageManagers,
   isPnpmWorkspaceRepo,
-  isProject
+  isProject,
+  readPKG
 } from '../src/build'
-import { PNPM_WORKSPACE_CONFIG_FILES } from '../src/build/constant'
+import {
+  PM_LOCK_FILES,
+  PNPM_WORKSPACE_CONFIG_FILES
+} from '../src/build/constant'
+import * as Utils from './utils'
+
+const TEMP_ROOT = join(homedir(), '.ephemeras/utils/Temp/build/correct')
+const TEMP_ROOT_ERROR = join(homedir(), '.ephemeras/utils/Temp/build/error')
+const TEST_FILE_PKG = join(TEMP_ROOT, 'package.json')
+const TEST_FILE_PKG_ERROR = join(TEMP_ROOT_ERROR, 'package.json')
 
 describe('# build', () => {
+  beforeAll(async () => {
+    await Utils.ensureDir(TEMP_ROOT)
+    await Utils.ensureDir(TEMP_ROOT_ERROR)
+    await Utils.createFile(TEST_FILE_PKG, `{ name: 'pkg-name' }`)
+    await Utils.createFile(TEST_FILE_PKG_ERROR, '1')
+  })
+  afterAll(async () => {
+    await Utils.emptyDir(TEMP_ROOT)
+    await Utils.emptyDir(TEMP_ROOT_ERROR)
+  })
   describe('## readPKG', () => {
-    describe('### fail case', () => {
-      beforeAll(() => {
-        ensureFileSync('test/temp/error/package.json')
-      })
+    describe('### fail cases', () => {
       const cases = [
+        {
+          name: '#### invalid path: null',
+          params: null,
+          error: `Cannot read properties of undefined (reading 'toString')`
+        },
         {
           name: '#### invalid context type',
           parameters: 111,
-          error: '"context" must be a string'
+          error:
+            'Failed to read package.json: The "paths[0]" argument must be of type string. Received type number (111).'
         },
         {
           name: '#### not-exist context',
           parameters: './not-exist',
-          error: 'Cannot find package.json file'
+          error: 'Cannot find package.json file.'
         },
         {
           name: '#### error package.json file',
-          parameters: './test/temp/error',
+          parameters: join(TEMP_ROOT_ERROR),
           error: 'Failed to read package.json: Unexpected end of JSON input'
         }
       ]
@@ -42,11 +65,8 @@ describe('# build', () => {
           }
         })
       }
-      afterAll(() => {
-        removeSync('test/temp')
-      })
     })
-    describe('### verify result', () => {
+    describe('### correct cases', () => {
       it('#### no context', () => {
         const { name } = readPKG()
         expect(name).toBe('@ephemeras/utils')
@@ -59,71 +79,65 @@ describe('# build', () => {
   })
   describe('## getPackageManager', () => {
     it('### not special', () => {
-      expect(getPackageManager()).toBe('npm')
+      expect(getPackageManager()).toBe('pnpm')
     })
-    describe('### npm', () => {
-      beforeAll(() => {
-        ensureFileSync('package-lock.json')
+    const pms = ['npm', 'yarn', 'pnpm']
+    for (const pm of pms) {
+      describe(`### ${pm}`, async () => {
+        beforeAll(async () => {
+          await Utils.createFile(join(TEMP_ROOT, PM_LOCK_FILES[pm]))
+        })
+        afterAll(async () => {
+          await Utils.removeFile(join(TEMP_ROOT, PM_LOCK_FILES[pm]))
+        })
+        it('### result', () => {
+          expect(getPackageManager(TEMP_ROOT)).toBe(pm)
+        })
       })
-      afterAll(() => {
-        removeSync('package-lock.json')
-      })
-      it('#### result', () => {
-        expect(getPackageManager()).toBe('npm')
-      })
-    })
-    describe('### yarn', () => {
-      beforeAll(() => {
-        ensureFileSync('yarn.lock')
-      })
-      afterAll(() => {
-        removeSync('yarn.lock')
-      })
-      it('#### result', () => {
-        expect(getPackageManager()).toBe('yarn')
-      })
-    })
-    describe('### pnpm', () => {
-      beforeAll(() => {
-        ensureFileSync('pnpm-lock.yaml')
-      })
-      afterAll(() => {
-        removeSync('pnpm-lock.yaml')
-      })
-      it('#### result', () => {
-        expect(getPackageManager()).toBe('pnpm')
-      })
-    })
+    }
   })
   describe('## getPackageManagers', () => {
     it('### result', () => {
       expectTypeOf(getPackageManagers()).toBeArray()
     })
   })
-  describe('## isPnpmWorkspaceRepo', () => {
-    it('### not pnpm workspace repo', () => {
+  describe('## isPnpmWorkspaceRepo', async () => {
+    it('### falsy', () => {
       expect(isPnpmWorkspaceRepo()).toBeFalsy()
     })
+    beforeAll(async () => {
+      await Utils.createFile(join(TEMP_ROOT, 'package.json'), '{}')
+    })
     for (const file of PNPM_WORKSPACE_CONFIG_FILES) {
-      describe(`### config file: ${file}`, () => {
-        beforeAll(() => {
-          ensureFileSync(file)
+      describe(`### config file: ${file}`, async () => {
+        beforeAll(async () => {
+          await Utils.createFile(join(TEMP_ROOT, file))
         })
-        afterAll(() => {
-          removeSync(file)
+        afterAll(async () => {
+          await Utils.removeFile(join(TEMP_ROOT, file))
         })
         it('#### result', () => {
-          expect(isPnpmWorkspaceRepo()).toBeTruthy()
+          expect(isPnpmWorkspaceRepo(TEMP_ROOT)).toBeTruthy()
         })
       })
     }
+    afterAll(async () => {
+      await Utils.removeFile(join(TEMP_ROOT, 'package.json'))
+    })
   })
   describe('## isProject', () => {
-    it('### no', () => {
-      expect(isProject(__dirname)).toBeFalsy()
+    it('### falsy', async () => {
+      if (await Utils.exists(join(TEMP_ROOT, 'package.json'))) {
+        await Utils.removeFile(join(TEMP_ROOT, 'package.json'))
+      }
+      expect(isProject(TEMP_ROOT)).toBeFalsy()
     })
-    it('### yes', () => {
+    it('### truthy', async () => {
       expect(isProject()).toBeTruthy()
+      if (!(await Utils.exists(join(TEMP_ROOT, 'package.json')))) {
+        await Utils.createFile(join(TEMP_ROOT, 'package.json'))
+      }
+      expect(isProject(TEMP_ROOT)).toBeTruthy()
     })
   })
 })

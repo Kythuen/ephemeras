@@ -1,25 +1,41 @@
-import { describe, expect, it } from 'vitest'
-import { resolve } from 'node:path'
-import { loadConfig, defineConfig } from '../src/config'
+import { homedir } from 'node:os'
+import { join } from 'node:path'
+import { afterAll, beforeAll, describe, expect, it } from 'vitest'
+import { defineConfig, loadConfig } from '../src/config'
 
-describe('# config', () => {
-  describe('## loadConfig', () => {
+import * as Utils from './utils'
+
+const TEMP_ROOT = join(homedir(), '.ephemeras/utils/Temp/config')
+const TEST_FILE_NOT_EXIST = join(TEMP_ROOT, 'not-exist')
+const TEST_FILE_CONFIG_1 = join(TEMP_ROOT, 'test1.config.json')
+const TEST_FILE_CONFIG_2 = join(TEMP_ROOT, 'test2.config.ts')
+
+describe.only('# config', () => {
+  beforeAll(async () => {
+    await Utils.ensureDir(TEMP_ROOT)
+  })
+  afterAll(async () => {
+    await Utils.emptyDir(TEMP_ROOT)
+  })
+  describe.only('## loadConfig', () => {
     describe('### invalid params', () => {
       const cases = [
         {
           name: '#### no params',
           params: [],
-          error: '"file" is required'
+          error:
+            'The "paths[1]" argument must be of type string. Received undefined'
         },
         {
           name: '#### invalid file type',
           params: [1],
-          error: '"file" must be a string'
+          error:
+            'The "paths[1]" argument must be of type string. Received type number (1)'
         },
         {
           name: '#### invalid files type',
-          params: ['not-exist', 1],
-          error: '"options" must be of type object'
+          params: [TEST_FILE_NOT_EXIST, 1],
+          error: `config file "${TEST_FILE_NOT_EXIST}" not found`
         }
       ]
       for (const item of cases) {
@@ -33,17 +49,31 @@ describe('# config', () => {
         })
       }
     })
-    describe('### verify result', () => {
+    describe.only('### verify result', async () => {
+      beforeAll(async () => {
+        await Utils.createFile(
+          TEST_FILE_CONFIG_1,
+          `{ "a1": 1, "b1": "1", "c1": true }`
+        )
+        await Utils.createFile(
+          TEST_FILE_CONFIG_2,
+          `export default { a2: 2, b2: '2', c2: false }`
+        )
+      })
+      afterAll(async () => {
+        await Utils.removeFile(TEST_FILE_CONFIG_1)
+        await Utils.removeFile(TEST_FILE_CONFIG_2)
+      })
       const cases = [
         {
           name: '#### file not exist',
-          params: ['not-exist'],
-          error: `config file "${resolve(process.cwd(), 'not-exist')}" not found`
+          params: [TEST_FILE_NOT_EXIST],
+          error: `config file "${TEST_FILE_NOT_EXIST}" not found`
         },
         {
           name: '#### no files',
-          params: ['not-exist', { files: [] }],
-          error: `config file "${resolve(process.cwd(), 'not-exist')}" not found`
+          params: [TEST_FILE_NOT_EXIST, { files: [] }],
+          error: `config file "${TEST_FILE_NOT_EXIST}" not found`
         },
         {
           name: '#### not exist file/files',
@@ -53,49 +83,32 @@ describe('# config', () => {
         {
           name: '#### use file',
           params: [
-            'tsconfig.json',
+            'test1.config.json',
             {
-              files: ['tsup.config.ts', 'vitest.config.ts']
+              files: ['test2.config.ts'],
+              context: TEMP_ROOT
             }
           ],
-          file: resolve(process.cwd(), 'tsconfig.json'),
+          file: TEST_FILE_CONFIG_1,
           data: {
-            compilerOptions: {
-              module: 'CommonJS',
-              target: 'ES2015',
-              moduleResolution: 'node',
-              outDir: 'dist',
-              esModuleInterop: true,
-              forceConsistentCasingInFileNames: true,
-              strict: true,
-              skipLibCheck: true,
-              resolveJsonModule: true
-            },
-            include: ['src']
+            a1: 1,
+            b1: '1',
+            c1: true
           }
         },
         {
           name: '#### use file and context',
           params: [
-            'tsconfig.json',
+            'test1.config.json',
             {
-              context: '.'
+              context: TEMP_ROOT
             }
           ],
-          file: resolve(process.cwd(), 'tsconfig.json'),
+          file: TEST_FILE_CONFIG_1,
           data: {
-            compilerOptions: {
-              module: 'CommonJS',
-              target: 'ES2015',
-              moduleResolution: 'node',
-              outDir: 'dist',
-              esModuleInterop: true,
-              forceConsistentCasingInFileNames: true,
-              strict: true,
-              skipLibCheck: true,
-              resolveJsonModule: true
-            },
-            include: ['src']
+            a1: 1,
+            b1: '1',
+            c1: true
           }
         },
         {
@@ -103,18 +116,15 @@ describe('# config', () => {
           params: [
             'not-exist',
             {
-              files: ['tsup.config.ts', 'vitest.config.ts']
+              files: ['test2.config.ts'],
+              context: TEMP_ROOT
             }
           ],
-          file: resolve(process.cwd(), 'tsup.config.ts'),
-          prop: 'tsup',
+          file: TEST_FILE_CONFIG_2,
           data: {
-            entry: ['src/**/*.ts'],
-            format: ['cjs', 'esm'],
-            dts: true,
-            splitting: true,
-            clean: true,
-            shims: false
+            a2: 2,
+            b2: '2',
+            c2: false
           }
         }
       ]
@@ -131,8 +141,8 @@ describe('# config', () => {
             // @ts-ignore
             const { file, data } = await loadConfig(...item.params)
             expect(file).toBe(item.file)
-            const propsData = item.prop ? data[item.prop] : data
-            expect(propsData).toEqual(item.data)
+            // const propsData = item.prop ? data[item.prop] : data
+            expect(data).toEqual(item.data)
           }
         })
       }

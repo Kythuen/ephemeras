@@ -1,6 +1,6 @@
 {
   "name": "@ephemeras/linter",
-  "version": "1.3.4",
+  "version": "1.3.8",
   "description": "Command line tool, quickly configuring and completing project code standardization construction",
   "keywords": [
     "ephemeras",
@@ -14,12 +14,21 @@
   },
   "license": "MIT",
   "type": "module",
+  "main": "dist/index.cjs",
+  "module": "dist/index.js",
+  "typings": "dist/index.d.ts",
   "files": [
     "dist",
-    "files",
-    "files/.gitignore"
+    "files"
   ],
-  "typings": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "require": "./dist/index.cjs",
+      "import": "./dist/index.js"
+    },
+    "./dist/*": "./dist/*"
+  },
   "bin": {
     "linter": "dist/index.js"
   },
@@ -31,7 +40,7 @@
   },
   "dependencies": {
     "@clack/prompts": "^0.6.3",
-    "@ephemeras/utils": "workspace:*",
+    "@ephemeras/utils": "^2.3.2",
     "@types/eslint": "8.37.0",
     "cac": "^6.7.14",
     "execa": "4.1.0",
