@@ -31,8 +31,12 @@ jobs:
 
       - name: Build packages
         run: |
-          pnpm --filter=@white-block/types build
-          pnpm --filter=white-block build
+          pnpm --filter=@ephemeras/fs build
+          pnpm --filter=@ephemeras/utils build
+          pnpm --filter=@ephemeras/file build
+          pnpm --filter=@ephemeras/profile build
+          pnpm --filter=@ephemeras/compiler build
+          pnpm --filter=@ephemeras/linter build
 
       - name: Build vitepress site
         env:
