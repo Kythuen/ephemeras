@@ -1,0 +1,38 @@
+{
+  "name": "@ephemeras/file",
+  "version": "0.0.1",
+  "description": "file editor base on AST",
+  "keywords": [
+    "ephemeras",
+    "file",
+    "ast"
+  ],
+  "author": {
+    "name": "ephemeras",
+    "email": "ephemeras@qq.com"
+  },
+  "license": "MIT",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "require": "./dist/index.cjs",
+      "import": "./dist/index.js"
+    },
+    "./*": "./dist/*"
+  },
+  "scripts": {
+    "dev": "tsup --watch src",
+    "build": "tsup",
+    "test": "vitest",
+    "test:coverage": "vitest run --coverage"
+  },
+  "dependencies": {
+    "@babel/generator": "^7.24.6",
+    "@babel/parser": "^7.24.6",
+    "@babel/traverse": "^7.24.6",
+    "@babel/types": "^7.24.6",
+    "@prettier/sync": "^0.5.2",
+    "prettier": "3.3.2"
+  }
+}

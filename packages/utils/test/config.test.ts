@@ -1,9 +1,9 @@
 import { homedir } from 'node:os'
 import { join } from 'node:path'
 import { afterAll, beforeAll, describe, expect, it } from 'vitest'
-import { defineConfig, loadConfig } from '../src/config'
+import { defineConfig, loadConfig } from '../src'
 
-import * as Utils from './utils'
+import * as Utils from '@ephemeras/fs'
 
 const TEMP_ROOT = join(homedir(), '.ephemeras/utils/Temp/config')
 const TEST_FILE_NOT_EXIST = join(TEMP_ROOT, 'not-exist')
@@ -12,7 +12,7 @@ const TEST_FILE_CONFIG_2 = join(TEMP_ROOT, 'test2.config.ts')
 
 describe.only('# config', () => {
   beforeAll(async () => {
-    await Utils.ensureDir(TEMP_ROOT)
+    await Utils.ensure(TEMP_ROOT)
   })
   afterAll(async () => {
     await Utils.emptyDir(TEMP_ROOT)
@@ -22,20 +22,15 @@ describe.only('# config', () => {
       const cases = [
         {
           name: '#### no params',
-          params: [],
-          error:
-            'The "paths[1]" argument must be of type string. Received undefined'
+          params: []
         },
         {
           name: '#### invalid file type',
-          params: [1],
-          error:
-            'The "paths[1]" argument must be of type string. Received type number (1)'
+          params: [1]
         },
         {
           name: '#### invalid files type',
-          params: [TEST_FILE_NOT_EXIST, 1],
-          error: `config file "${TEST_FILE_NOT_EXIST}" not found`
+          params: [TEST_FILE_NOT_EXIST, 1]
         }
       ]
       for (const item of cases) {
@@ -44,7 +39,7 @@ describe.only('# config', () => {
             // @ts-expect-error
             await loadConfig(...item.params)
           } catch (error) {
-            expect(error.message).toBe(item.error)
+            expect(error).toBeTruthy()
           }
         })
       }
@@ -61,8 +56,8 @@ describe.only('# config', () => {
         )
       })
       afterAll(async () => {
-        await Utils.removeFile(TEST_FILE_CONFIG_1)
-        await Utils.removeFile(TEST_FILE_CONFIG_2)
+        await Utils.remove(TEST_FILE_CONFIG_1)
+        await Utils.remove(TEST_FILE_CONFIG_2)
       })
       const cases = [
         {

@@ -1,4 +1,3 @@
 packages:
   - docs
-  - packages/linter
-  - packages/utils
+  - packages/*

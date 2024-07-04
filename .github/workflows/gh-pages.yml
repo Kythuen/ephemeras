@@ -1,0 +1,48 @@
+env:
+  DISABLE_CACHE: true
+
+name: docs-deploy
+
+on:
+  push:
+    branches:
+      - main
+jobs:
+  docs:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v3
+
+      - name: Install PNPM
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8.x
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20.x
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --no-frozen-lockfile
+
+      - name: Build packages
+        run: |
+          pnpm --filter=@white-block/types build
+          pnpm --filter=white-block build
+
+      - name: Build vitepress site
+        env:
+          PLATFORM: GitHub
+        run: pnpm docs:build
+
+      - name: Deploy to GitHub Pages
+        uses: crazy-max/ghaction-github-pages@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.ACTIONS_TOKEN }}
+        with:
+          target_branch: gh-pages
+          build_dir: docs/.vitepress/dist

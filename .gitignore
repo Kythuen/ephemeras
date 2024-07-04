@@ -30,9 +30,11 @@ yarn.lock
 
 # Docs
 docs/.vitepress/cache
+coverage
 
 # Examples
 packages/linter/examples
 
 # Under dev
-packages/compiler
+packages/cli
+packages/shared

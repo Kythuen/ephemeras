@@ -1,4 +1,4 @@
-import { createFile } from '@ephemeras/utils'
+import { createFile } from '@ephemeras/fs'
 import {
   formatBase,
   formatTypeScript,
@@ -40,6 +40,7 @@ export default async function (resolver: ConfigResolver, answerData: any) {
     '.eslintrc',
     JSON.stringify(resolverConfigData.eslintOverrides)
   )
+
   const eslintLog = `📃 create ${eslintrc}`
   const files: TItem[] = [
     { name: '.editorconfig', type: 'file' },

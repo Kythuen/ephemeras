@@ -9,26 +9,38 @@ export default defineConfig({
     siteTitle: '',
     logo: { light: '/ephemeras.svg', dark: '/ephemeras_white.svg' },
     nav: [
-      { text: 'Home', link: '/' },
-      { text: 'Utils', link: '/utils/index' },
-      { text: 'Linter', link: '/linter/index' }
-    ],
-    sidebar: [
+      { text: 'Guide', link: '/guide/' },
       {
-        text: 'Utils',
+        text: 'Packages',
         items: [
-          { text: '快速开始', link: '/utils/index' },
-          { text: '参数校验', link: '/utils/features/validate' },
-          { text: '构建工具', link: '/utils/features/build' },
-          { text: '配置文件', link: '/utils/features/profile' },
-          { text: '项目配置', link: '/utils/features/config' }
+          { text: 'Linter', link: '/linter/' },
+          { text: 'Compiler', link: '/compiler/' },
+          { text: 'File', link: '/file/' },
+          { text: 'File System', link: '/fs/' },
+          { text: 'Profile', link: '/profile/' },
+          { text: 'Utils', link: '/utils/' }
         ]
-      },
-      {
-        text: 'Linter',
-        items: [{ text: '快速开始', link: '/linter/index' }]
       }
     ],
+    sidebar: [
+      { text: 'Linter', link: '/linter/' },
+      { text: 'Compiler', link: '/compiler/' },
+      { text: 'File', link: '/file/' },
+      { text: 'File System', link: '/fs/' },
+      { text: 'Profile', link: '/profile/' },
+      { text: 'Utils', link: '/utils/' }
+    ],
+    // sidebar: {
+    //   '/guide/': SidebarGuide,
+    //   '/integrations/': SidebarGuide,
+
+    //   '/tools/': SidebarPresets,
+    //   '/presets/': SidebarPresets,
+    //   '/transformers/': SidebarPresets,
+    //   '/extractors/': SidebarPresets,
+
+    //   '/config/': SidebarConfig
+    // },
     outline: {
       level: 'deep',
       label: '页面大纲'

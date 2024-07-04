@@ -1,4 +1,4 @@
-import type { Profile } from '@ephemeras/utils'
+import type { Profile } from '@ephemeras/profile'
 import TEXT from '../../locales/text'
 import { getFeaturesPrompt, getUsePresetPrompt } from '../../prompts'
 import { answerPrompts } from '../../utils'

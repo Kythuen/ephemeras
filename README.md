@@ -43,7 +43,16 @@ English | [简体中文](./README-zh_CN.md)
 
 - [@ephemeras/linter](https://kythuen.github.io/ephemeras/linter/) - Command line tool, quickly configuring and completing project code standardization construction.
 
+- [@ephemeras/compiler](https://kythuen.github.io/ephemeras/compiler/) - File template compilation tool.
+
+- [@ephemeras/file](https://kythuen.github.io/ephemeras/file/) - File editing tool based on AST, make modify JS/TS files easilier.
+
+- [@ephemeras/profile](https://kythuen.github.io/ephemeras/profile/) - Configuration file management, makes it easy to create and manage configuration information.
+
+- [@ephemeras/fs](https://kythuen.github.io/ephemeras/profile/) - File system  management, superset of `node:fs/promise`, providing more user-friendly features.
+
 - [@ephemeras/utils](https://kythuen.github.io/ephemeras/utils/) - Tool collections provide useful features for front-end building, efficient and reliable.
+
 
 ## Documents
 

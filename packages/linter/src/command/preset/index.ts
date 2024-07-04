@@ -1,11 +1,15 @@
-import { Profile } from '@ephemeras/utils'
+import { Profile } from '@ephemeras/profile'
 import colors from 'picocolors'
 import TEXT from '../../locales/text'
 import { getPresetPrompt } from '../../prompts'
 import { answerPrompts, boldText } from '../../utils'
 import { DEFAULT_PRESET_VALUE } from './data'
 
-export default async function (presetName: string, cmd: Record<string, any>, profile: Profile) {
+export default async function (
+  presetName: string,
+  cmd: Record<string, any>,
+  profile: Profile
+) {
   const presetData: Record<string, any> = profile.getData()
   if (cmd.list) {
     if (!presetData || !Object.keys(presetData).length) {
@@ -37,7 +41,9 @@ export default async function (presetName: string, cmd: Record<string, any>, pro
       return
     }
     console.log(`${TEXT.TITLE_PRESET_EDIT} ${presetName}:`)
-    const editData = await answerPrompts(getPresetPrompt({ name: presetData, ...data }))
+    const editData = await answerPrompts(
+      getPresetPrompt({ name: presetData, ...data })
+    )
     profile.set(`${presetName}`, editData)
     console.log()
     console.log(boldText(`${TEXT.TIP_PRESET_EDIT}: ${presetName}`))

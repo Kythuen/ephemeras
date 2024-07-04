@@ -1,13 +1,9 @@
-import { Profile } from '@ephemeras/utils'
 import gradient from 'gradient-string'
 import picocolors from 'picocolors'
-import { $t, changeLanguage } from '.'
+import { $t } from '.'
 
-const configProfile = new Profile({ path: '.ephemeras/linter/config.json' })
-const lang = configProfile.get('language') || 'en'
 const { reset, bold, underline, cyan } = picocolors
 const { retro, vice } = gradient
-changeLanguage(lang)
 
 export default {
   USAGE_ROOT_OPTION_INITIAL: $t('USAGE.ROOT_OPTION_INITIAL'),
@@ -26,7 +22,6 @@ export default {
   USAGE_COMMAND_CONFIG_GET: $t('USAGE.COMMAND_CONFIG_GET'),
   USAGE_COMMAND_CONFIG_UNSET: $t('USAGE.COMMAND_CONFIG_UNSET'),
 
-
   TIP_WELCOME: bold(retro($t('TIP.WELCOME'))),
   TIP_SUCCESS_OPERATION: $t('TIP.SUCCESS_OPERATION'),
   TIP_SUCCESS_DELETE: $t('TIP.SUCCESS_DELETE'),
@@ -42,7 +37,6 @@ export default {
   TIP_PRESET_DELETE: $t('TIP.PRESET_DELETE'),
   TIP_CANCEL_OPERATION: $t('TIP.CANCEL_OPERATION'),
 
-
   TITLE_USE_PRESET: bold($t('TITLE.USE_PRESET')),
   TITLE_ADD_FORMAT: bold($t('TITLE.ADD_FORMAT')),
   TITLE_REMOVE_FORMAT: bold($t('TITLE.REMOVE_FORMAT')),
@@ -56,7 +50,6 @@ export default {
   TITLE_PRESET_ADD: bold($t('TITLE.PRESET_ADD')),
   TITLE_PRESET_EDIT: bold($t('TITLE.PRESET_EDIT')),
   TITLE_CONFIG_LIST: bold($t('TITLE.CONFIG_LIST')),
-
 
   PROMPT_SELECT_PRESET: reset($t('PROMPT.SELECT_PRESET')),
   PROMPT_SELECT_ADD_FEATURES: reset($t('PROMPT.SELECT_ADD_FEATURES')),
@@ -75,16 +68,14 @@ export default {
   PROMPT_REMOVE_COMMIT: reset($t('PROMPT.REMOVE_COMMIT')),
   PROMPT_REMOVE_UNINSTALL: reset($t('PROMPT.REMOVE_UNINSTALL')),
 
-
   TEXT_FEATURE_COMMIT: $t('TEXT.FEATURE_COMMIT'),
   TEXT_FEATURE_FORMAT: $t('TEXT.FEATURE_FORMAT'),
   TEXT_MANUAL_SELECT: $t('TEXT.MANUAL_SELECT'),
   TEXT_PRESET_NAME: $t('TEXT.PRESET_NAME'),
   TEXT_PRESET_DESCRIPTION: $t('TEXT.PRESET_DESCRIPTION'),
 
-
   RULE_PRESET_NAME_REQUIRED: $t('RULE.PRESET_NAME_REQUIRED'),
   RULE_PRESET_NAME_LENGTH: $t('RULE.PRESET_NAME_LENGTH'),
   RULE_PRESET_DESCRIPTION_REQUIRED: $t('RULE.PRESET_DESCRIPTION_REQUIRED'),
-  RULE_PRESET_DESCRIPTION_LENGTH: $t('RULE.PRESET_DESCRIPTION_LENGTH'),
+  RULE_PRESET_DESCRIPTION_LENGTH: $t('RULE.PRESET_DESCRIPTION_LENGTH')
 }

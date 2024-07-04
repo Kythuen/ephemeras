@@ -1,6 +1,6 @@
 import execa from 'execa'
 import { commitBase } from '../../resolvers'
-import { createFile } from '@ephemeras/utils'
+import { createFile } from '@ephemeras/fs'
 import { ConfigResolver, copyItemsToPWD } from '../../utils'
 
 export default async function (resolver: ConfigResolver, settings: any) {
@@ -9,7 +9,8 @@ export default async function (resolver: ConfigResolver, settings: any) {
   const base = await copyItemsToPWD([
     { name: '.commitlintrc', type: 'file' },
     // { name: '.gitignore', type: 'file' },
-    { name: '.lintstagedrc', type: 'file' }
+    { name: '.lintstagedrc', type: 'file' },
+    { name: '.czrc', type: 'file' }
   ])
 
   await createFile(

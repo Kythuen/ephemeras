@@ -1,4 +1,5 @@
-import { isPnpmWorkspaceRepo, Profile } from '@ephemeras/utils'
+import { Profile } from '@ephemeras/profile'
+import { isPnpmWorkspaceRepo } from '@ephemeras/utils'
 import execa from 'execa'
 import ora from 'ora'
 import TEXT from '../../locales/text'
@@ -8,12 +9,16 @@ import {
   getInstallPrompt,
   getSavePresetPrompt
 } from '../../prompts'
-import { answerPrompts, ConfigResolver } from '../../utils'
+import { ConfigResolver, answerPrompts } from '../../utils'
 import { TFeature } from '../common'
 import addCommitFeature from './commit'
 import addFormatFeature from './format'
 
-export default async function add(features: TFeature[], profile: Profile, presetSetting?: any) {
+export default async function add(
+  features: TFeature[],
+  profile: Profile,
+  presetSetting?: any
+) {
   const resolver = new ConfigResolver()
   if (presetSetting) {
     if (presetSetting.features.includes('format')) {
@@ -85,7 +90,9 @@ export default async function add(features: TFeature[], profile: Profile, preset
     }
     if (install) {
       const spinner = ora('install dependencies...').start()
-      await execa(pm, [...args, ...resolver.data.packages], { encoding: 'utf8' })
+      await execa(pm, [...args, ...resolver.data.packages], {
+        encoding: 'utf8'
+      })
       spinner.succeed('successfully install dependencies')
     } else {
       console.log()

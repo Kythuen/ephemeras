@@ -44,6 +44,7 @@ export function getPackageManagers() {
 
 export function isPnpmWorkspaceRepo(context = process.cwd()) {
   const { workspaces } = readPKG(context)
+  console.log(workspaces)
   if (workspaces) {
     return true
   }

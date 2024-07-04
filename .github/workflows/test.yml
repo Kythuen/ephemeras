@@ -27,6 +27,51 @@ jobs:
 
       # https://pnpm.io/zh/cli/install#--frozen-lockfile
       - name: Install dependencies
-        run: pnpm install
+        run: |
+          pnpm install
+          pnpm test
+          pnpm test:coverage
 
-      - run: pnpm test
+      # Push each package
+      # https://github.com/codecov/codecov-action
+      - name: Upload coverage reports to Codecov
+        uses: codecov/codecov-action@v3
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          flags: compiler
+          files: ./packages/compiler/coverage/coverage-final.json
+
+      - name: Upload coverage reports to Codecov
+        uses: codecov/codecov-action@v3
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          flags: file
+          files: ./packages/file/coverage/coverage-final.json
+
+      - name: Upload coverage reports to Codecov
+        uses: codecov/codecov-action@v3
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          flags: fs
+          files: ./packages/fs/coverage/coverage-final.json
+
+      - name: Upload coverage reports to Codecov
+        uses: codecov/codecov-action@v3
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          flags: linter
+          files: ./packages/linter/coverage/coverage-final.json
+
+      - name: Upload coverage reports to Codecov
+        uses: codecov/codecov-action@v3
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          flags: profile
+          files: ./packages/profile/coverage/coverage-final.json
+
+      - name: Upload coverage reports to Codecov
+        uses: codecov/codecov-action@v3
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          flags: utils
+          files: ./packages/utils/coverage/coverage-final.json

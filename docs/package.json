@@ -1,6 +1,6 @@
 {
   "name": "@ephemeras/docs",
-  "version": "1.0.1",
+  "version": "0.0.1",
   "description": "Documents for ephemeras",
   "keywords": [
     "ephemeras",
@@ -18,6 +18,6 @@
     "preview": "vitepress preview"
   },
   "dependencies": {
-    "vitepress": "1.0.0-rc.12"
+    "vitepress": "^1.0.1"
   }
 }

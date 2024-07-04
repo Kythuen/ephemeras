@@ -1,7 +1,6 @@
 import { bundleRequire } from 'bundle-require'
-import { existsSync } from 'node:fs'
 import { resolve } from 'node:path'
-import { readJSON } from '../fs'
+import { readJSON, exists } from '@ephemeras/fs'
 
 export function defineConfig<T>(options: Partial<T>) {
   return options
@@ -18,13 +17,13 @@ export async function loadConfig(
   const { files, context = process.cwd() } = options || {}
   const optionFile = resolve(context, file)
   let resolveFile = ''
-  if (existsSync(optionFile)) {
+  if (await exists(optionFile)) {
     resolveFile = optionFile
   } else if (files?.length) {
     let fileFound = ''
     for (const f of files) {
       const filePath = resolve(context, f)
-      if (!existsSync(filePath)) continue
+      if (!(await exists(filePath))) continue
       fileFound = filePath
       break
     }

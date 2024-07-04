@@ -1,4 +1,4 @@
-import { Profile } from '@ephemeras/utils'
+import { Profile } from '@ephemeras/profile'
 import TEXT from '../../locales/text'
 import { boldText } from '../../utils'
 
@@ -9,7 +9,7 @@ function showConfigs(configs: Record<string, any>) {
     console.log(TEXT.TIP_NO_DATA)
     return
   }
-  console.log(`${TEXT.TITLE_CONFIG_LIST}\n`)
+  // console.log(`${TEXT.TITLE_CONFIG_LIST}\n`)
   const configsText: any = []
   Object.keys(configs).forEach(key => {
     configsText.push(`${key}=${configs[key]}`)

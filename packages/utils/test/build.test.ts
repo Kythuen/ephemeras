@@ -7,12 +7,12 @@ import {
   isPnpmWorkspaceRepo,
   isProject,
   readPKG
-} from '../src/build'
+} from '../src'
 import {
   PM_LOCK_FILES,
   PNPM_WORKSPACE_CONFIG_FILES
 } from '../src/build/constant'
-import * as Utils from './utils'
+import * as Utils from '@ephemeras/fs'
 
 const TEMP_ROOT = join(homedir(), '.ephemeras/utils/Temp/build/correct')
 const TEMP_ROOT_ERROR = join(homedir(), '.ephemeras/utils/Temp/build/error')
@@ -21,9 +21,9 @@ const TEST_FILE_PKG_ERROR = join(TEMP_ROOT_ERROR, 'package.json')
 
 describe('# build', () => {
   beforeAll(async () => {
-    await Utils.ensureDir(TEMP_ROOT)
-    await Utils.ensureDir(TEMP_ROOT_ERROR)
-    await Utils.createFile(TEST_FILE_PKG, `{ name: 'pkg-name' }`)
+    await Utils.ensure(TEMP_ROOT)
+    await Utils.ensure(TEMP_ROOT_ERROR)
+    await Utils.createFile(TEST_FILE_PKG, `{ "name": "pkg-name" }`)
     await Utils.createFile(TEST_FILE_PKG_ERROR, '1')
   })
   afterAll(async () => {
@@ -88,7 +88,7 @@ describe('# build', () => {
           await Utils.createFile(join(TEMP_ROOT, PM_LOCK_FILES[pm]))
         })
         afterAll(async () => {
-          await Utils.removeFile(join(TEMP_ROOT, PM_LOCK_FILES[pm]))
+          await Utils.remove(join(TEMP_ROOT, PM_LOCK_FILES[pm]))
         })
         it('### result', () => {
           expect(getPackageManager(TEMP_ROOT)).toBe(pm)
@@ -102,33 +102,27 @@ describe('# build', () => {
     })
   })
   describe('## isPnpmWorkspaceRepo', async () => {
-    it('### falsy', () => {
-      expect(isPnpmWorkspaceRepo()).toBeFalsy()
-    })
     beforeAll(async () => {
       await Utils.createFile(join(TEMP_ROOT, 'package.json'), '{}')
     })
+    it('### falsy', () => {
+      expect(isPnpmWorkspaceRepo()).toBeFalsy()
+    })
     for (const file of PNPM_WORKSPACE_CONFIG_FILES) {
-      describe(`### config file: ${file}`, async () => {
-        beforeAll(async () => {
-          await Utils.createFile(join(TEMP_ROOT, file))
-        })
-        afterAll(async () => {
-          await Utils.removeFile(join(TEMP_ROOT, file))
-        })
-        it('#### result', () => {
-          expect(isPnpmWorkspaceRepo(TEMP_ROOT)).toBeTruthy()
-        })
+      it('#### result', async () => {
+        await Utils.createFile(join(TEMP_ROOT, file))
+        expect(isPnpmWorkspaceRepo(TEMP_ROOT)).toBeTruthy()
+        await Utils.remove(join(TEMP_ROOT, file))
       })
     }
     afterAll(async () => {
-      await Utils.removeFile(join(TEMP_ROOT, 'package.json'))
+      await Utils.remove(join(TEMP_ROOT, 'package.json'))
     })
   })
   describe('## isProject', () => {
     it('### falsy', async () => {
       if (await Utils.exists(join(TEMP_ROOT, 'package.json'))) {
-        await Utils.removeFile(join(TEMP_ROOT, 'package.json'))
+        await Utils.remove(join(TEMP_ROOT, 'package.json'))
       }
       expect(isProject(TEMP_ROOT)).toBeFalsy()
     })

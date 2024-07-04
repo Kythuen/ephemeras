@@ -1,15 +1,16 @@
 #!/usr/bin/env node
-import { fileURLToPath, resolve } from 'node:url'
+import { Profile } from '@ephemeras/profile'
+import { readPKG } from '@ephemeras/utils'
 import { cac } from 'cac'
-import { readPKG, Profile } from '@ephemeras/utils'
-import TEXT from './locales/text'
-import init from './command/init'
+import { fileURLToPath, resolve } from 'node:url'
 import add from './command/add'
-import remove from './command/remove'
-import preset from './command/preset'
-import config from './command/config'
-import { prettifyOutput } from './utils'
 import type { TFeature } from './command/common'
+import config from './command/config'
+import init from './command/init'
+import preset from './command/preset'
+import remove from './command/remove'
+import TEXT from './locales/text'
+import { prettifyOutput } from './utils'
 
 async function run() {
   const currentRoot = resolve(fileURLToPath(import.meta.url), '..')
@@ -112,13 +113,15 @@ async function run() {
     .example('  $ linter config --get language')
     .example('  $ linter config language zh-CN')
     .example('  $ linter config --unset language')
-    .action((configKey: string, configValue: string, _: Record<string, any>) => {
-      if (!configKey && Object.keys(_).length === 1) {
-        prettifyOutput(() => cli.outputHelp())
-        return
+    .action(
+      (configKey: string, configValue: string, _: Record<string, any>) => {
+        if (!configKey && Object.keys(_).length === 1) {
+          prettifyOutput(() => cli.outputHelp())
+          return
+        }
+        prettifyOutput(config, configKey, configValue, _)
       }
-      prettifyOutput(config, configKey, configValue, _)
-    })
+    )
 
   cli.help(() => {})
 
