@@ -6,7 +6,7 @@ name: gh-pages
 on:
   push:
     branches:
-      - main
+      - main1
 jobs:
   docs:
     runs-on: ubuntu-latest
