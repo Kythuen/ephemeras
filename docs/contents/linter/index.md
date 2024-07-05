@@ -1,4 +1,5 @@
 # Linter
+![](https://img.shields.io/codecov/c/github/Kythuen/ephemeras?flag=linter)
 
 ## 简介
 @ephemeras/linter 是一个命令行工具，用于快捷配置和管理项目的代码规范。
