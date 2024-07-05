@@ -24,7 +24,7 @@
     "test:coverage": "pnpm --filter ./packages/** run test:coverage",
     "clear": "rimraf 'packages/*/{dist,node_modules}' && rimraf node_modules",
     "change": "changeset",
-    "version": "changeset version",
+    "change:version": "changeset version",
     "release": "pnpm --recursive --stream build && changeset publish",
     "prepare": "husky install"
   },
