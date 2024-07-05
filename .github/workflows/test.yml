@@ -51,7 +51,7 @@ jobs:
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           flags: compiler
-          file: ./packages/compiler/coverage/coverage-final.json
+          file: ${{ github.workspace }}/packages/compiler/coverage/coverage-final.json
           verbose: true
 
       # - name: Upload coverage reports to Codecov
