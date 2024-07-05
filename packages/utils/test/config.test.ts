@@ -10,14 +10,14 @@ const TEST_FILE_NOT_EXIST = join(TEMP_ROOT, 'not-exist')
 const TEST_FILE_CONFIG_1 = join(TEMP_ROOT, 'test1.config.json')
 const TEST_FILE_CONFIG_2 = join(TEMP_ROOT, 'test2.config.ts')
 
-describe.only('# config', () => {
+describe('# config', () => {
   beforeAll(async () => {
     await Utils.ensure(TEMP_ROOT)
   })
   afterAll(async () => {
     await Utils.emptyDir(TEMP_ROOT)
   })
-  describe.only('## loadConfig', () => {
+  describe('## loadConfig', () => {
     describe('### invalid params', () => {
       const cases = [
         {
@@ -44,7 +44,7 @@ describe.only('# config', () => {
         })
       }
     })
-    describe.only('### verify result', async () => {
+    describe('### verify result', async () => {
       beforeAll(async () => {
         await Utils.createFile(
           TEST_FILE_CONFIG_1,
