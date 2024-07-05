@@ -44,7 +44,11 @@ jobs:
       - name: Build coverage
         run: |
           pnpm --filter=@ephemeras/fs test:coverage
+          pnpm --filter=@ephemeras/utils test:coverage
+          pnpm --filter=@ephemeras/file test:coverage
+          pnpm --filter=@ephemeras/profile test:coverage
           pnpm --filter=@ephemeras/compiler test:coverage
+          pnpm --filter=@ephemeras/linter test:coverage
 
       # Push each package
       # https://github.com/codecov/codecov-action
@@ -62,42 +66,42 @@ jobs:
         with:
           root_dir: ${{ github.workspace }}
           token: ${{ secrets.CODECOV_TOKEN }}
+          flags: utils
+          file: ./packages/utils/coverage/coverage-final.json
+          verbose: true
+
+      - name: Upload coverage reports to Codecov
+        uses: codecov/codecov-action@v4.0.1
+        with:
+          root_dir: ${{ github.workspace }}
+          token: ${{ secrets.CODECOV_TOKEN }}
+          flags: file
+          file: ./packages/file/coverage/coverage-final.json
+          verbose: true
+
+      - name: Upload coverage reports to Codecov
+        uses: codecov/codecov-action@v4.0.1
+        with:
+          root_dir: ${{ github.workspace }}
+          token: ${{ secrets.CODECOV_TOKEN }}
+          flags: profile
+          file: ./packages/profile/coverage/coverage-final.json
+          verbose: true
+
+      - name: Upload coverage reports to Codecov
+        uses: codecov/codecov-action@v4.0.1
+        with:
+          root_dir: ${{ github.workspace }}
+          token: ${{ secrets.CODECOV_TOKEN }}
           flags: compiler
           file: ./packages/compiler/coverage/coverage-final.json
           verbose: true
 
-      # - name: Upload coverage reports to Codecov
-      #   uses: codecov/codecov-action@v4.0.1
-      #   with:
-      #     root_dir: ${{ github.workspace }}
-      #     token: ${{ secrets.CODECOV_TOKEN }}
-      #     flags: file
-      #     file: ./packages/file/coverage/coverage-final.json
-      #     verbose: true
-
-      # - name: Upload coverage reports to Codecov
-      #   uses: codecov/codecov-action@v4.0.1
-      #   with:
-      #     root_dir: ${{ github.workspace }}
-      #     token: ${{ secrets.CODECOV_TOKEN }}
-      #     flags: linter
-      #     file: ./packages/linter/coverage/coverage-final.json
-      #     verbose: true
-
-      # - name: Upload coverage reports to Codecov
-      #   uses: codecov/codecov-action@v4.0.1
-      #   with:
-      #     root_dir: ${{ github.workspace }}
-      #     token: ${{ secrets.CODECOV_TOKEN }}
-      #     flags: profile
-      #     file: ./packages/profile/coverage/coverage-final.json
-      #     verbose: true
-
-      # - name: Upload coverage reports to Codecov
-      # uses: codecov/codecov-action@v4.0.1
-      # with:
-      #   root_dir: ${{ github.workspace }}
-      #   token: ${{ secrets.CODECOV_TOKEN }}
-      #   flags: utils
-      #   file: ./packages/utils/coverage/coverage-final.json
-      #   verbose: true
+      - name: Upload coverage reports to Codecov
+        uses: codecov/codecov-action@v4.0.1
+        with:
+          root_dir: ${{ github.workspace }}
+          token: ${{ secrets.CODECOV_TOKEN }}
+          flags: linter
+          file: ./packages/linter/coverage/coverage-final.json
+          verbose: true
