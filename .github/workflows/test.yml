@@ -17,7 +17,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: 18
+          node-version: 20
 
       # https://github.com/pnpm/action-setup
       - name: Setup pnpm
@@ -46,43 +46,49 @@ jobs:
       # Push each package
       # https://github.com/codecov/codecov-action
       - name: Upload coverage reports to Codecov
-        uses: codecov/codecov-action@v3
+        uses: codecov/codecov-action@v4.0.1
         with:
+          directory: ./packages/compiler/coverage/
           token: ${{ secrets.CODECOV_TOKEN }}
           flags: compiler
-          files: ./packages/compiler/coverage/coverage-final.json
+          file: ./coverage-final.json
 
       - name: Upload coverage reports to Codecov
-        uses: codecov/codecov-action@v3
+        uses: codecov/codecov-action@v4.0.1
         with:
+          directory: ./packages/file/coverage/
           token: ${{ secrets.CODECOV_TOKEN }}
           flags: file
-          files: ./packages/file/coverage/coverage-final.json
+          file: ./coverage-final.json
 
       - name: Upload coverage reports to Codecov
-        uses: codecov/codecov-action@v3
+        uses: codecov/codecov-action@v4.0.1
         with:
+          directory: ./packages/fs/coverage/
           token: ${{ secrets.CODECOV_TOKEN }}
           flags: fs
-          files: ./packages/fs/coverage/coverage-final.json
+          file: ./coverage-final.json
 
       - name: Upload coverage reports to Codecov
-        uses: codecov/codecov-action@v3
+        uses: codecov/codecov-action@v4.0.1
         with:
+          directory: ./packages/linter/coverage/
           token: ${{ secrets.CODECOV_TOKEN }}
           flags: linter
-          files: ./packages/linter/coverage/coverage-final.json
+          file: ./coverage-final.json
 
       - name: Upload coverage reports to Codecov
-        uses: codecov/codecov-action@v3
+        uses: codecov/codecov-action@v4.0.1
         with:
+          directory: ./packages/profile/coverage/
           token: ${{ secrets.CODECOV_TOKEN }}
           flags: profile
-          files: ./packages/profile/coverage/coverage-final.json
+          file: ./coverage-final.json
 
       - name: Upload coverage reports to Codecov
-        uses: codecov/codecov-action@v3
+        uses: codecov/codecov-action@v4.0.1
         with:
+          directory: ./packages/utils/coverage/
           token: ${{ secrets.CODECOV_TOKEN }}
           flags: utils
-          files: ./packages/utils/coverage/coverage-final.json
+          file: ./coverage-final.json
