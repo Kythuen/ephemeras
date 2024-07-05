@@ -38,57 +38,58 @@ jobs:
           pnpm --filter=@ephemeras/compiler build
           pnpm --filter=@ephemeras/linter build
 
+      - name: Run test
+        run: pnpm test
+
       - name: Build coverage
-        run: |
-          pnpm test
-          pnpm test:coverage
+        run: pnpm test:coverage
 
       # Push each package
       # https://github.com/codecov/codecov-action
       - name: Upload coverage reports to Codecov
         uses: codecov/codecov-action@v4.0.1
         with:
-          directory: ${{ github.workspace }}
           token: ${{ secrets.CODECOV_TOKEN }}
           flags: compiler
-          files: ./packages/compiler/coverage/coverage-final.json
+          file: ./packages/compiler/coverage/coverage-final.json
+          verbose: true
 
-      - name: Upload coverage reports to Codecov
-        uses: codecov/codecov-action@v4.0.1
-        with:
-          directory: ${{ github.workspace }}
-          token: ${{ secrets.CODECOV_TOKEN }}
-          flags: file
-          files: ./packages/file/coverage/coverage-final.json
+      # - name: Upload coverage reports to Codecov
+      #   uses: codecov/codecov-action@v4.0.1
+      #   with:
+      #     directory: ${{ github.workspace }}
+      #     token: ${{ secrets.CODECOV_TOKEN }}
+      #     flags: file
+      #     files: ./packages/file/coverage/coverage-final.json
 
-      - name: Upload coverage reports to Codecov
-        uses: codecov/codecov-action@v4.0.1
-        with:
-          directory: ${{ github.workspace }}
-          token: ${{ secrets.CODECOV_TOKEN }}
-          flags: fs
-          files: ./packages/fs/coverage/coverage-final.json
+      # - name: Upload coverage reports to Codecov
+      #   uses: codecov/codecov-action@v4.0.1
+      #   with:
+      #     directory: ${{ github.workspace }}
+      #     token: ${{ secrets.CODECOV_TOKEN }}
+      #     flags: fs
+      #     files: ./packages/fs/coverage/coverage-final.json
 
-      - name: Upload coverage reports to Codecov
-        uses: codecov/codecov-action@v4.0.1
-        with:
-          directory: ${{ github.workspace }}
-          token: ${{ secrets.CODECOV_TOKEN }}
-          flags: linter
-          files: ./packages/linter/coverage/coverage-final.json
+      # - name: Upload coverage reports to Codecov
+      #   uses: codecov/codecov-action@v4.0.1
+      #   with:
+      #     directory: ${{ github.workspace }}
+      #     token: ${{ secrets.CODECOV_TOKEN }}
+      #     flags: linter
+      #     files: ./packages/linter/coverage/coverage-final.json
 
-      - name: Upload coverage reports to Codecov
-        uses: codecov/codecov-action@v4.0.1
-        with:
-          directory: ${{ github.workspace }}
-          token: ${{ secrets.CODECOV_TOKEN }}
-          flags: profile
-          files: ./packages/profile/coverage/coverage-final.json
+      # - name: Upload coverage reports to Codecov
+      #   uses: codecov/codecov-action@v4.0.1
+      #   with:
+      #     directory: ${{ github.workspace }}
+      #     token: ${{ secrets.CODECOV_TOKEN }}
+      #     flags: profile
+      #     files: ./packages/profile/coverage/coverage-final.json
 
-      - name: Upload coverage reports to Codecov
-        uses: codecov/codecov-action@v4.0.1
-        with:
-          directory: ${{ github.workspace }}
-          token: ${{ secrets.CODECOV_TOKEN }}
-          flags: utils
-          files: ./packages/utils/coverage/coverage-final.json
+      # - name: Upload coverage reports to Codecov
+      #   uses: codecov/codecov-action@v4.0.1
+      #   with:
+      #     directory: ${{ github.workspace }}
+      #     token: ${{ secrets.CODECOV_TOKEN }}
+      #     flags: utils
+      #     files: ./packages/utils/coverage/coverage-final.json
