@@ -24,7 +24,7 @@ jobs:
 
       # https://github.com/pnpm/action-setup
       - name: Install PNPM
-        uses: pnpm/action-setup@v2
+        uses: pnpm/action-setup@v4
         with:
           version: 8
 
