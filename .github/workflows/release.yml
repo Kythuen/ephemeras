@@ -2,7 +2,7 @@ name: release
 
 on:
   workflow_run:
-    workflows: ['test1']
+    workflows: ['test']
     types: [completed]
 
 permissions:
@@ -18,11 +18,11 @@ jobs:
     steps:
       # https://github.com/actions/checkout
       - name: Checkout repo
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       # https://github.com/actions/setup-node
       - name: Setup Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: 20
 
