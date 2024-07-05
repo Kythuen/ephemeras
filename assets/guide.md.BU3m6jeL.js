@@ -1,0 +1,1 @@
+import{_ as e,c as t,o as a,j as o}from"./chunks/framework.Bo_9K4Ja.js";const f=JSON.parse('{"title":"","description":"","frontmatter":{},"headers":[],"relativePath":"guide.md","filePath":"guide.md"}'),s={name:"guide.md"},n=o("p",null,"Guide",-1),r=[n];function c(d,i,_,p,l,u){return a(),t("div",null,r)}const h=e(s,[["render",c]]);export{f as __pageData,h as default};
