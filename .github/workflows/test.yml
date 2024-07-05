@@ -42,17 +42,17 @@ jobs:
         run: pnpm test
 
       - name: Build coverage
-        run: pnpm test:coverage
+        run: pnpm --filter=@ephemeras/compiler test:coverage
 
       # Push each package
       # https://github.com/codecov/codecov-action
       - name: Upload coverage reports to Codecov
         uses: codecov/codecov-action@v4.0.1
         with:
-          directory: ${{ github.workspace }}
+          root_dir: ${{ github.workspace }}
           token: ${{ secrets.CODECOV_TOKEN }}
           flags: compiler
-          file: ${{ github.workspace }}/packages/compiler/coverage/coverage-final.json
+          file: ./packages/compiler/coverage/coverage-final.json
           verbose: true
 
       # - name: Upload coverage reports to Codecov
