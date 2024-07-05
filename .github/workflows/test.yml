@@ -48,47 +48,47 @@ jobs:
       - name: Upload coverage reports to Codecov
         uses: codecov/codecov-action@v4.0.1
         with:
-          directory: ./packages/compiler/coverage/
+          directory: ${{ github.workspace }}
           token: ${{ secrets.CODECOV_TOKEN }}
           flags: compiler
-          file: ./coverage-final.json
+          files: ./packages/compiler/coverage/coverage-final.json
 
       - name: Upload coverage reports to Codecov
         uses: codecov/codecov-action@v4.0.1
         with:
-          directory: ./packages/file/coverage/
+          directory: ${{ github.workspace }}
           token: ${{ secrets.CODECOV_TOKEN }}
           flags: file
-          file: ./coverage-final.json
+          files: ./packages/file/coverage/coverage-final.json
 
       - name: Upload coverage reports to Codecov
         uses: codecov/codecov-action@v4.0.1
         with:
-          directory: ./packages/fs/coverage/
+          directory: ${{ github.workspace }}
           token: ${{ secrets.CODECOV_TOKEN }}
           flags: fs
-          file: ./coverage-final.json
+          files: ./packages/fs/coverage/coverage-final.json
 
       - name: Upload coverage reports to Codecov
         uses: codecov/codecov-action@v4.0.1
         with:
-          directory: ./packages/linter/coverage/
+          directory: ${{ github.workspace }}
           token: ${{ secrets.CODECOV_TOKEN }}
           flags: linter
-          file: ./coverage-final.json
+          files: ./packages/linter/coverage/coverage-final.json
 
       - name: Upload coverage reports to Codecov
         uses: codecov/codecov-action@v4.0.1
         with:
-          directory: ./packages/profile/coverage/
+          directory: ${{ github.workspace }}
           token: ${{ secrets.CODECOV_TOKEN }}
           flags: profile
-          file: ./coverage-final.json
+          files: ./packages/profile/coverage/coverage-final.json
 
       - name: Upload coverage reports to Codecov
         uses: codecov/codecov-action@v4.0.1
         with:
-          directory: ./packages/utils/coverage/
+          directory: ${{ github.workspace }}
           token: ${{ secrets.CODECOV_TOKEN }}
           flags: utils
-          file: ./coverage-final.json
+          files: ./packages/utils/coverage/coverage-final.json
