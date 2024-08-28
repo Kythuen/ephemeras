@@ -2,10 +2,16 @@ import TEXT from '../locales/text'
 import { getPackageManagers } from '@ephemeras/utils'
 import type { PromptObject, Answers } from 'prompts'
 
-export function getUsePresetPrompt(presets: Record<string, any>): PromptObject[] {
+export function getUsePresetPrompt(
+  presets: Record<string, any>
+): PromptObject[] {
   const choices: any = [{ value: '', title: TEXT.TEXT_MANUAL_SELECT }]
   for (const name in presets) {
-    choices.push({ value: name, title: name, description: presets[name].description })
+    choices.push({
+      value: name,
+      title: name,
+      description: presets[name].description
+    })
   }
   return [
     {
@@ -59,6 +65,10 @@ export function getAddFormatPrompt(): PromptObject[] {
         {
           title: 'React',
           value: 'react'
+        },
+        {
+          title: 'None',
+          value: 'none'
         }
       ]
     },
@@ -159,7 +169,8 @@ export function getInstallPrompt(): PromptObject[] {
     },
     {
       name: 'pm',
-      type: (_: any, values: Answers<any>) => (values.install ? 'select' : null),
+      type: (_: any, values: Answers<any>) =>
+        values.install ? 'select' : null,
       initial: 0,
       message: TEXT.PROMPT_SELECT_PACKAGE_MANAGER,
       choices,
@@ -256,8 +267,16 @@ export function getPresetPrompt(presetData: any): PromptObject[] {
       min: 1,
       message: TEXT.PROMPT_SELECT_ENVIRONMENT,
       choices: [
-        { title: 'Browser', value: 'web', selected: presetData.environment.includes('web') },
-        { title: 'Node', value: 'node', selected: presetData.environment.includes('node') }
+        {
+          title: 'Browser',
+          value: 'web',
+          selected: presetData.environment.includes('web')
+        },
+        {
+          title: 'Node',
+          value: 'node',
+          selected: presetData.environment.includes('node')
+        }
       ]
     },
     {

@@ -97,6 +97,7 @@ export class File {
     const key = getNodeKey(this.currentNode)
     if (!key) return this
     if (
+      ['string', 'number'].includes(typeof value) &&
       unique &&
       this.currentNode.value.elements?.some(item => item.value === value)
     )
@@ -104,17 +105,18 @@ export class File {
     const visitor = {
       ArrayExpression(path) {
         if (getNodeKey(path.parent) === key) {
-          const ast: any = parseExpression(`[${JSON.stringify(value)}]`)
-          path.node.elements.push(ast.elements[0])
+          const ast: any = parseExpression(JSON.stringify(value))
+          path.node.elements.push(ast)
         }
       }
     }
     traverse.default(this.ast, visitor)
     return this
   }
-  remove(value: any) {
+  remove(value: string | number) {
     const key = getNodeKey(this.currentNode)
     if (!key) return this
+    if (!['string', 'number'].includes(typeof value)) return this
     const visitor = {
       ArrayExpression(path) {
         if (getNodeKey(path.parent) === key) {

@@ -1,6 +1,6 @@
 # @ephemeras/linter
 
-Command line tool, quickly configuring and completing project code standardization construction.
+Command line tool to quickly add `code format` & `commit validate` into your project.
 
 ## Documentation
 

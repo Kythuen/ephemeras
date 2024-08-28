@@ -1,6 +1,5 @@
 {
   "name": "@ephemeras/monorepo",
-  "version": "0.0.1",
   "description": "Monorepo of ephemeras",
   "repository": {
     "type": "git",

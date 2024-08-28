@@ -1,10 +1,10 @@
 <p align="center">
   <br>
   <a href="https://github.com/Kythuen/ephemeras">
-    <img src="https://raw.githubusercontent.com/Kythuen/ephemeras/main/docs/contents/public/logo.png" alt="帮助你更高效地进行开发" width="300">
+    <img src="https://raw.githubusercontent.com/Kythuen/ephemeras/main/docs/contents/public/logo.png" alt="让开发更简单高效" width="300">
   </a>
 </p>
-<h3 align="center">帮助你更高效地进行开发</h3>
+<h3 align="center">让开发更简单高效</h3>
 <br>
 
 <p align="center">

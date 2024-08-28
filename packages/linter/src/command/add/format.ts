@@ -38,7 +38,8 @@ export default async function (resolver: ConfigResolver, answerData: any) {
 
   const eslintrc = await createFile(
     '.eslintrc',
-    JSON.stringify(resolverConfigData.eslintOverrides)
+    JSON.stringify(resolverConfigData.eslintOverrides),
+    { prettier: { parser: 'json' } }
   )
 
   const eslintLog = `📃 create ${eslintrc}`

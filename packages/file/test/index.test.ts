@@ -18,13 +18,20 @@ describe('# match', () => {
       .set('A', ['AAA'])
       .set('BC', { C: 'BBB' })
       .set('D', 1)
-      .delete('Data')
-      .save()
+    file.get('COMPONENTS_GROUP').get('Form').add({ a: 1 })
+    file.root().get('COMPONENTS_GROUP').delete('Data').save()
     expect(file.getCode())
       .toBe(`export const COMPONENTS_GROUP: Record<string, string[]> = {
   A: ["AAA"],
   Base: ["space"],
-  Form: ["button", "button2", "select"],
+  Form: [
+    "button",
+    "button2",
+    "select",
+    {
+      a: 1,
+    },
+  ],
   BC: {
     C: "BBB",
   },
