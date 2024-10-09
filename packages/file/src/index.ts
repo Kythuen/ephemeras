@@ -1,13 +1,19 @@
-import { resolve as resolvePath } from 'node:path'
+import { resolve as resolvePath, join } from 'node:path'
+import { fileURLToPath } from 'node:url'
 import generator from '@babel/generator'
 import { parse, parseExpression, ParserOptions } from '@babel/parser'
 import traverse from '@babel/traverse'
 import { identifier, objectProperty } from '@babel/types'
 import prettier from '@prettier/sync'
 import { readFileSync, writeFileSync } from 'node:fs'
-import { Options as PrettierOptions } from 'prettier'
-import { getNodeKey, resolve } from './ast'
+import { Options as PrettierOptions, resolveConfig } from 'prettier'
+import { getNodeKey, resolve, getNodeValue } from './ast'
 import { AST } from './types'
+
+export const PROJECT_ROOT = resolvePath(
+  fileURLToPath(import.meta.url),
+  '../../..'
+)
 
 export interface FileOptions {
   context?: string
@@ -27,18 +33,21 @@ export interface FileOptions {
  *   C: ['cc'],
  *   D: { E: 'ee' }
  * }`
- * const file = new File(code)
+ * const file = new File()
+ * file.init(code)
  *
  * file
- *   .get('A')                 // get props
- *   .set('F', { G: 'gg' })    // set prop value
- *   .root()                   // back to code root context
- *   .delete('B')              // delete prop
+ *   .get('A')                          // get props
+ *   .set('F', { G: 'gg' })             // set prop value
+ *   .root()                            // back to code root context
+ *   .delete('B')                       // delete prop
  *   .get('C')
- *   .add('cc2')               // add item in array
- *   .save()                   // save change to file
+ *   .set(1, 'cc3')
  *
- * file.getCode()              // get change code
+ * await file.save()                    // save changed code to file
+ *
+ * console.log(file.get('A').json())    // get value json
+ * console.log(file.text())             // get changed code
  * ```
  *
  * // => export const A = {
@@ -56,96 +65,81 @@ export class File {
 
   constructor(file?: string, options?: FileOptions) {
     if (file) {
-      const filePath = resolvePath(process.cwd(), file)
+      const filePath = resolvePath(options?.context || process.cwd(), file)
       this.file = filePath
       const code = readFileSync(filePath, { encoding: 'utf-8' })
-      this.setCode(code)
+      this.init(code)
     }
     this.options = options || {}
   }
 
-  root() {
-    this.currentNode = this.ast
-    return this
-  }
-  setCode(code: string) {
+  init(code: string) {
     this.code = code
     this.ast = parse(code, {
       sourceType: 'module',
       plugins: ['jsx', 'typescript'],
       ...(this.options?.parser ?? {})
     })
-    this.root()
+    this.currentNode = this.ast
+    return this.root()
   }
-  getCode(options?: Partial<PrettierOptions>) {
-    const { code } = generator.default(this.ast)
-    const formatContent = prettier.format(code, {
-      parser: 'babel-ts',
-      ...(this.options?.prettier ?? {}),
-      ...(options || {})
-    })
-    this.code = formatContent
-    this.root()
-    return this.code
+
+  root() {
+    this.currentNode = this.ast
+    return this
   }
-  get(key: string) {
+
+  get(id: string | number) {
+    if (typeof id === 'string') return this.getKey(id)
+    if (typeof id === 'number') return this.getIndex(id)
+    return this
+  }
+
+  getKey(key: string) {
     const node = resolve(this.currentNode, key)
     this.currentNode = node
     return this
   }
-  add(value: any, unique = false) {
-    const key = getNodeKey(this.currentNode)
-    if (!key) return this
-    if (
-      ['string', 'number'].includes(typeof value) &&
-      unique &&
-      this.currentNode.value.elements?.some(item => item.value === value)
-    )
-      return this
-    const visitor = {
-      ArrayExpression(path) {
-        if (getNodeKey(path.parent) === key) {
-          const ast: any = parseExpression(JSON.stringify(value))
-          path.node.elements.push(ast)
-        }
-      }
-    }
-    traverse.default(this.ast, visitor)
+
+  getIndex(index: number) {
+    const node = resolve(this.currentNode, index)
+    this.currentNode = node
     return this
   }
-  remove(value: string | number) {
-    const key = getNodeKey(this.currentNode)
-    if (!key) return this
-    if (!['string', 'number'].includes(typeof value)) return this
-    const visitor = {
-      ArrayExpression(path) {
-        if (getNodeKey(path.parent) === key) {
-          path.node.elements.some((item, index) => {
-            if (item.value === value) {
-              path.node.elements.splice(index, 1)
-              return true
-            }
-            return false
-          })
-        }
-      }
+
+  text() {
+    const { code } = generator(getNodeValue(this.currentNode), {
+      concise: true
+    })
+    return code
+  }
+
+  json() {
+    if (this.currentNode.type.includes('Literal')) {
+      return this.currentNode.value
     }
-    traverse.default(this.ast, visitor)
+    const { code } = generator(getNodeValue(this.currentNode), {
+      concise: true
+    })
+    const str = code.replace(/'/g, '"').replace(/(\w+):/g, '"$1":')
+
+    return JSON.parse(str)
+  }
+  set(id: string | number, value: any) {
+    if (typeof id === 'string') return this.setKey(id, value)
+    if (typeof id === 'number') return this.setIndex(id, value)
     return this
   }
-  set(prop: string, value: any) {
-    const id = getNodeKey(this.currentNode)
-    if (!id) return this
+  setKey(key: string, value: any) {
+    const parentKey = getNodeKey(this.currentNode)
     const visitor = {
-      ObjectExpression(path) {
-        if (getNodeKey(path.parent) === id) {
-          let foundItem
-          const ast: any = parseExpression(
-            `{ ${prop}: ${JSON.stringify(value)} }`
-          )
-          const { name } = ast.properties[0].key
-          path.node.properties.some(item => {
-            if (getNodeKey(item) === name) {
+      ObjectExpression(path: any) {
+        const ast: any = parseExpression(`{ ${key}: ${JSON.stringify(value)} }`)
+        if (!parentKey) return this
+        if (getNodeKey(path.parent) === parentKey) {
+          let foundItem: any = null
+          path.node.properties.some((item: any) => {
+            if (getNodeKey(item) === key) {
               foundItem = item
               return true
             }
@@ -155,23 +149,45 @@ export class File {
             foundItem.value = ast.properties[0].value
           } else {
             path.node.properties.push(
-              objectProperty(identifier(prop), ast.properties[0].value)
+              objectProperty(identifier(key), ast.properties[0].value)
             )
           }
         }
       }
     }
-    traverse.default(this.ast, visitor)
+    traverse(this.ast, visitor)
     return this
   }
-  delete(prop: string) {
-    const id = getNodeKey(this.currentNode)
-    if (!id) return this
+  setIndex(index: number, value: any) {
+    if (index < 0) return this
+    const parentKey = getNodeKey(this.currentNode)
     const visitor = {
-      ObjectExpression(path) {
-        if (getNodeKey(path.parent) === id) {
-          path.node.properties.some((item, index) => {
-            if (getNodeKey(item) === prop) {
+      ArrayExpression(path: any) {
+        if (getNodeKey(path.parent) === parentKey) {
+          const ast: any = parseExpression(JSON.stringify(value))
+          if (index < path.node.elements.length) {
+            path.node.elements[index] = ast
+          } else {
+            path.node.elements.push(ast)
+          }
+        }
+      }
+    }
+    traverse(this.ast, visitor)
+    return this
+  }
+  delete(id: string | number) {
+    if (typeof id === 'string') return this.deleteKey(id)
+    if (typeof id === 'number') return this.deleteIndex(id)
+    return this
+  }
+  deleteKey(key: string) {
+    const parentKey = getNodeKey(this.currentNode)
+    const visitor = {
+      ObjectExpression(path: any) {
+        if (getNodeKey(path.parent) === parentKey) {
+          path.node.properties.some((item: any, index: any) => {
+            if (getNodeKey(item) === key) {
               path.node.properties.splice(index, 1)
               return true
             }
@@ -180,12 +196,39 @@ export class File {
         }
       }
     }
-    traverse.default(this.ast, visitor)
+    traverse(this.ast, visitor)
     return this
   }
-  save() {
+  deleteIndex(index: number) {
+    if (index < 0) return this
+    const parentKey = getNodeKey(this.currentNode)
+    const visitor = {
+      ArrayExpression(path: any) {
+        if (getNodeKey(path.parent) === parentKey) {
+          if (index > path.node.elements.length) return
+          path.node.elements.splice(index, 1)
+        }
+      }
+    }
+    traverse(this.ast, visitor)
+    return this
+  }
+  async save() {
     if (!this.file) return
-    this.getCode()
-    writeFileSync(this.file, this.code, { encoding: 'utf-8' })
+    this.root()
+
+    const { code } = generator(this.ast, {
+      concise: true
+    })
+
+    const prettierOptions =
+      (await resolveConfig(join(PROJECT_ROOT, '.prettierrc'))) || {}
+
+    const result = prettier.format(code, {
+      parser: 'babel-ts',
+      ...(prettierOptions ?? {}),
+      ...(this.options?.prettier ?? {})
+    })
+    writeFileSync(this.file, result, { encoding: 'utf-8' })
   }
 }

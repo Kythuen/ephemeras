@@ -8,7 +8,7 @@ export default defineConfig({
       }
     },
     deps: {
-      interopDefault: false
+      interopDefault: true
     },
     coverage: {
       provider: 'v8'

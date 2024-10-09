@@ -34,5 +34,8 @@
     "@babel/types": "^7.24.6",
     "@prettier/sync": "^0.5.2",
     "prettier": "3.3.2"
+  },
+  "devDependencies": {
+    "@ephemeras/fs": "workspace:*"
   }
 }

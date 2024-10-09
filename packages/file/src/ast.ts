@@ -1,20 +1,13 @@
 import { AST } from './types'
 
-export function resolve(node: any, key: string): AST {
+export function resolve(node: any, key: string | number): AST | null {
   const { type } = node
 
   if (type === 'ArrayExpression') {
-    for (const item of node.elements) {
-      const result = resolve(item, key)
-      if (result) return result
-    }
+    if (typeof key === 'string') return null
+    return node.elements[key]
   }
 
-  if (type === 'Property') {
-    if (node.key.name === key) {
-      return node
-    }
-  }
   if (type === 'ObjectProperty') {
     if (node.key.name === key) {
       return node
@@ -29,7 +22,7 @@ export function resolve(node: any, key: string): AST {
   }
 
   if (type === 'VariableDeclarator') {
-    if (node.id.name === key) {
+    if (typeof key === 'string' && node.id.name === key) {
       return node
     }
     return resolve(node.init, key)
@@ -56,10 +49,10 @@ export function resolve(node: any, key: string): AST {
   if (type === 'File') {
     return resolve(node.program, key)
   }
-  return null as unknown as AST
+  return null
 }
 
-export function getNodeKey(node: any) {
+export function getNodeKey(node: AST) {
   const { type } = node
 
   if (type === 'VariableDeclarator') {
@@ -69,4 +62,15 @@ export function getNodeKey(node: any) {
     return node.key.name
   }
   return null
+}
+export function getNodeValue(node: AST) {
+  const { type } = node
+
+  if (type === 'VariableDeclarator') {
+    return node.init
+  }
+  if (type === 'ObjectProperty') {
+    return node.value
+  }
+  return node.value || null
 }
