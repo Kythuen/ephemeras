@@ -23,6 +23,7 @@ describe('# File', () => {
     expect(file.ast.type).toBe('File')
     // @ts-ignore
     expect(file.code).toBe(code)
+    expect(file.text()).toBe(code)
   })
   it('## root & get & json', () => {
     const code = `export const A = {

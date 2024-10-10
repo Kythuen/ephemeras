@@ -6,7 +6,7 @@ import traverse from '@babel/traverse'
 import { identifier, objectProperty } from '@babel/types'
 import prettier from '@prettier/sync'
 import { readFileSync, writeFileSync } from 'node:fs'
-import { Options as PrettierOptions, resolveConfig } from 'prettier'
+import { Options as PrettierOptions } from 'prettier'
 import { getNodeKey, resolve, getNodeValue } from './ast'
 import { AST } from './types'
 
@@ -37,15 +37,15 @@ export interface FileOptions {
  * file.init(code)
  *
  * file
- *   .get('A')                          // get props
- *   .set('F', { G: 'gg' })             // set prop value
+ *   .get('A')                          // get prop with key
+ *   .set('F', { G: 'gg' })             // set prop value with key
  *   .root()                            // back to code root context
  *   .delete('B')                       // delete prop
  *   .get('C')
- *   .set(1, 'cc3')
+ *   .set(1, 'cc2')                     // set prop value with index
+ *   .save()                            // save changed code to file
  *
- * await file.save()                    // save changed code to file
- *
+ * console.log(file.get('C').get(0))    // get prop with index
  * console.log(file.get('A').json())    // get value json
  * console.log(file.text())             // get changed code
  * ```
@@ -108,6 +108,9 @@ export class File {
   }
 
   text() {
+    if (this.currentNode.type === 'File') {
+      return this.code
+    }
     const { code } = generator(getNodeValue(this.currentNode), {
       concise: true
     })
@@ -213,7 +216,7 @@ export class File {
     traverse(this.ast, visitor)
     return this
   }
-  async save() {
+  save() {
     if (!this.file) return
     this.root()
 
@@ -222,7 +225,7 @@ export class File {
     })
 
     const prettierOptions =
-      (await resolveConfig(join(PROJECT_ROOT, '.prettierrc'))) || {}
+      prettier.resolveConfig(join(PROJECT_ROOT, '.prettierrc')) || {}
 
     const result = prettier.format(code, {
       parser: 'babel-ts',
