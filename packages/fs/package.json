@@ -1,0 +1,36 @@
+{
+  "name": "@ephemeras/fs",
+  "version": "0.0.1",
+  "description": "Supset of `node:fs/promise` that provided more convenient features.",
+  "keywords": [
+    "ephemeras",
+    "fs"
+  ],
+  "author": {
+    "name": "ephemeras",
+    "email": "ephemeras@qq.com"
+  },
+  "license": "MIT",
+  "type": "module",
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "require": "./dist/index.cjs",
+      "import": "./dist/index.js"
+    },
+    "./dist/*": "./dist/*"
+  },
+  "scripts": {
+    "dev": "tsup --watch src",
+    "build": "tsup",
+    "test": "vitest",
+    "test:coverage": "vitest run --coverage"
+  },
+  "dependencies": {
+    "minimatch": "^7.4.3",
+    "prettier": "^3.3.3"
+  }
+}

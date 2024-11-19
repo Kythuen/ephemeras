@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "target": "ESNext",
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "resolveJsonModule": true,
+    "lib": ["esnext", "DOM"],
+    "jsx": "preserve",
+    "types": ["node", "vite/client", "vitest/importMeta"],
+    "strict": true,
+    "strictNullChecks": true,
+    "esModuleInterop": true,
+    "skipDefaultLibCheck": true,
+    "skipLibCheck": true,
+    "baseUrl": ".",
+    "paths": {
+      "@ephemeras/fs/*": ["packages/fs/src/*"]
+    }
+  },
+  "exclude": ["**/dist/**", "**/node_modules/**"]
+}
