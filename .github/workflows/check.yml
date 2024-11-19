@@ -1,0 +1,27 @@
+name: check
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v4
+
+      - name: Setup Environment
+        uses: ./.github/actions/setup-environment
+
+      - name: Build packages
+        run: |
+          pnpm --filter=@white-block/types build
+          pnpm --filter=white-block build
+
+      - name: Check type
+        run: pnpm types
+
+      - name: Check unit test
+        run: pnpm test

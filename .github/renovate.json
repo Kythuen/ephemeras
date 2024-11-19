@@ -1,0 +1,46 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["config:recommended", "schedule:weekly", "group:allNonMajor"],
+  "labels": ["dependencies"],
+  "rangeStrategy": "bump",
+  "packageRules": [
+    {
+      "matchDepTypes": ["peerDependencies"],
+      "enabled": false
+    },
+    {
+      "groupName": "test dependencies",
+      "matchPackageNames": ["vitest", "jsdom", "@vitest{/,}**"]
+    },
+    {
+      "groupName": "build dependencies",
+      "matchPackageNames": [
+        "vite",
+        "tsup",
+        "rollup{/,}**",
+        "esbuild{/,}**",
+        "@rollup{/,}**",
+        "@vitejs{/,}**"
+      ]
+    },
+    {
+      "groupName": "test dependencies",
+      "matchPackageNames": ["vitest", "memfs", "@vitest{/,}**"]
+    },
+    {
+      "groupName": "lint dependencies",
+      "matchPackageNames": [
+        "husky",
+        "lint-staged",
+        "commitizen",
+        "cz-conventional-changelog",
+        "@commitlint{/,}**",
+        "@typescript-eslint{/,}**",
+        "typescript-eslint{/,}**",
+        "eslint{/,}**",
+        "prettier{/,}**"
+      ]
+    }
+  ],
+  "ignoreDeps": ["typescript", "@types/node", "vue-tsc"]
+}

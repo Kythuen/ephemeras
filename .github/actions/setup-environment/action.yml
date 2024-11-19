@@ -1,0 +1,19 @@
+name: Setup Environment
+description: Common environment for the workflows
+runs:
+  using: 'composite'
+  steps:
+    - name: Install PNPM
+      uses: pnpm/action-setup@v4
+      with:
+        version: 9.x
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: 20.x
+        cache: 'pnpm'
+
+    - name: Install dependencies
+      run: pnpm install --no-frozen-lockfile
+      shell: bash

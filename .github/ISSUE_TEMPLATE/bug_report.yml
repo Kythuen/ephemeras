@@ -1,0 +1,63 @@
+name: 🐞 Bug report
+description: Found a bug of Ephemeras.
+labels: bug, state:triage
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to fill out this bug report!
+        If you have an usage question or not sure if it is really a bug, you can do following steps first:
+
+        - Read the `README.md` or [Document](https://kythuen.github.io/ephemeras).
+        - Already tried on [Playground](https://kythuen.github.io/ephemeras/playground).
+        - Ask on [GitHub Discussion](https://github.com/Kythuen/ephemeras/discussions).
+
+  - type: input
+    id: version
+    attributes:
+      label: Package version
+    validations:
+      required: true
+
+  - type: textarea
+    id: bug-description
+    attributes:
+      label: Describe the bug
+      description: A clear and concise description of what the bug is. If you intend to submit a PR for this issue, tell us in the description. Thanks!
+      placeholder: Bug description
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Reproduction
+      description: Please provide a link to [Playground](https://kythuen.github.io/ephemeras/playground) or [StackBlitz](https://stackblitz.com/fork/github/Kythuen/ephemeras/tree/main/examples/vite-vue3) or a github repo that can reproduce the problem you ran into. A [minimal reproduction](https://stackoverflow.com/help/minimal-reproducible-example) is required unless you are absolutely sure that the issue is obvious and the provided information is enough to understand the problem.[Why reproduction is required](https://antfu.me/posts/why-reproductions-are-required).
+      placeholder: Reproduction URL or step detail description
+    validations:
+      required: true
+
+  - type: textarea
+    id: system-info
+    attributes:
+      label: System Info
+      description: Output of `npx envinfo --system --npmPackages '{vite,@vitejs/*,rollup}' --binaries --browsers`.
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: checkboxes
+    attributes:
+      label: Validations
+      description: Before submitting the issue, please make sure you do the following
+      options:
+        - label: Read the `README.md` or [Document](https://kythuen.github.io/ephemeras).
+          required: true
+        - label: Check that there isn't [an already issue](https://github.com/Kythuen/ephemeras/issues) that reports the same bug to avoid creating a duplicate.
+          required: true
+        - label: Already used on [Playground](https://kythuen.github.io/ephemeras/playground).
+          required: false
+        - label: Check that this is a concrete bug. For Q&A open a [GitHub Discussion](https://github.com/Kythuen/ephemeras/discussions).
+          required: false
+        - label: The provided reproduction is a [minimal reproducible example](https://stackoverflow.com/help/minimal-reproducible-example) of the bug.
+          required: false
