@@ -30,7 +30,7 @@
     "test:coverage": "vitest run --coverage"
   },
   "dependencies": {
-    "minimatch": "^7.4.3",
+    "minimatch": "^10.0.1",
     "prettier": "^3.3.3"
   }
 }
