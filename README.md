@@ -1,7 +1,7 @@
 <p align="center">
   <br>
   <a href="https://github.com/Kythuen/ephemeras">
-    <img src="https://cdn.jsdelivr.net/gh/Kythuen/static/logos/ephemeras/black.png" alt="Make development easier and more efficient" width="300">
+    <img src="https://cdn.jsdelivr.net/gh/Kythuen/static/logos/ephemeras/white.svg" alt="Make development easier and more efficient" width="300">
   </a>
 </p>
 <h3 align="center">Make development easier and more efficient
