@@ -11,11 +11,11 @@ importers:
         specifier: ^2.27.9
         version: 2.27.9
       '@commitlint/cli':
-        specifier: 19.5.0
-        version: 19.5.0(@types/node@20.4.5)(typescript@5.0.2)
+        specifier: 19.6.0
+        version: 19.6.0(@types/node@20.4.5)(typescript@5.0.2)
       '@commitlint/config-conventional':
-        specifier: 19.5.0
-        version: 19.5.0
+        specifier: 19.6.0
+        version: 19.6.0
       '@types/node':
         specifier: 20.4.5
         version: 20.4.5
@@ -255,18 +255,18 @@ packages:
         integrity: sha512-kDxDrPNpUgsjDbWBvUo27PzKX4gqeKOlhibaOXDJA6kuBisGqNHv/HwGJrAu8U/dSf8ZEFIeHIPtvSlZI1kULw==
       }
 
-  '@commitlint/cli@19.5.0':
+  '@commitlint/cli@19.6.0':
     resolution:
       {
-        integrity: sha512-gaGqSliGwB86MDmAAKAtV9SV1SHdmN8pnGq4EJU4+hLisQ7IFfx4jvU4s+pk6tl0+9bv6yT+CaZkufOinkSJIQ==
+        integrity: sha512-v17BgGD9w5KnthaKxXnEg6KLq6DYiAxyiN44TpiRtqyW8NSq+Kx99mkEG8Qo6uu6cI5eMzMojW2muJxjmPnF8w==
       }
     engines: { node: '>=v18' }
     hasBin: true
 
-  '@commitlint/config-conventional@19.5.0':
+  '@commitlint/config-conventional@19.6.0':
     resolution:
       {
-        integrity: sha512-OBhdtJyHNPryZKg0fFpZNOBM1ZDbntMvqMuSmpfyP86XSfwzGw4CaoYRG4RutUPg0BTK07VMRIkNJT6wi2zthg==
+        integrity: sha512-DJT40iMnTYtBtUfw9ApbsLZFke1zKh6llITVJ+x9mtpHD08gsNXaIRqHTmwTZL3dNX5+WoyK7pCN/5zswvkBCQ==
       }
     engines: { node: '>=v18' }
 
@@ -298,17 +298,17 @@ packages:
       }
     engines: { node: '>=v18' }
 
-  '@commitlint/is-ignored@19.5.0':
+  '@commitlint/is-ignored@19.6.0':
     resolution:
       {
-        integrity: sha512-0XQ7Llsf9iL/ANtwyZ6G0NGp5Y3EQ8eDQSxv/SRcfJ0awlBY4tHFAvwWbw66FVUaWICH7iE5en+FD9TQsokZ5w==
+        integrity: sha512-Ov6iBgxJQFR9koOupDPHvcHU9keFupDgtB3lObdEZDroiG4jj1rzky60fbQozFKVYRTUdrBGICHG0YVmRuAJmw==
       }
     engines: { node: '>=v18' }
 
-  '@commitlint/lint@19.5.0':
+  '@commitlint/lint@19.6.0':
     resolution:
       {
-        integrity: sha512-cAAQwJcRtiBxQWO0eprrAbOurtJz8U6MgYqLz+p9kLElirzSCc0vGMcyCaA1O7AqBuxo11l1XsY3FhOFowLAAg==
+        integrity: sha512-LRo7zDkXtcIrpco9RnfhOKeg8PAnE3oDDoalnrVU/EVaKHYBWYL1DlRR7+3AWn0JiBqD8yKOfetVxJGdEtZ0tg==
       }
     engines: { node: '>=v18' }
 
@@ -347,10 +347,10 @@ packages:
       }
     engines: { node: '>=v18' }
 
-  '@commitlint/rules@19.5.0':
+  '@commitlint/rules@19.6.0':
     resolution:
       {
-        integrity: sha512-hDW5TPyf/h1/EufSHEKSp6Hs+YVsDMHazfJ2azIk9tHPXS6UqSz1dIRs1gpqS3eMXgtkT7JH6TW4IShdqOwhAw==
+        integrity: sha512-1f2reW7lbrI0X0ozZMesS/WZxgPa4/wi56vFuJENBmed6mWq5KsheN/nxqnl/C23ioxpPO/PL6tXpiiFy5Bhjw==
       }
     engines: { node: '>=v18' }
 
@@ -5488,10 +5488,10 @@ snapshots:
       human-id: 1.0.2
       prettier: 2.8.8
 
-  '@commitlint/cli@19.5.0(@types/node@20.4.5)(typescript@5.0.2)':
+  '@commitlint/cli@19.6.0(@types/node@20.4.5)(typescript@5.0.2)':
     dependencies:
       '@commitlint/format': 19.5.0
-      '@commitlint/lint': 19.5.0
+      '@commitlint/lint': 19.6.0
       '@commitlint/load': 19.5.0(@types/node@20.4.5)(typescript@5.0.2)
       '@commitlint/read': 19.5.0
       '@commitlint/types': 19.5.0
@@ -5501,7 +5501,7 @@ snapshots:
       - '@types/node'
       - typescript
 
-  '@commitlint/config-conventional@19.5.0':
+  '@commitlint/config-conventional@19.6.0':
     dependencies:
       '@commitlint/types': 19.5.0
       conventional-changelog-conventionalcommits: 7.0.2
@@ -5527,16 +5527,16 @@ snapshots:
       '@commitlint/types': 19.5.0
       chalk: 5.3.0
 
-  '@commitlint/is-ignored@19.5.0':
+  '@commitlint/is-ignored@19.6.0':
     dependencies:
       '@commitlint/types': 19.5.0
       semver: 7.6.3
 
-  '@commitlint/lint@19.5.0':
+  '@commitlint/lint@19.6.0':
     dependencies:
-      '@commitlint/is-ignored': 19.5.0
+      '@commitlint/is-ignored': 19.6.0
       '@commitlint/parse': 19.5.0
-      '@commitlint/rules': 19.5.0
+      '@commitlint/rules': 19.6.0
       '@commitlint/types': 19.5.0
 
   '@commitlint/load@19.5.0(@types/node@20.4.5)(typescript@5.0.2)':
@@ -5580,7 +5580,7 @@ snapshots:
       lodash.mergewith: 4.6.2
       resolve-from: 5.0.0
 
-  '@commitlint/rules@19.5.0':
+  '@commitlint/rules@19.6.0':
     dependencies:
       '@commitlint/ensure': 19.5.0
       '@commitlint/message': 19.5.0
