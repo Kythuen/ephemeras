@@ -3,7 +3,7 @@ import UnoCSS from 'unocss/vite'
 import { defineConfig } from 'vite'
 
 export default defineConfig({
-  plugins: [UnoCSS() as any, vueJSX()],
+  plugins: [UnoCSS(), vueJSX()],
   optimizeDeps: {
     exclude: ['vitepress']
   },

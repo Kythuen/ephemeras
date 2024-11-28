@@ -75,11 +75,11 @@ export type MoveDirOptions = BaseOptions &
   OverwriteOptions & { strategy: MoveStrategy }
 export type MoveDirResult = CrossOperationResult & { all: string[] }
 /**
- * Move file.
+ * Move directory.
  * {@link https://kythuen.github.io/ephemeras/fs/moveDir | View Details}
  *
- * @param src Source file path.
- * @param dest Destination file path.
+ * @param src Source directory path.
+ * @param dest Destination directory path.
  * @param options See {@link MoveDirResult }.
  * @returns Result of operation, see {@link MoveDirResult }.
  *

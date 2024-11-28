@@ -14,7 +14,7 @@ export type EnsureDirOptions = Pick<BaseOptions, 'context'>
  * @returns Result of operation.
  *
  * @example
- * await ensureFile('foo/bar')
+ * await ensureDir('foo/bar')
  */
 export async function ensureDir(
   path: string,

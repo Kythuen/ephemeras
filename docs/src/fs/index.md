@@ -1,43 +1,21 @@
 ---
 title: File System
-description: Supset of <code>node:fs/promise</code> that provided more convenient features.
+description: Supset of node:fs/promise that provided more convenient features.
+
+layout: page
+logo: /fs.svg 
+slogan: Enhancement library of node:fs/promise
+link: /fs/detail
+shell: pnpm install @ephemeras/fs
 ---
 
+<!-- <p align="center" style="margin-top: 4rem">
+  <img width="120" src="/fs.svg" alt="@ephemeras/fs"/>
+</p>
+<h3 align="center">Make development easier and more efficient
+</h3>
 
-![](https://img.shields.io/codecov/c/github/Kythuen/ephemeras?flag=fs)
-
+![](https://img.shields.io/codecov/c/github/Kythuen/ephemeras?flag=fs) -->
+<!-- 
 ## Introduce
-![Graph](https://picsum.photos/1200/200/?random)
-
-## Usage
-
-### unixPath
-<FunctionBlock
-  :options="{
-    desc: 'Determine path exists or not.',
-    type: '(path: string): Promise<boolean>',
-    params: [
-      {
-        name: 'path',
-        type: 'string',
-        desc: 'The path you want to determine.'
-      },
-      {
-        name: 'path',
-        type: 'string',
-        desc: 'The path you want to determine.'
-      }
-    ],
-    returns: 'Unix format path.'
-  }"
-/>
-
-Example
-```ts
-unixPath('abc/ab/c')        //--> 'abc/ab/c'
-unixPath('abc\\ab\\c')      //--> 'abc/ab/c'
-```
-
-:::tip
-Some special tip
-:::
+`@ephemeras/fs` is a supset of node:fs/promise which provided more convenient features. -->

@@ -6599,27 +6599,27 @@ var index = {
   version: "0.0.36-alpha.0"
 };
 
-// ../node_modules/.pnpm/@white-block+vitepress@0.0.1-alpha.1_postcss@8.4.49_rollup@4.24.4_typescript@5.0.2_vite@5.4.1_glnq6ulmsy5vzrugwcq6mox3x4/node_modules/@white-block/vitepress/dist/theme/index.js
+// ../node_modules/.pnpm/@white-block+vitepress@0.0.1-alpha.2_postcss@8.4.49_rollup@4.24.4_typescript@5.0.2_vite@5.4.1_aur7mkdq6pbsdve7eaq7tnz5je/node_modules/@white-block/vitepress/dist/client/theme/index.js
 import "D:/Kythuen/ephemeras/node_modules/.pnpm/white-block@0.0.36-alpha.0_vue@3.5.13_typescript@5.0.2_/node_modules/white-block/dist/styles/index.css";
-import Layout from "D:/Kythuen/ephemeras/node_modules/.pnpm/@white-block+vitepress@0.0.1-alpha.1_postcss@8.4.49_rollup@4.24.4_typescript@5.0.2_vite@5.4.1_glnq6ulmsy5vzrugwcq6mox3x4/node_modules/@white-block/vitepress/dist/theme/Layout.vue";
-import WBIconButton from "D:/Kythuen/ephemeras/node_modules/.pnpm/@white-block+vitepress@0.0.1-alpha.1_postcss@8.4.49_rollup@4.24.4_typescript@5.0.2_vite@5.4.1_glnq6ulmsy5vzrugwcq6mox3x4/node_modules/@white-block/vitepress/dist/theme/components/WBIconButton.vue";
-import "D:/Kythuen/ephemeras/node_modules/.pnpm/vitepress@1.5.0_@algolia+client-search@5.15.0_@types+node@20.4.5_axios@1.7.7_less@4.2.0_postc_muh2axzqjvjezjnbonh6sxjyea/node_modules/vitepress/dist/client/theme-default/styles/vars.css";
-import "D:/Kythuen/ephemeras/node_modules/.pnpm/vitepress@1.5.0_@algolia+client-search@5.15.0_@types+node@20.4.5_axios@1.7.7_less@4.2.0_postc_muh2axzqjvjezjnbonh6sxjyea/node_modules/vitepress/dist/client/theme-default/styles/base.css";
-import "D:/Kythuen/ephemeras/node_modules/.pnpm/vitepress@1.5.0_@algolia+client-search@5.15.0_@types+node@20.4.5_axios@1.7.7_less@4.2.0_postc_muh2axzqjvjezjnbonh6sxjyea/node_modules/vitepress/dist/client/theme-default/styles/icons.css";
-import "D:/Kythuen/ephemeras/node_modules/.pnpm/vitepress@1.5.0_@algolia+client-search@5.15.0_@types+node@20.4.5_axios@1.7.7_less@4.2.0_postc_muh2axzqjvjezjnbonh6sxjyea/node_modules/vitepress/dist/client/theme-default/styles/utils.css";
-import "D:/Kythuen/ephemeras/node_modules/.pnpm/vitepress@1.5.0_@algolia+client-search@5.15.0_@types+node@20.4.5_axios@1.7.7_less@4.2.0_postc_muh2axzqjvjezjnbonh6sxjyea/node_modules/vitepress/dist/client/theme-default/styles/components/custom-block.css";
-import "D:/Kythuen/ephemeras/node_modules/.pnpm/vitepress@1.5.0_@algolia+client-search@5.15.0_@types+node@20.4.5_axios@1.7.7_less@4.2.0_postc_muh2axzqjvjezjnbonh6sxjyea/node_modules/vitepress/dist/client/theme-default/styles/components/vp-code.css";
-import "D:/Kythuen/ephemeras/node_modules/.pnpm/vitepress@1.5.0_@algolia+client-search@5.15.0_@types+node@20.4.5_axios@1.7.7_less@4.2.0_postc_muh2axzqjvjezjnbonh6sxjyea/node_modules/vitepress/dist/client/theme-default/styles/components/vp-code-group.css";
-import "D:/Kythuen/ephemeras/node_modules/.pnpm/vitepress@1.5.0_@algolia+client-search@5.15.0_@types+node@20.4.5_axios@1.7.7_less@4.2.0_postc_muh2axzqjvjezjnbonh6sxjyea/node_modules/vitepress/dist/client/theme-default/styles/components/vp-doc.css";
-import "D:/Kythuen/ephemeras/node_modules/.pnpm/vitepress@1.5.0_@algolia+client-search@5.15.0_@types+node@20.4.5_axios@1.7.7_less@4.2.0_postc_muh2axzqjvjezjnbonh6sxjyea/node_modules/vitepress/dist/client/theme-default/styles/components/vp-sponsor.css";
-import "D:/Kythuen/ephemeras/node_modules/.pnpm/@white-block+vitepress@0.0.1-alpha.1_postcss@8.4.49_rollup@4.24.4_typescript@5.0.2_vite@5.4.1_glnq6ulmsy5vzrugwcq6mox3x4/node_modules/@white-block/vitepress/dist/theme/styles/index.less";
-import WBDocumentAside from "D:/Kythuen/ephemeras/node_modules/.pnpm/@white-block+vitepress@0.0.1-alpha.1_postcss@8.4.49_rollup@4.24.4_typescript@5.0.2_vite@5.4.1_glnq6ulmsy5vzrugwcq6mox3x4/node_modules/@white-block/vitepress/dist/theme/components/WBDocumentAside.vue";
-import WBDocumentAsideMenu from "D:/Kythuen/ephemeras/node_modules/.pnpm/@white-block+vitepress@0.0.1-alpha.1_postcss@8.4.49_rollup@4.24.4_typescript@5.0.2_vite@5.4.1_glnq6ulmsy5vzrugwcq6mox3x4/node_modules/@white-block/vitepress/dist/theme/components/WBDocumentAsideMenu.vue";
-import WBDocumentHeader from "D:/Kythuen/ephemeras/node_modules/.pnpm/@white-block+vitepress@0.0.1-alpha.1_postcss@8.4.49_rollup@4.24.4_typescript@5.0.2_vite@5.4.1_glnq6ulmsy5vzrugwcq6mox3x4/node_modules/@white-block/vitepress/dist/theme/components/WBDocumentHeader.vue";
-import WBHeader from "D:/Kythuen/ephemeras/node_modules/.pnpm/@white-block+vitepress@0.0.1-alpha.1_postcss@8.4.49_rollup@4.24.4_typescript@5.0.2_vite@5.4.1_glnq6ulmsy5vzrugwcq6mox3x4/node_modules/@white-block/vitepress/dist/theme/components/WBHeader.vue";
-import WBHome from "D:/Kythuen/ephemeras/node_modules/.pnpm/@white-block+vitepress@0.0.1-alpha.1_postcss@8.4.49_rollup@4.24.4_typescript@5.0.2_vite@5.4.1_glnq6ulmsy5vzrugwcq6mox3x4/node_modules/@white-block/vitepress/dist/theme/components/WBHome.vue";
-import WBSidebar from "D:/Kythuen/ephemeras/node_modules/.pnpm/@white-block+vitepress@0.0.1-alpha.1_postcss@8.4.49_rollup@4.24.4_typescript@5.0.2_vite@5.4.1_glnq6ulmsy5vzrugwcq6mox3x4/node_modules/@white-block/vitepress/dist/theme/components/WBSidebar.vue";
-import WBSidebarMenu from "D:/Kythuen/ephemeras/node_modules/.pnpm/@white-block+vitepress@0.0.1-alpha.1_postcss@8.4.49_rollup@4.24.4_typescript@5.0.2_vite@5.4.1_glnq6ulmsy5vzrugwcq6mox3x4/node_modules/@white-block/vitepress/dist/theme/components/WBSidebarMenu.vue";
+import Layout from "D:/Kythuen/ephemeras/node_modules/.pnpm/@white-block+vitepress@0.0.1-alpha.2_postcss@8.4.49_rollup@4.24.4_typescript@5.0.2_vite@5.4.1_aur7mkdq6pbsdve7eaq7tnz5je/node_modules/@white-block/vitepress/dist/client/theme/Layout.vue";
+import WBIconButton from "D:/Kythuen/ephemeras/node_modules/.pnpm/@white-block+vitepress@0.0.1-alpha.2_postcss@8.4.49_rollup@4.24.4_typescript@5.0.2_vite@5.4.1_aur7mkdq6pbsdve7eaq7tnz5je/node_modules/@white-block/vitepress/dist/client/theme/components/WBIconButton.vue";
+import "D:/Kythuen/ephemeras/node_modules/.pnpm/vitepress@1.5.0_@algolia+client-search@5.15.0_@types+node@20.4.5_less@4.2.0_postcss@8.4.49_se_4lvdoe4ocapz2k3aae5wiqlh6q/node_modules/vitepress/dist/client/theme-default/styles/vars.css";
+import "D:/Kythuen/ephemeras/node_modules/.pnpm/vitepress@1.5.0_@algolia+client-search@5.15.0_@types+node@20.4.5_less@4.2.0_postcss@8.4.49_se_4lvdoe4ocapz2k3aae5wiqlh6q/node_modules/vitepress/dist/client/theme-default/styles/base.css";
+import "D:/Kythuen/ephemeras/node_modules/.pnpm/vitepress@1.5.0_@algolia+client-search@5.15.0_@types+node@20.4.5_less@4.2.0_postcss@8.4.49_se_4lvdoe4ocapz2k3aae5wiqlh6q/node_modules/vitepress/dist/client/theme-default/styles/icons.css";
+import "D:/Kythuen/ephemeras/node_modules/.pnpm/vitepress@1.5.0_@algolia+client-search@5.15.0_@types+node@20.4.5_less@4.2.0_postcss@8.4.49_se_4lvdoe4ocapz2k3aae5wiqlh6q/node_modules/vitepress/dist/client/theme-default/styles/utils.css";
+import "D:/Kythuen/ephemeras/node_modules/.pnpm/vitepress@1.5.0_@algolia+client-search@5.15.0_@types+node@20.4.5_less@4.2.0_postcss@8.4.49_se_4lvdoe4ocapz2k3aae5wiqlh6q/node_modules/vitepress/dist/client/theme-default/styles/components/custom-block.css";
+import "D:/Kythuen/ephemeras/node_modules/.pnpm/vitepress@1.5.0_@algolia+client-search@5.15.0_@types+node@20.4.5_less@4.2.0_postcss@8.4.49_se_4lvdoe4ocapz2k3aae5wiqlh6q/node_modules/vitepress/dist/client/theme-default/styles/components/vp-code.css";
+import "D:/Kythuen/ephemeras/node_modules/.pnpm/vitepress@1.5.0_@algolia+client-search@5.15.0_@types+node@20.4.5_less@4.2.0_postcss@8.4.49_se_4lvdoe4ocapz2k3aae5wiqlh6q/node_modules/vitepress/dist/client/theme-default/styles/components/vp-code-group.css";
+import "D:/Kythuen/ephemeras/node_modules/.pnpm/vitepress@1.5.0_@algolia+client-search@5.15.0_@types+node@20.4.5_less@4.2.0_postcss@8.4.49_se_4lvdoe4ocapz2k3aae5wiqlh6q/node_modules/vitepress/dist/client/theme-default/styles/components/vp-doc.css";
+import "D:/Kythuen/ephemeras/node_modules/.pnpm/vitepress@1.5.0_@algolia+client-search@5.15.0_@types+node@20.4.5_less@4.2.0_postcss@8.4.49_se_4lvdoe4ocapz2k3aae5wiqlh6q/node_modules/vitepress/dist/client/theme-default/styles/components/vp-sponsor.css";
+import "D:/Kythuen/ephemeras/node_modules/.pnpm/@white-block+vitepress@0.0.1-alpha.2_postcss@8.4.49_rollup@4.24.4_typescript@5.0.2_vite@5.4.1_aur7mkdq6pbsdve7eaq7tnz5je/node_modules/@white-block/vitepress/dist/client/theme/styles/index.less";
+import WBDocumentAside from "D:/Kythuen/ephemeras/node_modules/.pnpm/@white-block+vitepress@0.0.1-alpha.2_postcss@8.4.49_rollup@4.24.4_typescript@5.0.2_vite@5.4.1_aur7mkdq6pbsdve7eaq7tnz5je/node_modules/@white-block/vitepress/dist/client/theme/components/WBDocumentAside.vue";
+import WBDocumentAsideMenu from "D:/Kythuen/ephemeras/node_modules/.pnpm/@white-block+vitepress@0.0.1-alpha.2_postcss@8.4.49_rollup@4.24.4_typescript@5.0.2_vite@5.4.1_aur7mkdq6pbsdve7eaq7tnz5je/node_modules/@white-block/vitepress/dist/client/theme/components/WBDocumentAsideMenu.vue";
+import WBDocumentHeader from "D:/Kythuen/ephemeras/node_modules/.pnpm/@white-block+vitepress@0.0.1-alpha.2_postcss@8.4.49_rollup@4.24.4_typescript@5.0.2_vite@5.4.1_aur7mkdq6pbsdve7eaq7tnz5je/node_modules/@white-block/vitepress/dist/client/theme/components/WBDocumentHeader.vue";
+import WBHeader from "D:/Kythuen/ephemeras/node_modules/.pnpm/@white-block+vitepress@0.0.1-alpha.2_postcss@8.4.49_rollup@4.24.4_typescript@5.0.2_vite@5.4.1_aur7mkdq6pbsdve7eaq7tnz5je/node_modules/@white-block/vitepress/dist/client/theme/components/WBHeader.vue";
+import WBHome from "D:/Kythuen/ephemeras/node_modules/.pnpm/@white-block+vitepress@0.0.1-alpha.2_postcss@8.4.49_rollup@4.24.4_typescript@5.0.2_vite@5.4.1_aur7mkdq6pbsdve7eaq7tnz5je/node_modules/@white-block/vitepress/dist/client/theme/components/WBHome.vue";
+import WBSidebar from "D:/Kythuen/ephemeras/node_modules/.pnpm/@white-block+vitepress@0.0.1-alpha.2_postcss@8.4.49_rollup@4.24.4_typescript@5.0.2_vite@5.4.1_aur7mkdq6pbsdve7eaq7tnz5je/node_modules/@white-block/vitepress/dist/client/theme/components/WBSidebar.vue";
+import WBSidebarMenu from "D:/Kythuen/ephemeras/node_modules/.pnpm/@white-block+vitepress@0.0.1-alpha.2_postcss@8.4.49_rollup@4.24.4_typescript@5.0.2_vite@5.4.1_aur7mkdq6pbsdve7eaq7tnz5je/node_modules/@white-block/vitepress/dist/client/theme/components/WBSidebarMenu.vue";
 var Theme = {
   Layout,
   enhanceApp({ app, router }) {
@@ -6633,79 +6633,6 @@ var Theme = {
     };
   }
 };
-
-// ../node_modules/.pnpm/@white-block+vitepress@0.0.1-alpha.1_postcss@8.4.49_rollup@4.24.4_typescript@5.0.2_vite@5.4.1_glnq6ulmsy5vzrugwcq6mox3x4/node_modules/@white-block/vitepress/dist/utils/dom.js
-async function copyToClipboard2(text) {
-  try {
-    return navigator.clipboard.writeText(text);
-  } catch {
-    const element = document.createElement("textarea");
-    const previouslyFocusedElement = document.activeElement;
-    element.value = text;
-    element.setAttribute("readonly", "");
-    element.style.contain = "strict";
-    element.style.position = "absolute";
-    element.style.left = "-9999px";
-    element.style.fontSize = "12pt";
-    const selection = document.getSelection();
-    const originalRange = selection ? selection.rangeCount > 0 && selection.getRangeAt(0) : null;
-    document.body.appendChild(element);
-    element.select();
-    element.selectionStart = 0;
-    element.selectionEnd = text.length;
-    document.execCommand("copy");
-    document.body.removeChild(element);
-    if (originalRange) {
-      selection.removeAllRanges();
-      selection.addRange(originalRange);
-    }
-    if (previouslyFocusedElement) {
-      ;
-      previouslyFocusedElement.focus();
-    }
-  }
-}
-function getElementBySelector(selector) {
-  if (typeof selector === "string") {
-    return document.querySelector(selector);
-  }
-  return selector instanceof HTMLElement ? selector : null;
-}
-function clickDelegate2(e, className, handler, fallback) {
-  const domList = e.path ?? (e.composedPath && e.composedPath());
-  const target = domList.find((dom) => dom.className && dom.className.includes(className));
-  if (target) {
-    handler(target.dataset, e);
-    return;
-  }
-  fallback == null ? void 0 : fallback();
-}
-function serializeHeader(h2) {
-  let ret = "";
-  for (const node of Array.from(h2.childNodes)) {
-    ret += node.textContent;
-  }
-  return ret.trim();
-}
-function getHeaders(type = "content") {
-  const queryString = `.vp-doc-${type} :where(h1,h2,h3,h4,h5,h6)`;
-  const headers = Array.from(document.querySelectorAll(queryString)).filter((el) => el.id && el.hasChildNodes()).map((el) => {
-    const level = Number(el.tagName[1]);
-    return {
-      title: serializeHeader(el),
-      link: `#${el.id}`,
-      level
-    };
-  });
-  return headers;
-}
-function useSpecialHeight() {
-  const SPECIAL_HEIGHT = ref(window.innerWidth > 1024 ? 128 : 108);
-  window.addEventListener("resize", () => {
-    SPECIAL_HEIGHT.value = window.innerWidth > 1024 ? 128 : 108;
-  });
-  return SPECIAL_HEIGHT;
-}
 export {
   Layout,
   Theme,
@@ -6716,11 +6643,6 @@ export {
   WBHome,
   WBIconButton,
   WBSidebar,
-  WBSidebarMenu,
-  clickDelegate2 as clickDelegate,
-  copyToClipboard2 as copyToClipboard,
-  getElementBySelector,
-  getHeaders,
-  useSpecialHeight
+  WBSidebarMenu
 };
 //# sourceMappingURL=@white-block_vitepress.js.map

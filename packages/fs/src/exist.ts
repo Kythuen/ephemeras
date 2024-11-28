@@ -5,7 +5,7 @@ import { access } from 'node:fs/promises'
  * Determine path exist or not.
  * {@link https://kythuen.github.io/ephemeras/fs/exist | View Details}
  *
- * @param path Path you want to determine.
+ * @param path Path to determine.
  * @returns Path exist or not.
  *
  * @example

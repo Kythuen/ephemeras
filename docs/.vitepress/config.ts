@@ -6,6 +6,7 @@ export default defineConfig({
   srcDir: 'src',
   title: 'Ephemeras',
   description: 'Make development easier and more efficient',
+  cleanUrls: true,
   head: [
     ['link', { rel: 'icon', type: 'image/svg+xml', href: '/logo.svg' }],
     ['link', { rel: 'preconnect', href: 'https://fonts.googleapis.com' }],
@@ -40,6 +41,12 @@ export default defineConfig({
       { text: 'Guide', link: '/guide/' },
       {
         text: 'Packages',
+        link: '/packages/'
+      }
+    ],
+    sidebar: [
+      {
+        text: 'Packages',
         items: [
           { text: 'Linter', link: '/linter/' },
           { text: 'Compiler', link: '/compiler/' },
@@ -50,25 +57,6 @@ export default defineConfig({
         ]
       }
     ],
-    sidebar: [
-      { text: 'Linter', link: '/linter/' },
-      { text: 'Compiler', link: '/compiler/' },
-      { text: 'File', link: '/file/' },
-      { text: 'File System', link: '/fs/' },
-      { text: 'Profile', link: '/profile/' },
-      { text: 'Utils', link: '/utils/' }
-    ],
-    // sidebar: {
-    //   '/guide/': SidebarGuide,
-    //   '/integrations/': SidebarGuide,
-
-    //   '/tools/': SidebarPresets,
-    //   '/presets/': SidebarPresets,
-    //   '/transformers/': SidebarPresets,
-    //   '/extractors/': SidebarPresets,
-
-    //   '/config/': SidebarConfig
-    // },
     outline: {
       level: 'deep',
       label: '页面大纲'

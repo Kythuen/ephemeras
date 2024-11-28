@@ -26,7 +26,12 @@
               </colgroup>
               <tbody>
                 <tr v-for="item in options.params || []" :key="item.name">
-                  <td>{{ item.name }}</td>
+                  <td>
+                    <a v-if="item.url" :href="item.url" target="_blank">
+                      {{ item.name }}
+                    </a>
+                    <span v-else>{{ item.name }}</span>
+                  </td>
                   <td>{{ item.desc }}</td>
                 </tr>
               </tbody>
@@ -35,7 +40,19 @@
         </tr>
         <tr>
           <td>Returns</td>
-          <td>{{ options.returns }}</td>
+          <td>
+            <span>
+              {{ options.returns }}
+            </span>
+            <a
+              v-if="options.resultType"
+              m="l-1"
+              :href="options.resultType.url"
+              target="_blank"
+            >
+              <code>{{ options.resultType.name }}</code>
+            </a>
+          </td>
         </tr>
       </tbody>
     </table>
@@ -50,8 +67,9 @@ defineOptions({ name: 'FunctionBlock' })
 type Options = {
   desc: string
   type: string
+  params: { name: string; desc: string; url?: string }[]
   returns: string
-  params: { name: string; desc: string }[]
+  resultType?: { name: string; url: string }
 }
 defineProps({
   options: {
