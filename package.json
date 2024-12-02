@@ -39,7 +39,7 @@
     "@types/node": "20.4.5",
     "@typescript-eslint/eslint-plugin": "8.15.0",
     "@typescript-eslint/parser": "8.15.0",
-    "@vitest/coverage-v8": "^2.1.5",
+    "@vitest/coverage-v8": "^2.1.6",
     "commitizen": "4.3.1",
     "cz-conventional-changelog": "3.3.0",
     "eslint": "9.15.0",
@@ -56,6 +56,6 @@
     "tsup": "^8.3.5",
     "typescript": "5.0.2",
     "vite": "^5.4.11",
-    "vitest": "^2.1.5"
+    "vitest": "^2.1.6"
   }
 }
