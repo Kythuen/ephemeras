@@ -53,6 +53,7 @@ const props = withDefaults(defineProps<Props>(), {
     :class="{ active: props.framework.visible.value === true }"
   >
     <img
+      h="12"
       v-if="props.framework.logo"
       :src="props.framework.logo"
       :alt="props.framework.name"

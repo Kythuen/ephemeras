@@ -1,4 +1,6 @@
 import { defineConfig } from 'vitepress'
+import { DESCRIPTION, GITHUB_URL } from './constant'
+import { NAV, SIDEBAR } from './routes/en'
 
 export default defineConfig({
   lang: 'en',
@@ -35,37 +37,23 @@ export default defineConfig({
     ]
   ],
   themeConfig: {
-    siteTitle: '',
-    logo: { light: '/ephemeras.svg', dark: '/ephemeras_white.svg' },
-    nav: [
-      { text: 'Guide', link: '/guide/' },
-      {
-        text: 'Packages',
-        link: '/packages/'
-      }
-    ],
-    sidebar: [
-      {
-        text: 'Packages',
-        items: [
-          { text: 'Linter', link: '/linter/' },
-          { text: 'Compiler', link: '/compiler/' },
-          { text: 'File', link: '/file/' },
-          { text: 'File System', link: '/fs/' },
-          { text: 'Profile', link: '/profile/' },
-          { text: 'Utils', link: '/utils/' }
-        ]
-      }
-    ],
-    outline: {
-      level: 'deep',
-      label: '页面大纲'
-    },
-    socialLinks: [
-      { icon: 'github', link: 'https://github.com/Kythuen/ephemeras' }
-    ],
     search: {
       provider: 'local'
+    }
+  },
+  locales: {
+    root: {
+      label: 'English',
+      lang: 'en',
+      description: DESCRIPTION,
+      head: [['meta', { name: 'og:description', content: DESCRIPTION }]],
+      themeConfig: {
+        logo: '/logo.png',
+        siteTitle: '',
+        nav: NAV,
+        socialLinks: [{ icon: 'github', link: GITHUB_URL }],
+        sidebar: SIDEBAR
+      }
     }
   },
   vite: {

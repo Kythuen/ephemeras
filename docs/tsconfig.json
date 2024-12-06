@@ -13,6 +13,5 @@
     "jsx": "preserve",
     "types": ["node", "vite/client"]
   },
-  "include": [".vitepress/**/*"],
   "exclude": ["node_modules", "dist"]
 }

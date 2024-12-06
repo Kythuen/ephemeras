@@ -20,12 +20,13 @@
   },
   "dependencies": {
     "gsap": "^3.12.5",
-    "vitepress": "^1.5.0",
-    "vue": "^3.5.12"
+    "vue": "^3.5.12",
+    "white-block": "0.0.36-alpha.0"
   },
   "devDependencies": {
     "@vitejs/plugin-vue-jsx": "^4.1.0",
-    "@white-block/vitepress": "0.0.1-alpha.2",
-    "unocss": "^0.64.1"
+    "@white-block/vitepress": "0.0.1-alpha.3",
+    "unocss": "^0.64.1",
+    "vitepress": "^1.5.0"
   }
 }

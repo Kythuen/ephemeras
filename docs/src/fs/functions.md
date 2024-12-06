@@ -1,6 +1,6 @@
 ---
 title: Functions
-description: Supset of <code>node:fs/promise</code> that provided more convenient features.
+description: Functions list follows.
 ---
 
 <!-- :::tip
@@ -28,7 +28,6 @@ Some special tip
   }"
 />
 
-Example
 ```ts
 unixPath('abc/ab/c')        //--> 'abc/ab/c'
 unixPath('abc\\ab\\c')      //--> 'abc/ab/c'
@@ -56,7 +55,6 @@ unixPath('abc\\ab\\c')      //--> 'abc/ab/c'
   }"
 />
 
-Example
 ```ts
 relativePath('/abc/b/1.txt', '/abc')      //--> 'b/1.txt'
 relativePath('/abc/b/1.txt', 'abc\\b')    //--> '1.txt'
@@ -84,7 +82,6 @@ relativePath('/abc/b/1.txt', 'abc\\b')    //--> '1.txt'
   }"
 />
 
-Example
 ```ts
 getLeafs('/foo/bar')      //--> ['/xxx', '1.txt', 'sub1/1.txt', ...]
 ```
@@ -111,7 +108,6 @@ getLeafs('/foo/bar')      //--> ['/xxx', '1.txt', 'sub1/1.txt', ...]
   }"
 />
 
-Example
 ```ts
 (await stat('foo/bar')).isFile()      //--> false
 ```
@@ -132,7 +128,6 @@ Example
   }"
 />
 
-Example
 ```ts
 await exist('foo/bar')        //--> false
 ```
@@ -159,7 +154,6 @@ await exist('foo/bar')        //--> false
   }"
 />
 
-Example
 ```ts
 await ensureDir('foo/bar')
 ```
@@ -191,7 +185,6 @@ await ensureDir('foo/bar')
   }"
 />
 
-Example
 ```ts
 await ensureFile('foo/bar.json', JSON.stringify({ a: 1 }))
 ```
@@ -212,7 +205,6 @@ await ensureFile('foo/bar.json', JSON.stringify({ a: 1 }))
   }"
 />
 
-Example
 ```ts
 await readJSON('abc/ab.json')
 ```
@@ -244,7 +236,6 @@ await readJSON('abc/ab.json')
   }"
 />
 
-Example
 ```ts
 await createFile('/foo/bar.json', JSON.stringify({}))
 ```
@@ -271,7 +262,6 @@ await createFile('/foo/bar.json', JSON.stringify({}))
   }"
 />
 
-Example
 ```ts
 await createDir('foo/bar')
 ```
@@ -303,7 +293,6 @@ await createDir('foo/bar')
   }"
 />
 
-Example
 ```ts
 await copyFile('/foo/bar.json', '/foo/baz.json')
 ```
@@ -339,7 +328,6 @@ await copyFile('/foo/bar.json', '/foo/baz.json')
   }"
 />
 
-Example
 ```ts
 const { src, dest, add, update, skip } = await copyDir('/foo/bar', '/foo/baz')
 ```
@@ -371,7 +359,6 @@ const { src, dest, add, update, skip } = await copyDir('/foo/bar', '/foo/baz')
   }"
 />
 
-Example
 ```ts
 await moveFile('foo/bar.txt')
 ```
@@ -407,7 +394,6 @@ await moveFile('foo/bar.txt')
   }"
 />
 
-Example
 ```ts
 const { all, src, dest, add, update, skip } = await moveDir('foo/bar', 'foo/baz')
 ```
@@ -438,7 +424,6 @@ const { all, src, dest, add, update, skip } = await moveDir('foo/bar', 'foo/baz'
   }"
 />
 
-Example
 ```ts
 const { all, done, skip } = await emptyDir('foo/bar')
 ```
