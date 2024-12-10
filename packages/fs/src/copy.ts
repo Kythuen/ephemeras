@@ -43,6 +43,9 @@ export async function copyFile(
   const resolveDest = unixPath(resolve(context, dest))
 
   try {
+    const dir = dirname(resolveDest)
+    await ensureDir(dir)
+
     await copyFileOrigin(
       resolveSrc,
       resolveDest,

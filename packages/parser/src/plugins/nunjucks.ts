@@ -1,5 +1,6 @@
 import { minimatch } from 'minimatch'
 import NJ from 'nunjucks'
+import type { ParserPluginParams } from '../parser'
 
 export type PluginOptions = {
   includes: string[]
@@ -24,8 +25,10 @@ export type PluginOptions = {
  * ...
  * ```
  */
-export function nunjucks(options?: Partial<PluginOptions>) {
-  const { includes, excludes } = options || {}
+export function nunjucks(
+  options?: { data: Record<string, any> } & Partial<PluginOptions>
+) {
+  const { includes, excludes, data = {} } = options || {}
 
   function validate(content: string) {
     const nunjucksRegex = /({{.*?}}|{%.*?%}|{#.*?#})/
@@ -34,7 +37,7 @@ export function nunjucks(options?: Partial<PluginOptions>) {
 
   const { renderString } = NJ
 
-  return (files: Record<string, Buffer | null>, parser: any) => {
+  return ({ files, map }: ParserPluginParams) => {
     for (const name of Object.keys(files)) {
       if (includes && !includes?.some(p => minimatch(name, p, { dot: true })))
         continue
@@ -44,11 +47,14 @@ export function nunjucks(options?: Partial<PluginOptions>) {
       const text = content.toString()
       let file = name
       if (validate(name)) {
-        file = renderString(name, parser.options.data)
+        file = renderString(name, data)
+        files[file] = content
+        map[file] = name
         delete files[name]
+        delete map[name]
       }
       if (validate(text)) {
-        files[file] = Buffer.from(renderString(text, parser.options.data))
+        files[file] = Buffer.from(renderString(text, data))
       }
     }
   }

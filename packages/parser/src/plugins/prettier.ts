@@ -2,6 +2,8 @@ import { minimatch } from 'minimatch'
 import { extname } from 'node:path'
 import type { BuiltInParserName, Options } from 'prettier'
 import { format } from 'prettier'
+import type { ParserPluginParams } from '../parser'
+import { getPrettierConfig } from '../utils'
 
 export type ParserMap = Record<string, BuiltInParserName>
 export type PluginOptions = {
@@ -54,7 +56,9 @@ export function prettier(options?: Partial<PluginOptions>) {
     ...parser
   }
 
-  return async (files: Record<string, Buffer | null>, parser: any) => {
+  return async ({ files }: ParserPluginParams) => {
+    const prettierConfig = await getPrettierConfig()
+
     for (const file of Object.keys(files)) {
       if (includes && !includes?.some(p => minimatch(file, p, { dot: true })))
         continue
@@ -63,7 +67,9 @@ export function prettier(options?: Partial<PluginOptions>) {
       if (!content) continue
       const text = content.toString()
       const ext = extname(file)
+      if (!resolveParsers[ext]) continue
       const formatted = await format(text, {
+        ...prettierConfig,
         parser: resolveParsers[ext] || 'babel-ts',
         ...prettier
       })
