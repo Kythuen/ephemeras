@@ -1,6 +1,6 @@
 ---
 title: Getting Started
-description: File System Operation Library for Node.js.
+description: Parser template files with data.
 ---
 <!-- 
 ## Preview
