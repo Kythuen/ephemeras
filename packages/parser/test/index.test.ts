@@ -1,9 +1,6 @@
 import { vol } from 'memfs'
-import { readFile } from 'node:fs/promises'
-import { join } from 'node:path'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { Parser, nunjucks, prettier } from '../src'
-import { noDisk } from './utils'
 
 vi.mock('node:fs')
 vi.mock('node:fs/promises')
