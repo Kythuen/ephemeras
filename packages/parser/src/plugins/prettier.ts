@@ -74,7 +74,8 @@ export function prettier(options?: Partial<PluginOptions>) {
         ...prettier
       })
       if (formatted) {
-        files[file] = Buffer.from(formatted)
+        // files[file] = Buffer.from(formatted)
+        files[file] = formatted
       }
     }
   }

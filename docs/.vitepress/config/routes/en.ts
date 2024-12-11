@@ -20,11 +20,20 @@ const SidebarFS = [
   { text: 'Functions', link: '/fs/functions' }
 ]
 
+const SidebarTP = [
+  { text: 'Getting Started', link: '/parser/guide' },
+  { text: 'Plugins', link: '/parser/plugins' }
+]
+
 export const SIDEBAR: Record<string, DefaultTheme.SidebarItem[]> = {
   '/guide': [{ text: 'Packages', items: SidebarGuides }],
   '/packages/': [{ text: 'Packages', items: SidebarPackages }],
   '/fs/': [
     { text: 'Guides', items: SidebarFS },
+    { text: 'Packages', items: SidebarPackages }
+  ],
+  '/parser/': [
+    { text: 'Guides', items: SidebarTP },
     { text: 'Packages', items: SidebarPackages }
   ]
 }

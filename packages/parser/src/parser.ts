@@ -1,15 +1,15 @@
 import {
   copyFile,
   createDir,
+  createFile,
   emptyDir,
   ensureDir,
   getLeafs,
   readFile,
-  stat,
   relativePath,
+  stat,
   unixPath
 } from '@ephemeras/fs'
-import { createFile } from '@ephemeras/fs/create'
 import { minimatch } from 'minimatch'
 import { join, resolve } from 'node:path'
 import {
@@ -58,27 +58,33 @@ export type ParseResult = CrossOperationResult
  * @param options See {@link ParserOptions }.
  *
  * @examples
+ * ```
  * import { Parser, prettier } from '@ephemeras/parser'
  *
  * const parser = new Parser({
- *  clean: false,
- *  includes: [],
- *  excludes: [],
- *  plugins: []
+ *  source: '/src',
+ *  destination: '/dest'
  * })
  *
  * parser.context(process.cwd())
  *
- * parser.set({
- *  source: 'src',
- *  destination: 'dest'
- * })
- *
  * parser.set('clean', true)
+ *
+ * parser.set({
+ *  relativize: true,
+ *  overwrite: true,
+ *  includes: [],
+ *  excludes: [],
+ *  filter: (path, stat) => stat.isFile() && path.includes('1.txt'),
+ *  beforeEach: (src, dest) => { console.log(src, dest) }
+ *  afterEach: (src, dest) => { console.log(src, dest) }
+ *  plugins: []
+ * })
  *
  * parser.use(prettier())
  *
- * await parser.build()
+ * const { src, dest, add, update, skip } = await parser.build()
+ * ```
  */
 export class Parser {
   options: ParserOptions
@@ -143,9 +149,8 @@ export class Parser {
   }
 
   async read(src: string) {
-    const { context, includes, excludes, filter } = this.options
-    const source = getLeafs(src, { relativize: true })
-    const srcStats = await stat(src)
+    const { context, includes, excludes, filter, relativize } = this.options
+    const source = getLeafs(src, { relativize })
 
     const memo: any = {}
     const pool: any[] = []
@@ -164,8 +169,11 @@ export class Parser {
       ) {
         continue
       }
-      if (filter && !filter(src, srcStats)) {
-        continue
+      if (filter) {
+        const itemStat = await stat(itemPath)
+        if (!filter(itemPath, itemStat)) {
+          continue
+        }
       }
 
       todo.push(source[i])
@@ -221,110 +229,75 @@ export class Parser {
     const resolveDest = resolve(context, destination)
     const files = await this.read(resolveSrc)
 
-    let destFiles: string[] = []
+    if (!Object.keys(files)) return result
+
+    let srcFiles: string[] = []
+    let existFiles: string[] = []
     try {
-      destFiles = getLeafs(resolveDest, { relativize: true })
+      srcFiles = getLeafs(resolveSrc, { relativize })
+      existFiles = getLeafs(resolveDest, { relativize })
     } catch (e) {}
 
-    result.src = Object.keys(files)
+    result.src = srcFiles
 
-    const map: Record<string, string> = {}
+    const fileMap: Record<string, string> = {}
     for (const item in files) {
-      map[item] = item
+      fileMap[item] = item
     }
 
     for (const plugin of plugins) {
-      plugin?.({ files, map, parser: this })
+      await plugin?.({ files, map: fileMap, parser: this })
     }
-
-    result.dest = Object.keys(files)
 
     await ensureDir(resolveDest)
     if (clean) {
       await emptyDir(resolveDest)
     }
+
     const pool: any[] = []
+
     for (const file in files) {
-      const content = files[file]
-      const srcPath = join(resolveSrc, map[file])
-      const destPath = join(resolveDest, file)
-      const srcPathRelative = unixPath(relativePath(srcPath, resolveSrc))
-      const destPathRelative = unixPath(relativePath(srcPath, resolveDest))
+      let srcPathRelative = relativePath(fileMap[file], resolveSrc)
+      let destPathRelative = relativePath(file, resolveSrc)
+      let destPath = unixPath(join(resolveDest, destPathRelative))
+      let srcPath = fileMap[file]
       let srcPathResult = srcPath
       let destPathResult = destPath
+
       if (relativize) {
-        srcPathResult = destPathResult = unixPath(
-          relativePath(destPath, resolveDest)
-        )
-        console.log(srcPath, destPath)
+        srcPathRelative = fileMap[file]
+        destPathRelative = file
+        srcPath = unixPath(join(resolveSrc, fileMap[file]))
+        destPath = unixPath(join(resolveDest, file))
+        srcPathResult = srcPathRelative
+        destPathResult = destPathRelative
       }
-      if (!content) {
-        pool.push(
-          () =>
-            new Promise(async resolve => {
-              beforeEach?.(srcPath, destPath)
-              const res = await createDir(destPath, this.options)
-              if (res) {
-                if (
-                  destFiles.includes(destPathRelative) &&
-                  this.options.overwrite
-                ) {
-                  result.update.push(destPathResult)
-                } else {
-                  result.add.push(destPathResult)
-                }
-              } else {
-                result.skip.push(destPathResult)
-              }
-              afterEach?.(srcPath, destPath)
-              resolve(null)
-            })
-        )
-      } else if (content === -1) {
-        pool.push(
-          () =>
-            new Promise(async resolve => {
-              beforeEach?.(srcPath, destPath)
-              const res = await copyFile(srcPath, destPath, this.options)
-              if (res) {
-                if (
-                  destFiles.includes(destPathRelative) &&
-                  this.options.overwrite
-                ) {
-                  result.update.push(destPathResult)
-                } else {
-                  result.add.push(destPathResult)
-                }
-              } else {
-                result.skip.push(destPathResult)
-              }
-              afterEach?.(srcPath, destPath)
-              resolve(null)
-            })
-        )
-      } else {
-        pool.push(
-          () =>
-            new Promise(async resolve => {
-              beforeEach?.(srcPath, destPath)
-              const res = await createFile(destPath, content, this.options)
-              if (res) {
-                if (
-                  destFiles.includes(destPathRelative) &&
-                  this.options.overwrite
-                ) {
-                  result.update.push(destPathResult)
-                } else {
-                  result.add.push(destPathResult)
-                }
-              } else {
-                result.skip.push(destPathResult)
-              }
-              afterEach?.(srcPath, destPath)
-              resolve(null)
-            })
-        )
+      const content = files[file]
+      const task = async () => {
+        beforeEach?.(srcPathResult, destPathResult)
+        result.dest.push(destPathResult)
+        if (
+          (existFiles.includes(destPath) && !overwrite) ||
+          (!content && existFiles.some(i => i.includes(file)))
+        ) {
+          result.skip.push(destPathResult)
+        } else {
+          if (!content) {
+            await createDir(destPath)
+          } else if (content === -1) {
+            await copyFile(srcPath, destPath, { overwrite })
+          } else {
+            await createFile(destPath, content, { overwrite })
+          }
+          if (existFiles.includes(destPath) && overwrite) {
+            result.update.push(destPathResult)
+          } else {
+            result.add.push(destPathResult)
+          }
+        }
+        afterEach?.(srcPathResult, destPathResult)
       }
+      pool.push(task)
     }
     await Promise.allSettled(pool.map(i => i()))
 

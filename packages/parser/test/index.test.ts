@@ -13,7 +13,7 @@ describe('# Parse directory', () => {
   const TEST_DIR_DEST = '/test_dir_dest'
   const FILES = {
     '1.txt': '1',
-    '2.txt': '{{ data }}',
+    '2.txt': 'content text',
     '3.txt': '3',
     'sub1/1.txt': 'sub1-1',
     'sub1/2.txt': 'sub1-2',
@@ -22,10 +22,10 @@ describe('# Parse directory', () => {
     'sub2/2.txt': 'sub2-2',
     'sub2/3.txt': 'sub2-3',
     'sub3': null,
-    'sub4/1.ts': 'export default { data: {{ data }} }',
-    'sub4/2.js': 'module.exports = { data: {{ data }} }',
-    'sub4/3.vue': '<template><div>{{ data }}</div></template>',
-    '{{ data }}.txt': '11111111'
+    'sub4/1.ts': `export default { content: 'content text' }`,
+    'sub4/2.js': `module.exports          = { content: 'content text' }`,
+    'sub4/3.vue': '<template><div>content text</div></template>',
+    '{{ name }}.txt': '11111111'
   }
   beforeEach(() => {
     vol.reset()
@@ -40,12 +40,12 @@ describe('# Parse directory', () => {
       destination: TEST_DIR_DEST
     })
 
-    const { src, dest, add, update, skip } = await parser.build()
+    const { src, dest, add, skip, update } = await parser.build()
 
     expect(vol.existsSync(TEST_DIR_SRC)).toBeTruthy()
     expect(vol.existsSync(TEST_DIR_DEST)).toBeTruthy()
     expect(vol.toJSON(TEST_DIR_SRC, {}, true)).toEqual(
-      vol.toJSON(TEST_DIR_SRC, {}, true)
+      vol.toJSON(TEST_DIR_DEST, {}, true)
     )
 
     expect(src.length).toEqual(Object.keys(vol.toJSON(TEST_DIR_SRC)).length)
@@ -54,27 +54,89 @@ describe('# Parse directory', () => {
     expect(skip.length).toBe(0)
     expect(update.length).toBe(0)
   })
-  // it('## {clean}', async () => {
-  //   vol.mkdirSync(TEST_DIR_DEST)
-  //   vol.writeFileSync(`${TEST_DIR_DEST}/redundance.txt`, 'exist content')
-  //   expect(vol.existsSync(TEST_DIR_SRC)).toBeTruthy()
-  //   expect(vol.existsSync(TEST_DIR_DEST)).toBeTruthy()
+  it('## {context}', async () => {
+    expect(vol.existsSync(`${TEST_DIR_SRC}/sub1`)).toBeTruthy()
+    expect(vol.existsSync(`${TEST_DIR_SRC}/sub11`)).toBeFalsy()
 
-  //   const parser = new Parser({
-  //     source: TEST_DIR_SRC,
-  //     destination: TEST_DIR_DEST
-  //   })
-  //   parser.set('clean', true)
+    const parser = new Parser({
+      source: 'sub1',
+      destination: 'sub11',
+      context: TEST_DIR_SRC
+    })
 
-  //   await parser.build()
+    const { src, dest, add, update, skip } = await parser.build()
 
-  //   expect(vol.existsSync(TEST_DIR_SRC)).toBeTruthy()
-  //   expect(vol.existsSync(TEST_DIR_DEST)).toBeTruthy()
-  //   expect(vol.toJSON(TEST_DIR_SRC, {}, true)).toEqual(
-  //     vol.toJSON(TEST_DIR_SRC, {}, true)
-  //   )
-  //   expect(vol.existsSync(`${TEST_DIR_DEST}/redundance.txt`)).toBeFalsy()
-  // })
+    expect(vol.existsSync(`${TEST_DIR_SRC}/sub1`)).toBeTruthy()
+    expect(vol.existsSync(`${TEST_DIR_SRC}/sub11`)).toBeTruthy()
+    expect(vol.toJSON(`${TEST_DIR_SRC}/sub1`, {}, true)).toEqual(
+      vol.toJSON(`${TEST_DIR_SRC}/sub11`, {}, true)
+    )
+
+    expect(src.length).toEqual(
+      Object.keys(vol.toJSON(`${TEST_DIR_SRC}/sub1`)).length
+    )
+    expect(dest.length).toEqual(
+      Object.keys(vol.toJSON(`${TEST_DIR_SRC}/sub11`)).length
+    )
+    expect(add.length).toEqual(
+      Object.keys(vol.toJSON(`${TEST_DIR_SRC}/sub11`)).length
+    )
+    expect(skip.length).toBe(0)
+    expect(update.length).toBe(0)
+  })
+  it('## {relativize}', async () => {
+    expect(vol.existsSync(TEST_DIR_SRC)).toBeTruthy()
+    expect(vol.existsSync(TEST_DIR_DEST)).toBeFalsy()
+
+    const parser = new Parser({
+      source: TEST_DIR_SRC,
+      destination: TEST_DIR_DEST,
+      relativize: true
+    })
+
+    const { src, dest, add, update, skip } = await parser.build()
+
+    expect(vol.existsSync(TEST_DIR_SRC)).toBeTruthy()
+    expect(vol.existsSync(TEST_DIR_DEST)).toBeTruthy()
+    expect(vol.toJSON(TEST_DIR_SRC, {}, true)).toEqual(
+      vol.toJSON(TEST_DIR_DEST, {}, true)
+    )
+
+    expect(src.length).toEqual(Object.keys(vol.toJSON(TEST_DIR_SRC)).length)
+    expect(dest.length).toEqual(Object.keys(vol.toJSON(TEST_DIR_DEST)).length)
+    expect(add.length).toEqual(Object.keys(vol.toJSON(TEST_DIR_DEST)).length)
+    expect(skip.length).toBe(0)
+    expect(update.length).toBe(0)
+    expect(src.some(i => i.includes(TEST_DIR_DEST))).toBeFalsy()
+    expect(add.some(i => i.includes(TEST_DIR_DEST))).toBeFalsy()
+  })
+  it('## {clean}', async () => {
+    vol.mkdirSync(TEST_DIR_DEST)
+    vol.writeFileSync(`${TEST_DIR_DEST}/exist.txt`, 'exist content')
+    expect(vol.existsSync(TEST_DIR_SRC)).toBeTruthy()
+    expect(vol.existsSync(TEST_DIR_DEST)).toBeTruthy()
+
+    const parser = new Parser({
+      source: TEST_DIR_SRC,
+      destination: TEST_DIR_DEST
+    })
+    parser.set('clean', true)
+
+    const { src, dest, add, skip, update } = await parser.build()
+
+    expect(vol.existsSync(TEST_DIR_SRC)).toBeTruthy()
+    expect(vol.existsSync(TEST_DIR_DEST)).toBeTruthy()
+    expect(vol.toJSON(TEST_DIR_SRC, {}, true)).toEqual(
+      vol.toJSON(TEST_DIR_SRC, {}, true)
+    )
+    expect(vol.existsSync(`${TEST_DIR_DEST}/exist.txt`)).toBeFalsy()
+
+    expect(src.length).toEqual(Object.keys(vol.toJSON(TEST_DIR_SRC)).length)
+    expect(dest.length).toEqual(Object.keys(vol.toJSON(TEST_DIR_DEST)).length)
+    expect(add.length).toEqual(Object.keys(vol.toJSON(TEST_DIR_DEST)).length)
+    expect(skip.length).toBe(0)
+    expect(update.length).toBe(0)
+  })
   it('## {overwrite}', async () => {
     vol.mkdirSync(TEST_DIR_DEST)
     vol.mkdirSync(`${TEST_DIR_DEST}/sub1`)
@@ -104,36 +166,17 @@ describe('# Parse directory', () => {
     expect(add.length).toEqual(
       Object.keys(vol.toJSON(TEST_DIR_DEST)).length - 1
     )
-    expect(add.some(i => i.includes(TEST_DIR_DEST))).toBeFalsy()
     expect(skip.length).toBe(0)
     expect(update.length).toBe(1)
   })
-  // it('## {context}', async () => {
-  //   expect(vol.existsSync(`${TEST_DIR_SRC}/sub1`)).toBeTruthy()
-  //   expect(vol.existsSync(`${TEST_DIR_SRC}/sub11`)).toBeFalsy()
-
-  //   const parser = new Parser({
-  //     source: 'sub1',
-  //     destination: 'sub11',
-  //     context: TEST_DIR_SRC
-  //   })
-
-  //   await parser.build()
-
-  //   expect(vol.existsSync(`${TEST_DIR_SRC}/sub1`)).toBeTruthy()
-  //   expect(vol.existsSync(`${TEST_DIR_SRC}/sub11`)).toBeTruthy()
-  //   expect(vol.toJSON(`${TEST_DIR_SRC}/sub1`, {}, true)).toEqual(
-  //     vol.toJSON(`${TEST_DIR_SRC}/sub11`, {}, true)
-  //   )
-  // })
-  it('## {relativize}', async () => {
+  it('## {includes}', async () => {
     expect(vol.existsSync(TEST_DIR_SRC)).toBeTruthy()
     expect(vol.existsSync(TEST_DIR_DEST)).toBeFalsy()
 
     const parser = new Parser({
       source: TEST_DIR_SRC,
       destination: TEST_DIR_DEST,
-      relativize: true
+      includes: ['**/1.txt']
     })
 
     const { src, dest, add, update, skip } = await parser.build()
@@ -143,10 +186,184 @@ describe('# Parse directory', () => {
     expect(vol.toJSON(TEST_DIR_SRC, {}, true)).toEqual(
       vol.toJSON(TEST_DIR_SRC, {}, true)
     )
+    expect(src.length).toEqual(Object.keys(vol.toJSON(TEST_DIR_SRC)).length)
+    expect(dest.length).toEqual(3)
+    expect(add.length).toEqual(Object.keys(vol.toJSON(TEST_DIR_DEST)).length)
+    expect(skip.length).toBe(0)
+    expect(update.length).toBe(0)
+  })
+  it('## {excludes}', async () => {
+    expect(vol.existsSync(TEST_DIR_SRC)).toBeTruthy()
+    expect(vol.existsSync(TEST_DIR_DEST)).toBeFalsy()
+
+    const parser = new Parser({
+      source: TEST_DIR_SRC,
+      destination: TEST_DIR_DEST,
+      excludes: ['**/1.txt']
+    })
+
+    const { src, dest, add, update, skip } = await parser.build()
+
+    expect(vol.existsSync(TEST_DIR_SRC)).toBeTruthy()
+    expect(vol.existsSync(TEST_DIR_DEST)).toBeTruthy()
+    expect(vol.toJSON(TEST_DIR_SRC, {}, true)).toEqual(
+      vol.toJSON(TEST_DIR_SRC, {}, true)
+    )
+    expect(src.length).toEqual(Object.keys(vol.toJSON(TEST_DIR_SRC)).length)
+    expect(dest.length).toEqual(src.length - 3)
+    expect(add.length).toEqual(Object.keys(vol.toJSON(TEST_DIR_DEST)).length)
+    expect(skip.length).toBe(0)
+    expect(update.length).toBe(0)
+  })
+  it('## {filter}', async () => {
+    expect(vol.existsSync(TEST_DIR_SRC)).toBeTruthy()
+    expect(vol.existsSync(TEST_DIR_DEST)).toBeFalsy()
+
+    const parser = new Parser({
+      source: TEST_DIR_SRC,
+      destination: TEST_DIR_DEST,
+      filter: (path, stat) => stat.isFile() && path.includes('1.txt')
+    })
+
+    const { src, dest, add, update, skip } = await parser.build()
+
+    expect(vol.existsSync(TEST_DIR_SRC)).toBeTruthy()
+    expect(vol.existsSync(TEST_DIR_DEST)).toBeTruthy()
+    expect(vol.toJSON(TEST_DIR_SRC, {}, true)).toEqual(
+      vol.toJSON(TEST_DIR_SRC, {}, true)
+    )
+    expect(src.length).toEqual(Object.keys(vol.toJSON(TEST_DIR_SRC)).length)
+    expect(dest.length).toEqual(3)
+    expect(add.length).toEqual(Object.keys(vol.toJSON(TEST_DIR_DEST)).length)
+    expect(skip.length).toBe(0)
+    expect(update.length).toBe(0)
+  })
+  it('### {beforeEach}', async () => {
+    expect(vol.existsSync(TEST_DIR_SRC)).toBeTruthy()
+    expect(vol.existsSync(TEST_DIR_DEST)).toBeFalsy()
+
+    function eachHandler(_: string, dest: string) {
+      return dest
+    }
+    const mock = vi.fn().mockImplementation(eachHandler)
+
+    const parser = new Parser({
+      source: TEST_DIR_SRC,
+      destination: TEST_DIR_DEST,
+      beforeEach: mock,
+      relativize: true
+    })
+
+    const { src, dest, add, update, skip } = await parser.build()
+
+    expect(vol.existsSync(TEST_DIR_SRC)).toBeTruthy()
+    expect(vol.existsSync(TEST_DIR_DEST)).toBeTruthy()
+    expect(vol.toJSON(TEST_DIR_SRC, {}, true)).toEqual(
+      vol.toJSON(TEST_DIR_DEST, {}, true)
+    )
 
     expect(src.length).toEqual(Object.keys(vol.toJSON(TEST_DIR_SRC)).length)
     expect(dest.length).toEqual(Object.keys(vol.toJSON(TEST_DIR_DEST)).length)
-    expect(add.some(i => i.includes(TEST_DIR_DEST))).toBeFalsy()
+    expect(add.length).toEqual(Object.keys(vol.toJSON(TEST_DIR_DEST)).length)
+    expect(skip.length).toBe(0)
+    expect(update.length).toBe(0)
+
+    expect(mock).toHaveBeenCalledTimes(src.length)
+  })
+  it('### {afterEach}', async () => {
+    expect(vol.existsSync(TEST_DIR_SRC)).toBeTruthy()
+    expect(vol.existsSync(TEST_DIR_DEST)).toBeFalsy()
+
+    function eachHandler(_: string, dest: string) {
+      return dest
+    }
+    const mock = vi.fn().mockImplementation(eachHandler)
+
+    const parser = new Parser({
+      source: TEST_DIR_SRC,
+      destination: TEST_DIR_DEST,
+      afterEach: mock,
+      relativize: true
+    })
+
+    const { src, dest, add, update, skip } = await parser.build()
+
+    expect(vol.existsSync(TEST_DIR_SRC)).toBeTruthy()
+    expect(vol.existsSync(TEST_DIR_DEST)).toBeTruthy()
+    expect(vol.toJSON(TEST_DIR_SRC, {}, true)).toEqual(
+      vol.toJSON(TEST_DIR_DEST, {}, true)
+    )
+
+    expect(src.length).toEqual(Object.keys(vol.toJSON(TEST_DIR_SRC)).length)
+    expect(dest.length).toEqual(Object.keys(vol.toJSON(TEST_DIR_DEST)).length)
+    expect(add.length).toEqual(Object.keys(vol.toJSON(TEST_DIR_DEST)).length)
+    expect(skip.length).toBe(0)
+    expect(update.length).toBe(0)
+
+    expect(mock).toHaveBeenCalledTimes(src.length)
+  })
+  it('### plugin:nunjucks', async () => {
+    expect(vol.existsSync(TEST_DIR_SRC)).toBeTruthy()
+    expect(vol.existsSync(TEST_DIR_DEST)).toBeFalsy()
+
+    const parser = new Parser({
+      source: TEST_DIR_SRC,
+      destination: TEST_DIR_DEST
+    })
+    parser.use(nunjucks({ data: { name: 'file1', content: 'content text' } }))
+
+    const { src, dest, add, update, skip } = await parser.build()
+
+    expect(vol.existsSync(TEST_DIR_SRC)).toBeTruthy()
+    expect(vol.existsSync(TEST_DIR_DEST)).toBeTruthy()
+
+    expect(vol.readFileSync(`${TEST_DIR_DEST}/2.txt`, 'utf8')).toBe(
+      'content text'
+    )
+    expect(vol.readFileSync(`${TEST_DIR_DEST}/sub4/1.ts`, 'utf8')).toBe(
+      `export default { content: 'content text' }`
+    )
+    expect(vol.readFileSync(`${TEST_DIR_DEST}/sub4/2.js`, 'utf8')).toBe(
+      `module.exports          = { content: 'content text' }`
+    )
+    expect(vol.readFileSync(`${TEST_DIR_DEST}/sub4/3.vue`, 'utf8')).toBe(
+      `<template><div>content text</div></template>`
+    )
+
+    expect(vol.existsSync(`${TEST_DIR_DEST}/file1.txt`)).toBeTruthy()
+
+    expect(src.length).toEqual(Object.keys(vol.toJSON(TEST_DIR_SRC)).length)
+    expect(dest.length).toEqual(Object.keys(vol.toJSON(TEST_DIR_DEST)).length)
+    expect(add.length).toEqual(Object.keys(vol.toJSON(TEST_DIR_DEST)).length)
+    expect(skip.length).toBe(0)
+    expect(update.length).toBe(0)
+  })
+  it('### plugin:prettier', async () => {
+    expect(vol.existsSync(TEST_DIR_SRC)).toBeTruthy()
+    expect(vol.existsSync(TEST_DIR_DEST)).toBeFalsy()
+
+    const parser = new Parser({
+      source: TEST_DIR_SRC,
+      destination: TEST_DIR_DEST,
+      relativize: true
+    })
+    parser.use(prettier())
+
+    const { src, dest, add, update, skip } = await parser.build()
+
+    expect(vol.existsSync(TEST_DIR_SRC)).toBeTruthy()
+    expect(vol.existsSync(TEST_DIR_DEST)).toBeTruthy()
+
+    expect(vol.readFileSync(`${TEST_DIR_DEST}/sub4/1.ts`, 'utf8')).toBe(
+      `export default { content: 'content text' }\n`
+    )
+    expect(vol.readFileSync(`${TEST_DIR_DEST}/sub4/2.js`, 'utf8')).toBe(
+      `module.exports = { content: 'content text' }\n`
+    )
+
+    expect(src.length).toEqual(Object.keys(vol.toJSON(TEST_DIR_SRC)).length)
+    expect(dest.length).toEqual(Object.keys(vol.toJSON(TEST_DIR_DEST)).length)
+    expect(add.length).toEqual(Object.keys(vol.toJSON(TEST_DIR_DEST)).length)
     expect(skip.length).toBe(0)
     expect(update.length).toBe(0)
   })
