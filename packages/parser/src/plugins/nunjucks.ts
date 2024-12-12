@@ -1,11 +1,9 @@
 import { minimatch } from 'minimatch'
 import NJ from 'nunjucks'
 import type { ParserPluginParams } from '../parser'
+import type { FilterOptions } from '../types'
 
-export type PluginOptions = {
-  includes: string[]
-  excludes: string[]
-}
+export type PluginOptions = FilterOptions
 
 /**
  * Nunjucks plugins for @ephemeras/parser.
@@ -26,9 +24,10 @@ export type PluginOptions = {
  * ```
  */
 export function nunjucks(
-  options?: { data: Record<string, any> } & Partial<PluginOptions>
+  data: Record<string, any> = {},
+  options?: Partial<PluginOptions>
 ) {
-  const { includes, excludes, data = {} } = options || {}
+  const { includes, excludes, filter } = options || {}
 
   function validate(content: string) {
     const nunjucksRegex = /({{.*?}}|{%.*?%}|{#.*?#})/
@@ -42,6 +41,7 @@ export function nunjucks(
       if (includes && !includes?.some(p => minimatch(name, p, { dot: true })))
         continue
       if (excludes?.some(p => minimatch(name, p, { dot: true }))) continue
+      if (filter && !filter(name)) continue
       const content = files[name]
       if (!content) continue
       const text = content.toString()

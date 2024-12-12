@@ -22,7 +22,8 @@ const SidebarFS = [
 
 const SidebarTP = [
   { text: 'Getting Started', link: '/parser/guide' },
-  { text: 'Plugins', link: '/parser/plugins' }
+  { text: 'Plugins', link: '/parser/plugins' },
+  { text: 'Types', link: '/parser/types' }
 ]
 
 export const SIDEBAR: Record<string, DefaultTheme.SidebarItem[]> = {

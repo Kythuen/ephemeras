@@ -14,12 +14,7 @@ import type {
   FilterOptions
 } from './types'
 
-export type CopyFileOptions = {
-  /**
-   * Overwrite existing file or not.
-   */
-  overwrite: boolean
-} & Pick<BaseOptions, 'context'>
+export type CopyFileOptions = OverwriteOptions & Pick<BaseOptions, 'context'>
 /**
  * Copy file.
  * {@link https://kythuen.github.io/ephemeras/fs/copyFile | View Details}

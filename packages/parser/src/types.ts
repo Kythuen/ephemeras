@@ -1,5 +1,3 @@
-import type { Stats } from 'node:fs'
-
 export type BaseOptions = {
   /**
    * Context directory.
@@ -25,7 +23,7 @@ export type FilterOptions = {
    * Filter by some condition for operation.
    * return `true` to continue operation and `false` to skip it.
    */
-  filter?: (src: string, srcStats: Stats) => boolean
+  filter?: (src: string) => boolean
 }
 
 export type OverwriteOptions = {

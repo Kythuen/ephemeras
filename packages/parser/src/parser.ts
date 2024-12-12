@@ -4,6 +4,7 @@ import {
   createFile,
   emptyDir,
   ensureDir,
+  exist,
   getLeafs,
   readFile,
   relativePath,
@@ -11,7 +12,7 @@ import {
   unixPath
 } from '@ephemeras/fs'
 import { minimatch } from 'minimatch'
-import { join, resolve } from 'node:path'
+import { basename, join, resolve } from 'node:path'
 import {
   BaseOptions,
   CrossHookOptions,
@@ -24,7 +25,7 @@ import { isTextFile } from './utils'
 export type ParserPluginParams = {
   files: Record<string, string | Buffer | null>
   map: Record<string, string>
-  parser: Parser
+  parser: Parser | FileParser
 }
 export type ParserPlugin = (options: ParserPluginParams) => void
 
@@ -158,6 +159,7 @@ export class Parser {
 
     for (let i = 0; i < source.length; i++) {
       const itemPath = resolve(context, this.options.source, source[i])
+      const itemStat = await stat(itemPath)
       if (
         includes?.length &&
         includes.every(p => !minimatch(itemPath, p, { dot: true }))
@@ -169,16 +171,12 @@ export class Parser {
       ) {
         continue
       }
-      if (filter) {
-        const itemStat = await stat(itemPath)
-        if (!filter(itemPath, itemStat)) {
-          continue
-        }
+      if (filter && !filter(itemPath)) {
+        continue
       }
 
       todo.push(source[i])
 
-      const itemStat = await stat(itemPath)
       if (itemStat.isDirectory()) {
         pool.push(
           () =>
@@ -302,5 +300,119 @@ export class Parser {
     await Promise.allSettled(pool.map(i => i()))
 
     return result
+  }
+}
+
+export type FileParserOptions = {
+  /**
+   * Source file.
+   */
+  source: string
+  /**
+   * Destination file.
+   */
+  destination: string
+  /**
+   * Parser plugins.
+   */
+  plugins: ParserPlugin[]
+} & OverwriteOptions &
+  Pick<BaseOptions, 'context'>
+/**
+ * Parser template with data.
+ * {@link https://kythuen.github.io/ephemeras/parser/FileParser | View Details}
+ *
+ * @param options See {@link FileParserOptions }.
+ *
+ * @examples
+ * ```
+ * import { FileParser, prettier } from '@ephemeras/parser'
+ *
+ * const parser = new FileParser({
+ *  source: '/src/1.txt',
+ *  destination: '/dest/2.txt'
+ * })
+ *
+ * parser.set({
+ *  overwrite: true,
+ *  plugins: []
+ * })
+ *
+ * parser.use(prettier())
+ *
+ * const result = await parser.build()
+ * ```
+ */
+export class FileParser {
+  options: FileParserOptions
+
+  constructor(options: Partial<FileParserOptions>) {
+    this.options = {
+      context: process.cwd(),
+      source: '',
+      destination: '',
+      plugins: [],
+      ...(options || {})
+    } as ParserOptions
+  }
+
+  set(prop: keyof FileParserOptions, value: any): this
+  set(props: Partial<FileParserOptions>): this
+  set(
+    propNameOrProps: keyof FileParserOptions | Partial<FileParserOptions>,
+    propValue?: any
+  ) {
+    if (typeof propNameOrProps === 'string') {
+      ;(this.options as any)[propNameOrProps] = propValue
+      return this
+    }
+    this.options = {
+      ...this.options,
+      ...propNameOrProps
+    }
+    return this
+  }
+
+  source(src: string) {
+    this.set('source', src)
+    return this
+  }
+  destination(dest: string) {
+    this.set('destination', dest)
+    return this
+  }
+  use(plugin: ParserPlugin) {
+    this.options.plugins.push(plugin)
+    return this
+  }
+
+  async build() {
+    const { context, source, destination, plugins, overwrite } = this.options
+
+    const resolveSrc = resolve(context, source)
+    const resolveDest = resolve(context, destination)
+    const filename = basename(resolveSrc)
+
+    const fileMap: Record<string, string> = {
+      [filename]: filename
+    }
+
+    const content = await readFile(resolveSrc)
+    const files = {
+      [filename]: content
+    }
+
+    for (const plugin of plugins) {
+      await plugin?.({ files, map: fileMap, parser: this })
+    }
+
+    if (!overwrite && (await exist(resolveDest))) {
+      return false
+    }
+    const itemStat = await stat(resolveSrc)
+    if (!(await isTextFile(resolveSrc, itemStat))) {
+      return copyFile(fileMap[filename], resolveDest, { overwrite })
+    }
+    return await createFile(resolveDest, files[filename], { overwrite })
   }
 }

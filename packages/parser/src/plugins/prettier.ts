@@ -3,14 +3,13 @@ import { extname } from 'node:path'
 import type { BuiltInParserName, Options } from 'prettier'
 import { format } from 'prettier'
 import type { ParserPluginParams } from '../parser'
+import type { FilterOptions } from '../types'
 import { getPrettierConfig } from '../utils'
 
 export type ParserMap = Record<string, BuiltInParserName>
-export type PluginOptions = {
-  includes: string[]
-  excludes: string[]
+export type PluginOptions = FilterOptions & {
+  parsers: ParserMap
   prettier: Options
-  parser: ParserMap
 }
 
 const PARSERS: ParserMap = {
@@ -49,11 +48,17 @@ const PARSERS: ParserMap = {
  * ```
  */
 export function prettier(options?: Partial<PluginOptions>) {
-  const { includes, excludes, parser = {}, prettier = {} } = options || {}
+  const {
+    includes,
+    excludes,
+    filter,
+    prettier = {},
+    parsers = {}
+  } = options || {}
 
   const resolveParsers = {
     ...PARSERS,
-    ...parser
+    ...parsers
   }
 
   return async ({ files }: ParserPluginParams) => {
@@ -63,6 +68,7 @@ export function prettier(options?: Partial<PluginOptions>) {
       if (includes && !includes?.some(p => minimatch(file, p, { dot: true })))
         continue
       if (excludes?.some(p => minimatch(file, p, { dot: true }))) continue
+      if (filter && !filter(file)) continue
       const content = files[file]
       if (!content) continue
       const text = content.toString()

@@ -33,7 +33,7 @@ export type CreateFileOptions = {
  */
 export async function createFile(
   path: string,
-  content = '',
+  content: string | Buffer = '',
   options?: Partial<CreateFileOptions>
 ) {
   const { context = process.cwd(), overwrite, prettier } = options || {}
@@ -44,14 +44,16 @@ export async function createFile(
     return false
   }
 
-  let fileContent = content
+  let fileContent: any = content
   if (prettier) {
-    fileContent = await format(content, {
+    // TODO: parser match file type
+    fileContent = await format(content.toString(), {
       parser: 'babel-ts',
       ...prettier
     })
   }
   await ensureDir(dirname(resolvePath))
+
   await writeFile(resolvePath, fileContent, { encoding: 'utf-8' })
 
   return true

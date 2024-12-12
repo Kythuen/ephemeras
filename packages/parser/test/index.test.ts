@@ -1,6 +1,6 @@
 import { vol } from 'memfs'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
-import { Parser, nunjucks, prettier } from '../src'
+import { Parser, FileParser, nunjucks, prettier } from '../src'
 
 vi.mock('node:fs')
 vi.mock('node:fs/promises')
@@ -219,7 +219,7 @@ describe('# Parse directory', () => {
     const parser = new Parser({
       source: TEST_DIR_SRC,
       destination: TEST_DIR_DEST,
-      filter: (path, stat) => stat.isFile() && path.includes('1.txt')
+      filter: path => path.includes('1.txt')
     })
 
     const { src, dest, add, update, skip } = await parser.build()
@@ -307,7 +307,7 @@ describe('# Parse directory', () => {
       source: TEST_DIR_SRC,
       destination: TEST_DIR_DEST
     })
-    parser.use(nunjucks({ data: { name: 'file1', content: 'content text' } }))
+    parser.use(nunjucks({ name: 'file1', content: 'content text' }))
 
     const { src, dest, add, update, skip } = await parser.build()
 
@@ -363,5 +363,142 @@ describe('# Parse directory', () => {
     expect(add.length).toEqual(Object.keys(vol.toJSON(TEST_DIR_DEST)).length)
     expect(skip.length).toBe(0)
     expect(update.length).toBe(0)
+  })
+})
+
+describe('# Parse file', () => {
+  const TEST_FILE_SRC = '/test_file_src'
+  const TEST_FILE_DEST = '/test_file_dest'
+  const FILES: Record<string, string> = {
+    '1.txt': '1',
+    '2.ts': `export default { content: 'content text' }`,
+    '3.js': `module.exports          = { content: 'content text' }`,
+    '4.vue': '<template><div>content text</div></template>',
+    'template.txt': '{{ content }}'
+  }
+  beforeEach(() => {
+    vol.reset()
+    vol.fromJSON(FILES, TEST_FILE_SRC)
+  })
+  it('## base', async () => {
+    for (const file in FILES) {
+      expect(vol.existsSync(`${TEST_FILE_SRC}/${file}`)).toBeTruthy()
+      expect(vol.existsSync(`${TEST_FILE_DEST}/${file}`)).toBeFalsy()
+
+      const parser = new FileParser({
+        source: `${TEST_FILE_SRC}/${file}`,
+        destination: `${TEST_FILE_DEST}/${file}`
+      })
+
+      const result = await parser.build()
+
+      expect(result).toBe(true)
+      expect(vol.existsSync(`${TEST_FILE_SRC}/${file}`)).toBeTruthy()
+      expect(vol.existsSync(`${TEST_FILE_DEST}/${file}`)).toBeTruthy()
+      expect(vol.readFileSync(`${TEST_FILE_DEST}/${file}`, 'utf8')).toBe(
+        FILES[file]
+      )
+    }
+  })
+  it('## base', async () => {
+    for (const file in FILES) {
+      expect(vol.existsSync(`${TEST_FILE_SRC}/${file}`)).toBeTruthy()
+      expect(vol.existsSync(`${TEST_FILE_DEST}/${file}`)).toBeFalsy()
+
+      const parser = new FileParser({
+        source: `${TEST_FILE_SRC}/${file}`,
+        destination: `${TEST_FILE_DEST}/${file}`
+      })
+
+      const result = await parser.build()
+
+      expect(result).toBe(true)
+      expect(vol.existsSync(`${TEST_FILE_SRC}/${file}`)).toBeTruthy()
+      expect(vol.existsSync(`${TEST_FILE_DEST}/${file}`)).toBeTruthy()
+      expect(vol.readFileSync(`${TEST_FILE_DEST}/${file}`, 'utf8')).toBe(
+        FILES[file]
+      )
+    }
+  })
+  it('## {context}', async () => {
+    const TEST_FILE_DEST = 'test_file_src_sub'
+    for (const file in FILES) {
+      expect(vol.existsSync(`${TEST_FILE_SRC}/${file}`)).toBeTruthy()
+      expect(vol.existsSync(`${TEST_FILE_DEST}/${file}`)).toBeFalsy()
+
+      const parser = new FileParser({
+        source: file,
+        destination: `${TEST_FILE_DEST}/${file}`,
+        context: TEST_FILE_SRC
+      })
+
+      const result = await parser.build()
+
+      expect(result).toBe(true)
+      expect(vol.existsSync(`${TEST_FILE_SRC}/${file}`)).toBeTruthy()
+      expect(
+        vol.existsSync(`${TEST_FILE_SRC}/${TEST_FILE_DEST}/${file}`)
+      ).toBeTruthy()
+      expect(
+        vol.readFileSync(`${TEST_FILE_SRC}/${TEST_FILE_DEST}/${file}`, 'utf8')
+      ).toBe(FILES[file])
+    }
+  })
+  it('## {overwrite}', async () => {
+    vol.mkdirSync(TEST_FILE_DEST)
+    vol.writeFileSync(`${TEST_FILE_DEST}/1.txt`, 'exist content')
+    expect(vol.existsSync(`${TEST_FILE_SRC}/1.txt`)).toBeTruthy()
+    expect(vol.existsSync(`${TEST_FILE_DEST}/1.txt`)).toBeTruthy()
+
+    const parser = new FileParser({
+      source: `${TEST_FILE_SRC}/1.txt`,
+      destination: `${TEST_FILE_DEST}/1.txt`,
+      overwrite: true
+    })
+
+    const result = await parser.build()
+
+    expect(result).toBe(true)
+    expect(vol.existsSync(`${TEST_FILE_SRC}/1.txt`)).toBeTruthy()
+    expect(vol.existsSync(`${TEST_FILE_DEST}/1.txt`)).toBeTruthy()
+    expect(vol.readFileSync(`${TEST_FILE_DEST}/1.txt`, 'utf8')).toBe('1')
+  })
+  it('## plugin:nunjucks', async () => {
+    expect(vol.existsSync(`${TEST_FILE_SRC}/template.txt`)).toBeTruthy()
+    expect(vol.existsSync(`${TEST_FILE_DEST}/1.txt`)).toBeFalsy()
+
+    const parser = new FileParser({
+      source: `${TEST_FILE_SRC}/template.txt`,
+      destination: `${TEST_FILE_DEST}/1.txt`
+    })
+    parser.use(nunjucks({ name: 'file1', content: 'content text' }))
+
+    const result = await parser.build()
+
+    expect(result).toBe(true)
+    expect(vol.existsSync(`${TEST_FILE_SRC}/template.txt`)).toBeTruthy()
+    expect(vol.existsSync(`${TEST_FILE_DEST}/1.txt`)).toBeTruthy()
+    expect(vol.readFileSync(`${TEST_FILE_DEST}/1.txt`, 'utf8')).toBe(
+      'content text'
+    )
+  })
+  it('## plugin:prettier', async () => {
+    expect(vol.existsSync(`${TEST_FILE_SRC}/3.js`)).toBeTruthy()
+    expect(vol.existsSync(`${TEST_FILE_DEST}/3.js`)).toBeFalsy()
+
+    const parser = new FileParser({
+      source: `${TEST_FILE_SRC}/3.js`,
+      destination: `${TEST_FILE_DEST}/3.js`
+    })
+    parser.use(prettier())
+
+    const result = await parser.build()
+
+    expect(result).toBe(true)
+    expect(vol.existsSync(`${TEST_FILE_SRC}/3.js`)).toBeTruthy()
+    expect(vol.existsSync(`${TEST_FILE_DEST}/3.js`)).toBeTruthy()
+    expect(vol.readFileSync(`${TEST_FILE_DEST}/3.js`, 'utf8')).toBe(
+      `module.exports = { content: 'content text' }\n`
+    )
   })
 })
