@@ -57,6 +57,7 @@ const localePrefix = computed(() =>
   lang.value === 'en' ? '' : `/${lang.value}`
 )
 // TODO: locales
+// TODO: 改为使用 transform 共享数据到页面
 async function getPackageList() {
   return [
     {
