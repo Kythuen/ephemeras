@@ -16,10 +16,7 @@ export default defineConfig({
       output: {
         chunkFileNames: 'assets/js/[name]-[hash].js',
         entryFileNames: 'assets/js/[name]-[hash].js',
-        assetFileNames: 'assets/[ext]/[name]-[hash].[ext]',
-        manualChunks: {
-          'white-block': ['white-block', '@white-block/types']
-        }
+        assetFileNames: 'assets/[ext]/[name]-[hash].[ext]'
       }
     },
     chunkSizeWarningLimit: 2000,
