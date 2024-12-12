@@ -1,7 +1,0 @@
-node_modules
-dist
-!docs/.vitepress
-docs/.vitepress/cache/deps/
-packages/cli/template/
-**/*.md
-examples
