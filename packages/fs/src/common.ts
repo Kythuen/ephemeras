@@ -46,7 +46,7 @@ export type GetLeafsOptions = {
   emptyDir: boolean
 } & BaseOptions
 /**
- * Get leaf of a directory.
+ * Get leaf items of directory.
  * {@link https://kythuen.github.io/ephemeras/fs/getLeafs | View Details}
  *
  * @param path Source path.
@@ -54,7 +54,7 @@ export type GetLeafsOptions = {
  * @returns Leaf items list of the directory.
  *
  * @example
- * getLeafs('/foo/bar')      //--> ['1.txt', 'sub1/1.txt', ...]
+ * getLeafs('/foo/bar')      //--> ['/xxx', '1.txt', 'sub1/1.txt', ...]
  */
 export function getLeafs(path: string, options?: Partial<GetLeafsOptions>) {
   const { context = process.cwd() } = options || {}

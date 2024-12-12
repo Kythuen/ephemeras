@@ -17,10 +17,10 @@ jobs:
 
       - name: Build packages
         run: |
-          pnpm --filter=@white-block/types build
-          pnpm --filter=white-block build
+          pnpm --filter=@ephemeras/fs build
+          pnpm --filter=@ephemeras/parser build
 
-      - name: Check type
+      - name: Check types
         run: pnpm types
 
       - name: Check unit test

@@ -14,7 +14,9 @@
     "email": "ephemeras@qq.com"
   },
   "license": "MIT",
+  "type": "module",
   "scripts": {
+    "prepare": "husky install",
     "preinstall": "npx only-allow pnpm",
     "docs:dev": "pnpm --filter=@ephemeras/docs run dev",
     "docs:build": "pnpm --filter=@ephemeras/docs run build",
@@ -24,9 +26,8 @@
     "change:version": "changeset version",
     "types": "tsc --noEmit",
     "format": "prettier --write --cache .",
-    "build": "pnpm --filter=@ephemeras* run build",
-    "release": "pnpm --recursive --stream build && changeset publish",
-    "prepare": "husky install"
+    "build": "pnpm --filter ./packages/** build",
+    "release": "pnpm --recursive --stream build && changeset publish"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
@@ -36,26 +37,25 @@
     "@changesets/cli": "^2.27.9",
     "@commitlint/cli": "19.5.0",
     "@commitlint/config-conventional": "19.5.0",
+    "@eslint/js": "^9.15.0",
     "@types/node": "20.4.5",
-    "@typescript-eslint/eslint-plugin": "8.15.0",
-    "@typescript-eslint/parser": "8.15.0",
     "@vitest/coverage-v8": "^2.1.5",
     "commitizen": "4.3.1",
     "cz-conventional-changelog": "3.3.0",
     "eslint": "9.15.0",
-    "eslint-config-airbnb-base": "15.0.0",
-    "eslint-config-prettier": "9.1.0",
-    "eslint-import-resolver-typescript": "^3.6.3",
-    "eslint-plugin-import": "2.31.0",
     "eslint-plugin-prettier": "5.2.1",
     "eslint-plugin-vue": "9.31.0",
+    "globals": "^15.12.0",
     "husky": "9.1.7",
+    "jsdom": "^25.0.1",
     "lint-staged": "15.2.10",
     "memfs": "^4.14.0",
     "prettier": "^3.3.3",
     "tsup": "^8.3.5",
     "typescript": "5.0.2",
+    "typescript-eslint": "^8.15.0",
     "vite": "^5.4.11",
-    "vitest": "^2.1.5"
+    "vitest": "^2.1.5",
+    "vue-tsc": "^2.1.10"
   }
 }

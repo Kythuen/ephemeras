@@ -1,7 +1,7 @@
 {
   "name": "@ephemeras/fs",
   "version": "0.0.1",
-  "description": "Supset of `node:fs/promise` that provided more convenient features.",
+  "description": "Extend from `node:fs/promise` and provided more convenient features.",
   "keywords": [
     "ephemeras",
     "fs"

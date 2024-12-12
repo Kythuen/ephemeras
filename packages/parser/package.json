@@ -1,0 +1,44 @@
+{
+  "name": "@ephemeras/parser",
+  "version": "0.0.1",
+  "description": "Parser template files with data.",
+  "keywords": [
+    "ephemeras",
+    "template",
+    "parser",
+    "nunjucks"
+  ],
+  "author": {
+    "name": "ephemeras",
+    "email": "ephemeras@qq.com"
+  },
+  "license": "MIT",
+  "type": "module",
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "require": "./dist/index.cjs",
+      "import": "./dist/index.js"
+    },
+    "./dist/*": "./dist/*"
+  },
+  "scripts": {
+    "dev": "tsup --watch src",
+    "build": "tsup",
+    "test": "vitest",
+    "test:coverage": "vitest run --coverage"
+  },
+  "dependencies": {
+    "@ephemeras/fs": "workspace:*",
+    "@prettier/sync": "^0.5.2",
+    "file-type": "^19.6.0",
+    "minimatch": "^7.4.3",
+    "nunjucks": "^3.2.4"
+  },
+  "devDependencies": {
+    "@types/nunjucks": "^3.2.6"
+  }
+}

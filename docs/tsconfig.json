@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "target": "ESNext",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "noImplicitAny": false,
+    "skipLibCheck": true,
+    "lib": ["DOM", "DOM.Iterable", "WebWorker"],
+    "jsx": "preserve",
+    "types": ["node", "vite/client"]
+  },
+  "exclude": ["node_modules", "dist"]
+}

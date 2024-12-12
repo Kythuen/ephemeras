@@ -30,6 +30,7 @@ yarn.lock
 *.sln
 *.sw?
 
-# WIP
-docs
-vitepress
+# Docs
+docs/.vitepress/cache/
+docs/.vitepress/dist/
+docs/.vitepress/.temp/

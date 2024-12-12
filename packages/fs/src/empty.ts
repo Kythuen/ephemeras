@@ -21,7 +21,7 @@ export type EmptyDirResult = SingleOperationResult
  * @returns Result of operation, See {@link EmptyDirResult }.
  *
  * @example
- * await emptyDir('foo/bar')
+ * const { all, done, skip } = await emptyDir('foo/bar')
  */
 export async function emptyDir(
   path: string,
