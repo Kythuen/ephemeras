@@ -1,10 +1,10 @@
-# @ephemeras/compiler
+# @ephemeras/parser
 
 Parser template files with data.
 
 ## Documentation
 
-Please refer to the [documentation](https://kythuen.github.io/ephemeras/complier).
+Please refer to the [documentation](https://kythuen.github.io/ephemeras/parser).
 
 ## License
 
