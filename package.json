@@ -20,6 +20,7 @@
     "preinstall": "npx only-allow pnpm",
     "docs:dev": "pnpm --filter=@ephemeras/docs run dev",
     "docs:build": "pnpm --filter=@ephemeras/docs run build",
+    "docs:preview": "pnpm --filter=@ephemeras/docs run preview",
     "test": "pnpm --filter ./packages/** run test",
     "test:coverage": "pnpm --filter ./packages/** run test:coverage",
     "change:add": "changeset",

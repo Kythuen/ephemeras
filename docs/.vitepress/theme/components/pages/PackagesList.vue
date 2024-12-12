@@ -58,6 +58,19 @@ const localePrefix = computed(() =>
 )
 // TODO: locales
 async function getPackageList() {
+  return [
+    {
+      name: '@ephemeras/fs',
+      link: 'fs',
+      description:
+        'Extend from `node:fs/promise` and provided more convenient features.'
+    },
+    {
+      name: '@ephemeras/parser',
+      link: 'parser',
+      description: 'Parser template files with data.'
+    }
+  ]
   const result: any = []
   // @ts-ignore
   const pkgs: Record<string, any> = import.meta.glob(

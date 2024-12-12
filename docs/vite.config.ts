@@ -3,10 +3,10 @@ import UnoCSS from 'unocss/vite'
 import { defineConfig } from 'vite'
 
 export default defineConfig({
-  plugins: [UnoCSS(), vueJSX()],
-  optimizeDeps: {
-    exclude: ['vitepress']
+  ssr: {
+    noExternal: ['@white-block/vitepress']
   },
+  plugins: [UnoCSS(), vueJSX()],
   server: {
     host: '0.0.0.0',
     hmr: { overlay: false }
