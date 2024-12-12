@@ -1,0 +1,13 @@
+{
+  "mode": "pre",
+  "tag": "alpha",
+  "initialVersions": {
+    "@ephemeras/docs": "0.0.1",
+    "@ephemeras/fs": "0.0.1",
+    "@ephemeras/parser": "0.0.1"
+  },
+  "changesets": [
+    "late-carrots-impress",
+    "three-kids-report"
+  ]
+}
