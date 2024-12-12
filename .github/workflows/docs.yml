@@ -1,0 +1,38 @@
+name: docs
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  docs:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v4
+
+      - name: Setup Environment
+        uses: ./.github/actions/setup-environment
+
+      - name: Build packages
+        run: |
+          pnpm --filter=@ephemeras/fs build
+          pnpm --filter=@ephemeras/parser build
+
+      - name: Build document
+        env:
+          PLATFORM: GitHub
+        run: pnpm docs:build
+
+      - name: Deploy document
+        uses: JamesIves/github-pages-deploy-action@v4.6.9
+        with:
+          token: ${{ secrets.ACTIONS_TOKEN }}
+          branch: gh-pages
+          folder: docs/.vitepress/dist
+          single-commit: true
+          clean: true
+          clean-exclude: |
+            v1/*
+            v1/**/*
