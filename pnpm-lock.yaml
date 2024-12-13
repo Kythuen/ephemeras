@@ -41,6 +41,9 @@ importers:
       eslint-plugin-vue:
         specifier: 9.31.0
         version: 9.31.0(eslint@9.15.0(jiti@1.21.6))
+      fast-glob:
+        specifier: ^3.3.2
+        version: 3.3.2
       globals:
         specifier: ^15.12.0
         version: 15.13.0
@@ -90,15 +93,15 @@ importers:
         specifier: 0.0.36-alpha.0
         version: 0.0.36-alpha.0(vue@3.5.13(typescript@5.0.2))
     devDependencies:
+      '@ephemeras/fs':
+        specifier: workspace:*
+        version: link:../packages/fs
       '@vitejs/plugin-vue-jsx':
         specifier: ^4.1.0
         version: 4.1.1(vite@5.4.11(@types/node@20.4.5)(less@4.2.1))(vue@3.5.13(typescript@5.0.2))
       '@white-block/vitepress':
         specifier: 0.0.1-alpha.3
         version: 0.0.1-alpha.3(postcss@8.4.49)(rollup@4.24.4)(typescript@5.0.2)(vite@5.4.11(@types/node@20.4.5)(less@4.2.1))(vitepress@1.5.0(@algolia/client-search@5.15.0)(@types/node@20.4.5)(less@4.2.1)(postcss@8.4.49)(search-insights@2.17.3)(typescript@5.0.2))
-      less:
-        specifier: ^4.2.1
-        version: 4.2.1
       unocss:
         specifier: ^0.64.1
         version: 0.64.1(postcss@8.4.49)(rollup@4.24.4)(vite@5.4.11(@types/node@20.4.5)(less@4.2.1))(vue@3.5.13(typescript@5.0.2))
@@ -5814,6 +5817,7 @@ snapshots:
   copy-anything@2.0.6:
     dependencies:
       is-what: 3.14.1
+    optional: true
 
   copy-anything@3.0.5:
     dependencies:
@@ -6595,7 +6599,8 @@ snapshots:
 
   is-utf8@0.2.1: {}
 
-  is-what@3.14.1: {}
+  is-what@3.14.1:
+    optional: true
 
   is-what@4.1.16: {}
 
@@ -6722,6 +6727,7 @@ snapshots:
       mime: 1.6.0
       needle: 3.3.1
       source-map: 0.6.1
+    optional: true
 
   levn@0.4.1:
     dependencies:
@@ -7102,7 +7108,8 @@ snapshots:
       json-parse-even-better-errors: 2.3.1
       lines-and-columns: 1.2.4
 
-  parse-node-version@1.0.1: {}
+  parse-node-version@1.0.1:
+    optional: true
 
   parse-passwd@1.0.0: {}
 

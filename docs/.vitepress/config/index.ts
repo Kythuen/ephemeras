@@ -1,6 +1,7 @@
 import { defineConfig } from 'vitepress'
 import { DESCRIPTION, GITHUB_URL } from './constant'
 import { NAV, SIDEBAR } from './routes/en'
+import { transformPageData } from '../transform'
 
 export default defineConfig({
   lang: 'en',
@@ -58,5 +59,6 @@ export default defineConfig({
   },
   vite: {
     configFile: 'vite.config.ts'
-  }
+  },
+  transformPageData
 })
