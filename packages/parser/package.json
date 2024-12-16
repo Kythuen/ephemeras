@@ -35,7 +35,7 @@
     "@ephemeras/fs": "workspace:*",
     "@prettier/sync": "^0.5.2",
     "file-type": "^19.6.0",
-    "minimatch": "^7.4.3",
+    "minimatch": "^10.0.1",
     "nunjucks": "^3.2.4"
   },
   "devDependencies": {
