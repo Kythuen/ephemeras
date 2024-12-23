@@ -264,13 +264,6 @@ defineOptions({ name: 'Net' })
 <style scoped>
 .segment-net {
   position: relative;
-  -webkit-mask-image: linear-gradient(
-    to bottom,
-    transparent,
-    #fff 30%,
-    #fff 70%,
-    transparent
-  );
   mask-image: linear-gradient(
     to bottom,
     transparent,
@@ -278,7 +271,6 @@ defineOptions({ name: 'Net' })
     #fff 70%,
     transparent
   );
-  -webkit-mask-size: cover;
   mask-size: cover;
   width: 100%;
   margin-block-start: -40px;
@@ -302,13 +294,11 @@ defineOptions({ name: 'Net' })
 }
 @keyframes animation-light {
   0% {
-    -webkit-mask-position: 100% 0%;
     mask-position: 100% 0%;
   }
 
   16%,
   100% {
-    -webkit-mask-position: 100% 200%;
     mask-position: 100% 200%;
   }
 }

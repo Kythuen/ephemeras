@@ -54,7 +54,7 @@ export function nunjucks(
         delete map[name]
       }
       if (validate(text)) {
-        files[file] = Buffer.from(renderString(text, data))
+        files[file] = renderString(text, data)
       }
     }
   }

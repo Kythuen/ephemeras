@@ -180,14 +180,14 @@ export class Parser {
       if (itemStat.isDirectory()) {
         pool.push(
           () =>
-            new Promise(async resolve => {
+            new Promise(resolve => {
               resolve(null)
             })
         )
       } else if (!(await isTextFile(itemPath, itemStat))) {
         pool.push(
           () =>
-            new Promise(async resolve => {
+            new Promise(resolve => {
               resolve(-1)
             })
         )
@@ -234,7 +234,10 @@ export class Parser {
     try {
       srcFiles = getLeafs(resolveSrc, { relativize })
       existFiles = getLeafs(resolveDest, { relativize })
-    } catch (e) {}
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    } catch (e) {
+      /* empty */
+    }
 
     result.src = srcFiles
 
@@ -394,7 +397,7 @@ export class FileParser {
     const filename = basename(resolveSrc)
 
     const fileMap: Record<string, string> = {
-      [filename]: filename
+      [filename]: resolveSrc
     }
 
     const content = await readFile(resolveSrc)
