@@ -33,7 +33,6 @@ export async function removeFile(
     await unlink(resolvePath)
     return true
   } catch (err: any) {
-    // eslint-disable-next-line no-console
     console.log(err.message)
     return false
   }
