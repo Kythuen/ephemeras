@@ -1,6 +1,11 @@
 import { ConfigResolver } from '../../resolver'
 import type { PromptData } from '../../types'
-import { formatBase, formatVue, formatTypescript } from '../../resolver'
+import {
+  formatBase,
+  formatVue,
+  formatTypescript,
+  formatFinal
+} from '../../resolver'
 
 export default function (resolver: ConfigResolver, data: PromptData) {
   if (data.features.includes('format')) {
@@ -12,4 +17,5 @@ export default function (resolver: ConfigResolver, data: PromptData) {
   if (data.typescript) {
     resolver.use(formatTypescript, data)
   }
+  resolver.use(formatFinal, data)
 }

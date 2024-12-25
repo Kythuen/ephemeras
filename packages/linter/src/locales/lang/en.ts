@@ -1,12 +1,12 @@
 const USAGE = {
-  ROOT_OPTION_INITIAL: 'initial code linter into your code',
-  ROOT_OPTION_CLEAR: 'remove code linter from your code',
-  ROOT_OPTION_PRESET: 'use preset to initial code linter for your code',
-  COMMAND_INITIAL: 'add code linter features into your code manually',
-  COMMAND_CLEAR: 'remove code linter features from your code manually',
-  COMMAND_ADD: 'add target features into your code: format, commit',
-  COMMAND_REMOVE: 'remove target features from your code: format, commit',
-  COMMAND_PRESET: 'presets for code linter',
+  ROOT_OPTION_INITIAL: 'init code lint into your code',
+  ROOT_OPTION_CLEAR: 'remove code lint from your code',
+  COMMAND_INITIAL: 'init code lint into your code',
+  COMMAND_CLEAR: 'remove code lint from your code',
+  COMMAND_ADD: 'add lint features into your code: [format, commit]',
+  COMMAND_REMOVE: 'remove lint features from your code: [format, commit]',
+  COMMAND_PRESET: 'manage presets for code linter',
+
   COMMAND_PRESET_OPTION_LIST: 'display all existing presets',
   COMMAND_PRESET_OPTION_ADD: 'get preset item',
   COMMAND_PRESET_OPTION_EDIT: 'edit preset item',
@@ -23,27 +23,36 @@ const TIP = {
   SUCCESS_DELETE: 'successfully delete',
   SUCCESS_ADD_DONE: '🎉 Code lint successfully add into your project',
   SUCCESS_REMOVE_DONE: 'Successfully remove code linter from your code',
-  PROBLEM_FEEDBACK: 'Problem?',
-  NOT_CHANGE: 'do nothing to you code',
+  PROBLEM_FEEDBACK: 'Any problem?',
+  NOT_CHANGE: 'Do nothing to you code',
   NO_DATA: 'no data found',
   NEED_PRESET_NAME: '❌ need preset name',
   PRESET_NOT_FOUND: '❌ not found such preset',
   PRESET_ADD: 'Successfully add preset',
   PRESET_EDIT: 'Successfully edit preset',
   PRESET_DELETE: 'Successfully delete preset',
-  CANCEL_OPERATION: '❌ Cancel operation'
+  CANCEL_OPERATION: '❌ Cancel operation',
+  CREATE_FILE: 'start create files...',
+  REMOVE_FILE: 'start remove files...',
+  ADD_DEPENDENCIES: 'start add dependencies...',
+  REMOVE_DEPENDENCIES: 'start remove dependencies...',
+  INSTALL_DEPENDENCIES: 'install dependencies...',
+  UNINSTALL_DEPENDENCIES: 'install dependencies...',
+  INSTALL_DEPENDENCIES_SUCCESS: 'successfully install dependencies',
+  UNINSTALL_DEPENDENCIES_SUCCESS: 'successfully uninstall dependencies'
 }
 
 const TITLE = {
   USE_PRESET: '💬 Use preset or not:',
   SELECT_FEATURES: '💬 Select features:',
-  ADD_FORMAT: '💬 Add code format:',
+  ADD_REQUIREMENT: '💬 Select requirement:',
+  ADD_CONFIRM: '💬 Confirmation:',
+  INSTALL_DEPENDENCIES: '💬 Install dependencies:',
+  SAVE_AS_PRESET: '💬 Save as preset:',
+
   REMOVE_FORMAT: '💬 Remove code format:',
   ADD_COMMIT: '💬 Add commit validate:',
   REMOVE_COMMIT: '💬 Remove commit validate:',
-  ADD_PRESET: '💬 Save as preset:',
-  CONFIRM_ADD_LINTER: '💬 Confirm add lint:',
-  INSTALL_DEPENDENCIES: '💬 Install dependencies:',
   UNINSTALL_DEPENDENCIES: '💬 Uninstall dependencies:',
   INSTALL_LATER: '💬 Copy the script bellow and install later:',
   PRESET_LIST: '💬 Preset list:',
@@ -54,38 +63,40 @@ const TITLE = {
 
 const PROMPT = {
   SELECT_PRESET: 'use preset:',
-  SELECT_ADD_FEATURES: 'select features your want:',
-  SELECT_ENVIRONMENT: 'where does your code run on:',
+  SELECT_FEATURES_ADD: 'select features your want:',
+  SELECT_ENVIRONMENT: 'select code running environment:',
   USE_TYPESCRIPT: 'use typescript?',
-  SELECT_FRAMEWORK: 'select a framework:',
-  SELECT_CODE_STYLE_GUIDE: 'select code style guide you want:',
-  USE_COMMIT_VALIDATE: 'use commit hook validate',
-  CHECK_COMMIT_MESSAGE: 'check commit message',
+  SELECT_FRAMEWORK: 'select frontend framework:',
+  USE_COMMIT_VALIDATE: 'use commit hook validate?',
+  USE_MESSAGE_CHECK: 'use commit message check?',
+  CONFIRM_ADD_FEATURES: 'confirm to add lint features for your code?',
   SAVE_AS_PRESET: 'save current selections as a preset?',
-  CONFIRM_ADD_FEATURES: 'confirm to add lint into you code',
-  PRESET_NAME: 'input preset name:',
-  PRESET_DESCRIPTION: 'input preset description:',
   INSTALL_NOW: 'install dependencies now?',
   SELECT_PACKAGE_MANAGER: 'select a package manager:',
+  PRESET_NAME: 'input preset name:',
+  PRESET_DESCRIPTION: 'input preset description:',
+
+  SELECT_FEATURES_REMOVE: 'select features your want to remove:',
   REMOVE_FORMAT: 'confirm to remove code format from your code?',
   REMOVE_COMMIT: 'confirm to remove commit validate from your code?',
+  PROMPT_CONFIRM_REMOVE_FEATURES:
+    'confirm to remove lint features for your code?',
   REMOVE_UNINSTALL: 'uninstall dependencies now?'
 }
 
 const TEXT = {
+  MANUAL_SELECT: 'manual select',
   FEATURE_COMMIT: 'commit validate',
   FEATURE_FORMAT: 'code format',
-  MANUAL_SELECT: 'manual select',
   PRESET_NAME: 'preset name',
-  PRESET_DESCRIPTION: 'preset description'
+  PRESET_DESCRIPTION: 'preset description',
+  ADD_PACKAGE: 'add package',
+  ADD_FILE: 'add file'
 }
 
 const RULE = {
-  PRESET_NAME_REQUIRED: 'please input preset name',
-  PRESET_NAME_LENGTH: 'preset name should have at least 3 characters',
-  PRESET_DESCRIPTION_REQUIRED: 'please input preset description',
-  PRESET_DESCRIPTION_LENGTH:
-    'preset description should have at least 3 characters'
+  FIELD_REQUIRED: 'please input {{field}}',
+  FIELD_LENGTH: ' {{field}} should have at least 3 characters'
 }
 
 export default {

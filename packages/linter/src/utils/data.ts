@@ -55,6 +55,6 @@ export function deepMerge(
 }
 
 export function removePackagesVersion(packages: string[]): string[] {
-  const versionRegex = /@(\d+\.)?(\d+\.)?(\*|\d+)/ig
-  return packages.map((pkg) => pkg.replace(versionRegex, ''))
+  const versionRegex = /@(\d+\.)?(\d+\.)?(\*|\d+)/gi
+  return packages.map(pkg => pkg.replace(versionRegex, ''))
 }

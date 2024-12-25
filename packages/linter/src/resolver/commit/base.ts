@@ -1,5 +1,11 @@
 import type { ConfigResolver } from '..'
-import { copyItemsToPWD, runCmd, setPkg } from '../../utils'
+import {
+  copyItemToPWD,
+  removeItemFromPWD,
+  runCmd,
+  setPkg,
+  deletePkgFiled
+} from '../../utils'
 
 export function commitBase(resolver: ConfigResolver) {
   resolver.data.packages = resolver.data.packages.concat([
@@ -10,29 +16,31 @@ export function commitBase(resolver: ConfigResolver) {
     { name: 'husky', version: '9.1.7' },
     { name: 'lint-staged', version: '15.2.10' }
   ])
-  // resolver.tasks.addTask(() =>
-  //   copyItemsToPWD([
-  //     { path: '.husky/commit-msg' },
-  //     { path: '.husky/pre-commit' },
-  //     { path: '.commitlintrc' },
-  //     { path: '.czrc' },
-  //     { path: '.lintstagedrc' },
-  //     { path: '.gitignore' }
-  //   ])
-  // )
-  resolver.tasks.addTask(() => copyItemsToPWD([{ path: '.husky/commit-msg' }]))
-  resolver.tasks.addTask(() => copyItemsToPWD([{ path: '.husky/pre-commit' }]))
-  resolver.tasks.addTask(() => copyItemsToPWD([{ path: '.commitlintrc' }]))
-  resolver.tasks.addTask(() => copyItemsToPWD([{ path: '.czrc' }]))
-  resolver.tasks.addTask(() => copyItemsToPWD([{ path: '.lintstagedrc' }]))
-  resolver.tasks.addTask(() => copyItemsToPWD([{ path: '.gitignore' }]))
-  resolver.tasks.addTask(async () => {
+  const files: string[] = [
+    '.husky/commit-msg',
+    '.husky/pre-commit',
+    '.commitlintrc',
+    '.czrc',
+    '.lintstagedrc',
+    '.gitignore'
+  ]
+
+  for (const item of files) {
+    resolver.tasks.add.push(() => copyItemToPWD(item))
+    resolver.tasks.remove.push(() => removeItemFromPWD(item))
+  }
+  resolver.tasks.add.push(async () => {
     await runCmd('git', ['init'])
   })
-  resolver.tasks.addTask(async () => {
+  resolver.tasks.remove.push(() => removeItemFromPWD('.git', 'directory'))
+  resolver.tasks.add.push(async () => {
     await runCmd('npx', ['husky', 'install'])
   })
-  resolver.tasks.addTask(async () => {
+  resolver.tasks.remove.push(() => removeItemFromPWD('.husky', 'directory'))
+  resolver.tasks.add.push(async () => {
     await setPkg('scripts.prepare', 'husky install')
+  })
+  resolver.tasks.remove.push(async () => {
+    await deletePkgFiled('scripts.prepare')
   })
 }

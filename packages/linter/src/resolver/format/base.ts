@@ -1,14 +1,17 @@
 import type { ConfigResolver } from '..'
 import type { PromptData } from '../../types'
-import { copyItemsToPWD } from '../../utils'
+import { copyItemToPWD, removeItemFromPWD } from '../../utils'
 
-export function formatBase(resolver: ConfigResolver, data: PromptData) {
+export function formatBase(
+  resolver: ConfigResolver,
+  data: Partial<PromptData>
+) {
   resolver.data.extensions = resolver.data.extensions.concat([
     'EditorConfig.EditorConfig',
     'dbaeumer.vscode-eslint',
     'esbenp.prettier-vscode'
   ])
-  if (data.environment.includes('browser')) {
+  if (data.environment?.includes('browser')) {
     resolver.data.languages = resolver.data.languages.concat([
       'html',
       'css',
@@ -23,9 +26,8 @@ export function formatBase(resolver: ConfigResolver, data: PromptData) {
     { name: 'prettier', version: '3.3.3' },
     { name: 'typescript-eslint', version: '8.15.0' }
   ])
-  // resolver.tasks.addTask(() =>
-  //   copyItemsToPWD([{ path: '.editorconfig' }, { path: '.prettierrc' }])
-  // )
-  resolver.tasks.addTask(() => copyItemsToPWD([{ path: '.editorconfig' }]))
-  resolver.tasks.addTask(() => copyItemsToPWD([{ path: '.prettierrc' }]))
+  resolver.tasks.add.push(() => copyItemToPWD('.editorconfig'))
+  resolver.tasks.add.push(() => copyItemToPWD('.prettierrc'))
+  resolver.tasks.remove.push(() => removeItemFromPWD('.editorconfig'))
+  resolver.tasks.remove.push(() => removeItemFromPWD('.prettierrc'))
 }

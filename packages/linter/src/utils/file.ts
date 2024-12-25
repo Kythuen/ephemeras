@@ -14,7 +14,7 @@ export interface TItem {
   type?: 'file' | 'directory'
 }
 export async function copyItemsToPWD(items: TItem[]) {
-  await sleep(50)
+  // await sleep(50)
   const logs = []
   for (const item of items) {
     const srcPath = join(PROJECT_ROOT, 'files', item.path)
@@ -46,13 +46,45 @@ export async function removeItemsFromPWD(items: TItem[]) {
   return logs.join('\n')
 }
 
-function sleep(ms: number) {
-  return new Promise(resolve => setTimeout(resolve, ms))
-}
+// function sleep(ms: number) {
+//   return new Promise(resolve => setTimeout(resolve, ms))
+// }
 
 export async function createFileToPWD(path: string, content: string) {
+  // await sleep(50)
   const itemPath = join(process.cwd(), path)
-  await sleep(50)
   await createFile(itemPath, content, { overwrite: true })
   return `📃 create ${path}`
+}
+
+export async function copyItemToPWD(
+  path: string,
+  type: 'file' | 'directory' = 'file'
+) {
+  // await sleep(50)
+  const srcPath = resolve(PROJECT_ROOT, 'files', path)
+  const destPath = resolve(process.cwd(), path)
+  if (type === 'directory') {
+    await copyDir(srcPath, destPath, { overwrite: true })
+  } else {
+    await copyFile(srcPath, destPath, { overwrite: true })
+  }
+  return `${type === 'directory' ? '📁' : '📃'} create ${path}`
+}
+
+export async function removeItemFromPWD(
+  path: string,
+  type: 'file' | 'directory' = 'file'
+) {
+  // await sleep(50)
+  const itemPath = join(process.cwd(), path)
+  const log = `${type === 'directory' ? '📁' : '📃'} remove ${path}`
+  if (!(await exist(itemPath))) return ''
+  if (type === 'directory') {
+    const res = await removeDir(itemPath)
+    if (res) return log
+  } else {
+    const res = await removeFile(itemPath)
+    if (res) return log
+  }
 }

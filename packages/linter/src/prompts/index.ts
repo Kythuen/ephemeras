@@ -1,6 +1,7 @@
+import prompts, { type Answers, type Choice, type PromptObject } from 'prompts'
 import TEXT from '../locales/text'
 import { getPackageManagers, isPnpmWorkspaceRepo } from '../utils'
-import prompts, { type PromptObject, type Answers } from 'prompts'
+import { DEFAULT_PROMPT_DATA } from './constant'
 
 export function answerPrompts(questions: PromptObject[]) {
   return prompts(questions, {
@@ -13,14 +14,54 @@ export function answerPrompts(questions: PromptObject[]) {
   })
 }
 
-export function getUsePresetPrompt(
-  presets: Record<string, any>
-): PromptObject[] {
-  const choices: any = [{ value: '', title: TEXT.TEXT_MANUAL_SELECT }]
+export function getPromptData(key: keyof typeof DEFAULT_PROMPT_DATA) {
+  return DEFAULT_PROMPT_DATA[key]
+}
+
+type PromptKey =
+  | 'SelectPreset'
+  | 'SelectFeatures'
+  | 'AddFormat'
+  | 'AddCommit'
+  | 'ConfirmAdd'
+  | 'SavePreset'
+  | 'Install'
+  | 'RemoveFormat'
+  | 'RemoveCommit'
+  | 'ConfirmRemove'
+export function getPrompts(key: PromptKey, ...payload: any) {
+  switch (key) {
+    case 'SelectPreset':
+      return getSelectPreset(...(payload as Parameters<typeof getSelectPreset>))
+    case 'SelectFeatures':
+      return getSelectFeatures(
+        ...(payload as Parameters<typeof getSelectFeatures>)
+      )
+    case 'AddFormat':
+      return getAddFormat()
+    case 'AddCommit':
+      return getAddCommit()
+    case 'ConfirmAdd':
+      return getConfirmAdd()
+    case 'SavePreset':
+      return getSavePreset()
+    case 'Install':
+      return getInstall()
+    case 'RemoveFormat':
+      return getRemoveFormat()
+    case 'RemoveCommit':
+      return getRemoveCommit()
+    case 'ConfirmRemove':
+      return getConfirmRemove()
+  }
+}
+
+export function getSelectPreset(presets: Record<string, any>): PromptObject[] {
+  const choices: Choice[] = [{ title: TEXT.TEXT_MANUAL_SELECT, value: '' }]
   for (const name in presets) {
     choices.push({
-      value: name,
       title: name,
+      value: name,
       description: presets[name].description
     })
   }
@@ -35,14 +76,17 @@ export function getUsePresetPrompt(
     }
   ]
 }
-export function getFeaturesPrompt(): PromptObject[] {
+export function getSelectFeatures(type: 'add' | 'remove'): PromptObject[] {
   return [
     {
       name: 'features',
       type: 'multiselect',
       instructions: false,
       min: 1,
-      message: TEXT.PROMPT_SELECT_ADD_FEATURES,
+      message:
+        type === 'add'
+          ? TEXT.PROMPT_SELECT_FEATURES_ADD
+          : TEXT.PROMPT_SELECT_FEATURES_REMOVE,
       choices: [
         { title: TEXT.TEXT_FEATURE_FORMAT, value: 'format' },
         { title: TEXT.TEXT_FEATURE_COMMIT, value: 'commit' }
@@ -50,7 +94,7 @@ export function getFeaturesPrompt(): PromptObject[] {
     }
   ]
 }
-export function getAddFormatPrompt(): PromptObject[] {
+export function getAddFormat(): PromptObject[] {
   return [
     {
       name: 'environment',
@@ -89,7 +133,7 @@ export function getAddFormatPrompt(): PromptObject[] {
     }
   ]
 }
-export function getAddCommitPrompt(): PromptObject[] {
+export function getAddCommit(): PromptObject[] {
   return [
     {
       name: 'commitHook',
@@ -102,14 +146,14 @@ export function getAddCommitPrompt(): PromptObject[] {
     {
       name: 'commitMessage',
       type: 'toggle',
-      message: TEXT.PROMPT_CHECK_COMMIT_MESSAGE,
+      message: TEXT.PROMPT_USE_MESSAGE_CHECK,
       initial: true,
       active: 'yes',
       inactive: 'no'
     }
   ]
 }
-export function getConfirmAddPrompt(): PromptObject[] {
+export function getConfirmAdd(): PromptObject[] {
   return [
     {
       name: 'confirm',
@@ -121,7 +165,7 @@ export function getConfirmAddPrompt(): PromptObject[] {
     }
   ]
 }
-export function getSavePresetPrompt(): PromptObject[] {
+export function getSavePreset(): PromptObject[] {
   return [
     {
       name: 'save',
@@ -155,7 +199,7 @@ export function getSavePresetPrompt(): PromptObject[] {
     }
   ]
 }
-export function getInstallPrompt(): PromptObject[] {
+export function getInstall(): PromptObject[] {
   const result: PromptObject[] = [
     {
       name: 'install',
@@ -184,7 +228,7 @@ export function getInstallPrompt(): PromptObject[] {
   return result
 }
 
-export function getRemoveFormatPrompt(): PromptObject[] {
+export function getRemoveFormat(): PromptObject[] {
   return [
     {
       name: 'remove',
@@ -196,7 +240,7 @@ export function getRemoveFormatPrompt(): PromptObject[] {
     }
   ]
 }
-export function getRemoveCommitPrompt(): PromptObject[] {
+export function getRemoveCommit(): PromptObject[] {
   return [
     {
       name: 'remove',
@@ -208,141 +252,25 @@ export function getRemoveCommitPrompt(): PromptObject[] {
     }
   ]
 }
-export function getUninstallPrompt(): PromptObject[] {
+export function getConfirmRemove(): PromptObject[] {
   return [
     {
-      name: 'uninstall',
+      name: 'confirm',
       type: 'toggle',
-      message: TEXT.PROMPT_REMOVE_UNINSTALL,
+      message: TEXT.PROMPT_CONFIRM_REMOVE_FEATURES,
       initial: true,
       active: 'yes',
       inactive: 'no'
     }
   ]
 }
-
-export function getPresetPrompt(presetData: any): PromptObject[] {
+export function getUninstall(): PromptObject[] {
   return [
     {
-      name: 'name',
-      type: presetData.name ? null : 'text',
-      message: TEXT.PROMPT_PRESET_NAME,
-      initial: presetData.name,
-      validate: (value: string) => {
-        if (!value) return TEXT.RULE_PRESET_NAME_REQUIRED
-        if (value.length < 3) return TEXT.RULE_PRESET_NAME_LENGTH
-        return true
-      }
-    },
-    {
-      name: 'description',
-      type: 'text',
-      message: TEXT.PROMPT_PRESET_DESCRIPTION,
-      initial: presetData.description,
-      validate: (value: string) => {
-        if (!value) return TEXT.RULE_PRESET_DESCRIPTION_REQUIRED
-        if (value.length < 3) return TEXT.RULE_PRESET_DESCRIPTION_LENGTH
-        return true
-      }
-    },
-    {
-      name: 'features',
-      type: 'multiselect',
-      instructions: false,
-      min: 1,
-      message: TEXT.PROMPT_SELECT_ADD_FEATURES,
-      choices: [
-        {
-          title: TEXT.TEXT_FEATURE_COMMIT,
-          value: 'format',
-          selected: presetData.features.includes('format')
-        },
-        {
-          title: TEXT.TEXT_FEATURE_FORMAT,
-          value: 'commit',
-          selected: presetData.features.includes('commit')
-        }
-      ]
-    },
-    {
-      name: 'environment',
-      type: (_: any, values: Answers<any>) =>
-        values.features.includes('format') ? 'multiselect' : null,
-      instructions: false,
-      min: 1,
-      message: TEXT.PROMPT_SELECT_ENVIRONMENT,
-      choices: [
-        {
-          title: 'Browser',
-          value: 'browser',
-          selected: presetData.environment.includes('browser')
-        },
-        {
-          title: 'Node',
-          value: 'node',
-          selected: presetData.environment.includes('node')
-        }
-      ]
-    },
-    {
-      name: 'framework',
-      type: (_: any, values: Answers<any>) =>
-        values.environment.includes('browser') ? 'select' : null,
-      message: TEXT.PROMPT_SELECT_FRAMEWORK,
-      choices: [
-        {
-          title: 'Vue',
-          value: 'vue'
-        },
-        {
-          title: 'React',
-          value: 'react'
-        }
-      ]
-    },
-    {
-      name: 'typescript',
-      type: (_: any, values: Answers<any>) =>
-        values.features.includes('format') ? 'toggle' : null,
-      message: TEXT.PROMPT_USE_TYPESCRIPT,
-      initial: presetData.typescript,
-      active: 'yes',
-      inactive: 'no'
-    },
-    {
-      name: 'style',
-      type: (_: any, values: Answers<any>) =>
-        values.features.includes('format') ? 'select' : null,
-      message: TEXT.PROMPT_SELECT_CODE_STYLE_GUIDE,
-      initial: ['airbnb', 'standard'].indexOf(presetData.style),
-      choices: [
-        {
-          title: 'airbnb',
-          value: 'airbnb',
-          description: 'https://github.com/airbnb/javascript'
-        },
-        {
-          title: 'standard',
-          value: 'standard',
-          description: 'https://github.com/standard/standard'
-        }
-      ]
-    },
-    {
-      name: 'commitHook',
-      type: (_: any, values: Answers<any>) =>
-        values.features.includes('commit') ? 'toggle' : null,
-      message: TEXT.PROMPT_USE_COMMIT_VALIDATE,
-      initial: presetData.validate,
-      active: 'yes',
-      inactive: 'no'
-    },
-    {
-      name: 'commitMessage',
-      type: (_: any, values: Answers<any>) =>
-        values.features.includes('commit') ? 'toggle' : null,
-      message: TEXT.PROMPT_CHECK_COMMIT_MESSAGE,
-      initial: presetData.message,
+      name: 'uninstall',
+      type: 'toggle',
+      message: TEXT.PROMPT_REMOVE_UNINSTALL,
+      initial: true,
       active: 'yes',
       inactive: 'no'
     }

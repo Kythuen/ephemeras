@@ -7,8 +7,7 @@ import globals from 'globals'
 
 export default tsEslint.config([
   {
-    // 通过检查 dependencies 判断是否加入
-    ignores: ['**/dist', 'docs/.vitepress/cache/', '.changeset/']
+    ignores: ['**/dist'{% if vitepress %}, 'docs/.vitepress/cache/'{% endif %}{% if changeset %}, '.changeset/'{% endif %}]
   },
   eslint.configs.recommended,
   tsEslint.configs.recommended,{% if framework === 'vue' %}
