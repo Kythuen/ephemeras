@@ -18,7 +18,6 @@ export async function readJSON(path: string) {
     const content = await readFile(path, { encoding: 'utf-8' })
     result = JSON.parse(content)
   } catch (e: any) {
-    // eslint-disable-next-line no-console
     console.error(e.message)
   }
   return result

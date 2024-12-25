@@ -226,7 +226,6 @@ async function generalMove(
 ) {
   const copyResult = await copyDir(src, dest, options)
 
-  // eslint-disable-next-line no-param-reassign
   result = { ...copyResult, all: copyResult.src }
   const doneRelative = [...result.add, ...result.update].map(i =>
     relativePath(i, dest)
@@ -242,7 +241,6 @@ async function generalMove(
     }
   })
 
-  // eslint-disable-next-line no-param-reassign
   result.src = result.all.filter(
     i =>
       !result.add.includes(i) &&

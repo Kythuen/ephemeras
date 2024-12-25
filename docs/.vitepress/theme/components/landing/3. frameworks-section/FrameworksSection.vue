@@ -161,20 +161,23 @@ const rowStyle: ComputedRef<{ transform: string }> = computed(() => {
 </script>
 
 <template>
-  <section class="frameworks-section" id="frameworks-section">
+  <section id="frameworks-section" class="frameworks-section">
     <h2 font="Inter 900">
       Powering your JavaScript Development with Ephemeras
     </h2>
     <div class="frameworks-container">
       <!-- Top Row -->
       <div class="framework-row" :style="rowStyle">
-        <FrameworkCard v-for="i in numBlocksPerRow + 2" />
+        <FrameworkCard v-for="i in numBlocksPerRow + 2" :key="i" />
       </div>
 
       <!-- Logo Rows -->
-      <template v-for="rowIndex in numRows">
+      <template v-for="rowIndex in numRows" :key="rowIndex">
         <div class="framework-row" :style="rowStyle">
-          <template v-for="columnIndex in numBlocksPerRow + 2">
+          <template
+            v-for="columnIndex in numBlocksPerRow + 2"
+            :key="columnIndex"
+          >
             <template
               v-if="
                 columnIndex - 1 >= centerIndexes[rowIndex].start &&
@@ -200,7 +203,7 @@ const rowStyle: ComputedRef<{ transform: string }> = computed(() => {
 
       <!-- Bottom Row -->
       <div class="framework-row" :style="rowStyle">
-        <FrameworkCard v-for="i in numBlocksPerRow + 2" />
+        <FrameworkCard v-for="i in numBlocksPerRow + 2" :key="i" />
       </div>
     </div>
   </section>
