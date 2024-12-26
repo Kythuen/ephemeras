@@ -87,7 +87,7 @@ export default async function remove(features?: LintFeature[]) {
       const args = packageManager === 'npm' ? ['uninstall'] : ['remove']
       spinner.text = `📦 ${TEXT.TIP_UNINSTALL_DEPENDENCIES}`
       await runCmd(packageManager, [...args, ...resolvePackages])
-      logs.push(`📃 update package.json`)
+      logs.push(`📃 ${TEXT.TEXT_UPDATE} package.json`)
     }
   }
   spinner.stop().clear()

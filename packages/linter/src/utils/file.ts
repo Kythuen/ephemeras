@@ -8,6 +8,7 @@ import {
   createFile
 } from '@ephemeras/fs'
 import { PROJECT_ROOT } from '../constant'
+import TEXT from '../locales/text'
 
 export interface TItem {
   path: string
@@ -24,7 +25,7 @@ export async function copyItemsToPWD(items: TItem[]) {
     } else {
       await copyFile(srcPath, destPath, { overwrite: true })
     }
-    const text = `${item.type === 'directory' ? '📁' : '📃'} create ${item.path}`
+    const text = `${item.type === 'directory' ? '📁' : '📃'} ${TEXT.TEXT_CREATE} ${item.path}`
     logs.push(text)
   }
   return logs.join('\n')
@@ -40,7 +41,7 @@ export async function removeItemsFromPWD(items: TItem[]) {
     } else {
       await removeFile(itemPath)
     }
-    const text = `${item.type === 'directory' ? '📁' : '📃'} remove ${itemPath}`
+    const text = `${item.type === 'directory' ? '📁' : '📃'} ${TEXT.TEXT_REMOVE} ${itemPath}`
     logs.push(text)
   }
   return logs.join('\n')
@@ -54,7 +55,7 @@ export async function createFileToPWD(path: string, content: string) {
   // await sleep(50)
   const itemPath = join(process.cwd(), path)
   await createFile(itemPath, content, { overwrite: true })
-  return `📃 create ${path}`
+  return `📃 ${TEXT.TEXT_CREATE} ${path}`
 }
 
 export async function copyItemToPWD(
@@ -69,7 +70,7 @@ export async function copyItemToPWD(
   } else {
     await copyFile(srcPath, destPath, { overwrite: true })
   }
-  return `${type === 'directory' ? '📁' : '📃'} create ${path}`
+  return `${type === 'directory' ? '📁' : '📃'} ${TEXT.TEXT_CREATE} ${path}`
 }
 
 export async function removeItemFromPWD(
@@ -78,7 +79,7 @@ export async function removeItemFromPWD(
 ) {
   // await sleep(50)
   const itemPath = join(process.cwd(), path)
-  const log = `${type === 'directory' ? '📁' : '📃'} remove ${path}`
+  const log = `${type === 'directory' ? '📁' : '📃'} ${TEXT.TEXT_REMOVE} ${path}`
   if (!(await exist(itemPath))) return ''
   if (type === 'directory') {
     const res = await removeDir(itemPath)

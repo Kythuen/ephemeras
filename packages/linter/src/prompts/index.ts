@@ -14,8 +14,8 @@ export function answerPrompts(questions: PromptObject[]) {
   })
 }
 
-export function getPromptData(key: keyof typeof DEFAULT_PROMPT_DATA) {
-  return DEFAULT_PROMPT_DATA[key]
+export function getPromptData() {
+  return DEFAULT_PROMPT_DATA
 }
 
 type PromptKey =
@@ -29,6 +29,8 @@ type PromptKey =
   | 'RemoveFormat'
   | 'RemoveCommit'
   | 'ConfirmRemove'
+  | 'AddPreset'
+
 export function getPrompts(key: PromptKey, ...payload: any) {
   switch (key) {
     case 'SelectPreset':
@@ -53,6 +55,8 @@ export function getPrompts(key: PromptKey, ...payload: any) {
       return getRemoveCommit()
     case 'ConfirmRemove':
       return getConfirmRemove()
+    case 'AddPreset':
+      return getAddPreset(...(payload as Parameters<typeof getAddPreset>))
   }
 }
 
@@ -110,7 +114,7 @@ export function getAddFormat(): PromptObject[] {
     {
       name: 'framework',
       type: (_: any, values: Answers<any>) =>
-        values.environment.includes('browser') ? 'select' : null,
+        values.environment?.includes('browser') ? 'select' : null,
       message: TEXT.PROMPT_SELECT_FRAMEWORK,
       choices: [
         {
@@ -264,13 +268,114 @@ export function getConfirmRemove(): PromptObject[] {
     }
   ]
 }
-export function getUninstall(): PromptObject[] {
+
+export function getAddPreset(
+  presetData: any,
+  presets: Record<string, any>
+): PromptObject[] {
   return [
     {
-      name: 'uninstall',
-      type: 'toggle',
-      message: TEXT.PROMPT_REMOVE_UNINSTALL,
-      initial: true,
+      name: 'name',
+      type: presetData.name ? null : 'text',
+      message: TEXT.PROMPT_PRESET_NAME,
+      initial: presetData.name,
+      validate: (value: string) => {
+        if (!value) return TEXT.RULE_PRESET_NAME_REQUIRED
+        if (value.length < 3) return TEXT.RULE_PRESET_NAME_LENGTH
+        if (presets[value]) return TEXT.RULE_PRESET_EXIST
+        return true
+      }
+    },
+    {
+      name: 'description',
+      type: 'text',
+      message: TEXT.PROMPT_PRESET_DESCRIPTION,
+      initial: presetData.description,
+      validate: (value: string) => {
+        if (!value) return TEXT.RULE_PRESET_DESCRIPTION_REQUIRED
+        if (value.length < 3) return TEXT.RULE_PRESET_DESCRIPTION_LENGTH
+        return true
+      }
+    },
+    {
+      name: 'features',
+      type: 'multiselect',
+      instructions: false,
+      min: 1,
+      message: TEXT.PROMPT_SELECT_FEATURES_ADD,
+      choices: [
+        {
+          title: TEXT.TEXT_FEATURE_COMMIT,
+          value: 'format',
+          selected: presetData.features?.includes('format')
+        },
+        {
+          title: TEXT.TEXT_FEATURE_FORMAT,
+          value: 'commit',
+          selected: presetData.features?.includes('commit')
+        }
+      ]
+    },
+    {
+      name: 'environment',
+      type: (_: any, values: Answers<any>) =>
+        values.features?.includes('format') ? 'multiselect' : null,
+      instructions: false,
+      min: 1,
+      message: TEXT.PROMPT_SELECT_ENVIRONMENT,
+      choices: [
+        {
+          title: 'Browser',
+          value: 'browser',
+          selected: presetData.environment?.includes('browser')
+        },
+        {
+          title: 'Node',
+          value: 'node',
+          selected: presetData.environment?.includes('node')
+        }
+      ]
+    },
+    {
+      name: 'framework',
+      type: (_: any, values: Answers<any>) =>
+        values.environment?.includes('web') ? 'select' : null,
+      message: TEXT.PROMPT_SELECT_FRAMEWORK,
+      choices: [
+        {
+          title: 'Vue',
+          value: 'vue'
+        },
+        {
+          title: 'React',
+          value: 'react'
+        }
+      ]
+    },
+    {
+      name: 'typescript',
+      type: (_: any, values: Answers<any>) =>
+        values.features?.includes('format') ? 'toggle' : null,
+      message: TEXT.PROMPT_USE_TYPESCRIPT,
+      initial: presetData.typescript || true,
+      active: 'yes',
+      inactive: 'no'
+    },
+    {
+      name: 'commitHook',
+      type: (_: any, values: Answers<any>) =>
+        values.features?.includes('commit') ? 'toggle' : null,
+      message: TEXT.PROMPT_USE_COMMIT_VALIDATE,
+      initial: presetData.validate || true,
+      active: 'yes',
+      inactive: 'no'
+    },
+    {
+      name: 'commitMessage',
+      type: (_: any, values: Answers<any>) =>
+        values.features?.includes('commit') ? 'toggle' : null,
+      message: TEXT.PROMPT_USE_MESSAGE_CHECK,
+      initial: presetData.message || true,
       active: 'yes',
       inactive: 'no'
     }

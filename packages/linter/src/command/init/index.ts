@@ -8,11 +8,11 @@ export default async function () {
 
   const presets = profile.getData()
   const presetList = Object.keys(presets)
-  let data = getPromptData('add')
+  let data = getPromptData()
 
-  console.log()
-  console.log(TEXT.TITLE_USE_PRESET)
   if (presetList.length) {
+    console.log()
+    console.log(TEXT.TITLE_USE_PRESET)
     const { preset } = await answerPrompts(getPrompts('SelectPreset', presets))
     data.preset = preset
   }

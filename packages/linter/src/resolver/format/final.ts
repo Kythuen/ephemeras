@@ -5,6 +5,8 @@ import type { ConfigResolver } from '..'
 import { PROJECT_ROOT } from '../../constant'
 import type { PromptData } from '../../types'
 import { createFileToPWD, removeItemFromPWD } from '../../utils'
+import { readdir, removeDir } from '@ephemeras/fs'
+import TEXT from '../../locales/text'
 
 export function formatFinal(
   resolver: ConfigResolver,
@@ -67,15 +69,21 @@ function createEslintConfig(
   const filename = type === 'module' ? 'eslint.config.js' : 'eslint.config.mjs'
   const parser = new FileParser({
     source: resolve(PROJECT_ROOT, 'files', 'eslint.config.js'),
-    destination: join(process.cwd(), filename),
+    destination: resolve(process.cwd(), filename),
     overwrite: true
   })
   parser.use(nunjucks({ ...data, ...extend }))
 
   resolver.tasks.add.push(async () => {
     await parser.build()
-    return `📃 create ${filename}`
+    return `📃 ${TEXT.TEXT_CREATE} ${filename}`
   })
 
+  resolver.tasks.remove.push(async () => {
+    const vscodeDir = resolve(process.cwd(), '.vscode')
+    if (!(await readdir(vscodeDir)).length) {
+      await removeDir(vscodeDir)
+    }
+  })
   resolver.tasks.remove.push(() => removeItemFromPWD(filename))
 }

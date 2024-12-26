@@ -11,7 +11,7 @@ import addFormat from './format'
 export default async function add(data: PromptData, features?: LintFeature[]) {
   if (!data) {
     console.log(TEXT.TIP_WELCOME)
-    data = getPromptData('add')
+    data = getPromptData()
   }
   data.features = features || []
 
@@ -79,7 +79,7 @@ export default async function add(data: PromptData, features?: LintFeature[]) {
     await setPkg(`devDependencies.${pkg.name}`, `^${pkg.version}`)
     spinner.text = `📦 ${TEXT.TEXT_ADD_PACKAGE} ${pkg.name}`
   }
-  logs.push(`📃 update package.json`)
+  logs.push(`📃 ${TEXT.TEXT_UPDATE} package.json`)
 
   spinner.stop().clear()
 
@@ -104,9 +104,17 @@ export default async function add(data: PromptData, features?: LintFeature[]) {
     const presetData = await answerPrompts(getPrompts('SavePreset'))
 
     if (presetData.save) {
+      const { name, description } = presetData
+      const { features, environment, typescript, commitHook, commitMessage } =
+        data
       profile.set(presetData.name, {
-        description: presetData.description,
-        ...data
+        name,
+        description,
+        features,
+        environment,
+        typescript,
+        commitHook,
+        commitMessage
       })
     }
   }

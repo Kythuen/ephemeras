@@ -8,7 +8,7 @@ const USAGE = {
   COMMAND_PRESET: 'manage presets for code linter',
 
   COMMAND_PRESET_OPTION_LIST: 'display all existing presets',
-  COMMAND_PRESET_OPTION_ADD: 'get preset item',
+  COMMAND_PRESET_OPTION_ADD: 'add preset item',
   COMMAND_PRESET_OPTION_EDIT: 'edit preset item',
   COMMAND_PRESET_OPTION_UNSET: 'remove preset item',
   COMMAND_CONFIG: 'global config for code linter',
@@ -24,20 +24,20 @@ const TIP = {
   SUCCESS_ADD_DONE: '🎉 Code lint successfully add into your project',
   SUCCESS_REMOVE_DONE: 'Successfully remove code linter from your code',
   PROBLEM_FEEDBACK: 'Any problem?',
-  NOT_CHANGE: 'Do nothing to you code',
+  NOT_CHANGE: 'do nothing to you code',
   NO_DATA: 'no data found',
   NEED_PRESET_NAME: '❌ need preset name',
   PRESET_NOT_FOUND: '❌ not found such preset',
-  PRESET_ADD: 'Successfully add preset',
-  PRESET_EDIT: 'Successfully edit preset',
-  PRESET_DELETE: 'Successfully delete preset',
+  PRESET_ADD: 'successfully add preset',
+  PRESET_EDIT: 'successfully edit preset',
+  PRESET_DELETE: 'successfully delete preset',
   CANCEL_OPERATION: '❌ Cancel operation',
   CREATE_FILE: 'start create files...',
   REMOVE_FILE: 'start remove files...',
   ADD_DEPENDENCIES: 'start add dependencies...',
   REMOVE_DEPENDENCIES: 'start remove dependencies...',
   INSTALL_DEPENDENCIES: 'install dependencies...',
-  UNINSTALL_DEPENDENCIES: 'install dependencies...',
+  UNINSTALL_DEPENDENCIES: 'uninstall dependencies...',
   INSTALL_DEPENDENCIES_SUCCESS: 'successfully install dependencies',
   UNINSTALL_DEPENDENCIES_SUCCESS: 'successfully uninstall dependencies'
 }
@@ -49,12 +49,9 @@ const TITLE = {
   ADD_CONFIRM: '💬 Confirmation:',
   INSTALL_DEPENDENCIES: '💬 Install dependencies:',
   SAVE_AS_PRESET: '💬 Save as preset:',
-
   REMOVE_FORMAT: '💬 Remove code format:',
-  ADD_COMMIT: '💬 Add commit validate:',
   REMOVE_COMMIT: '💬 Remove commit validate:',
   UNINSTALL_DEPENDENCIES: '💬 Uninstall dependencies:',
-  INSTALL_LATER: '💬 Copy the script bellow and install later:',
   PRESET_LIST: '💬 Preset list:',
   PRESET_ADD: '💬 Add preset:',
   PRESET_EDIT: '💬 Edit preset',
@@ -75,7 +72,6 @@ const PROMPT = {
   SELECT_PACKAGE_MANAGER: 'select a package manager:',
   PRESET_NAME: 'input preset name:',
   PRESET_DESCRIPTION: 'input preset description:',
-
   SELECT_FEATURES_REMOVE: 'select features your want to remove:',
   REMOVE_FORMAT: 'confirm to remove code format from your code?',
   REMOVE_COMMIT: 'confirm to remove commit validate from your code?',
@@ -91,10 +87,14 @@ const TEXT = {
   PRESET_NAME: 'preset name',
   PRESET_DESCRIPTION: 'preset description',
   ADD_PACKAGE: 'add package',
-  ADD_FILE: 'add file'
+  ADD_FILE: 'add file',
+  CREATE: 'create',
+  REMOVE: 'remove',
+  UPDATE: 'update'
 }
 
 const RULE = {
+  PRESET_EXIST: 'preset already exist',
   FIELD_REQUIRED: 'please input {{field}}',
   FIELD_LENGTH: ' {{field}} should have at least 3 characters'
 }
