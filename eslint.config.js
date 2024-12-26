@@ -10,9 +10,9 @@ export default tsEslint.config([
     ignores: [
       '**/dist',
       '**/__mocks__',
+      '**/files/',
       'docs/.vitepress/cache/',
-      '.changeset/',
-      'packages/linter/files/'
+      '.changeset/'
     ]
   },
   eslint.configs.recommended,
