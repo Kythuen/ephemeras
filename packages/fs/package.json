@@ -1,6 +1,6 @@
 {
   "name": "@ephemeras/fs",
-  "version": "0.0.2-alpha.3",
+  "version": "0.0.2",
   "description": "Extend from `node:fs/promise` and provided more convenient features.",
   "keywords": [
     "ephemeras",

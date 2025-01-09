@@ -1,6 +1,6 @@
 {
   "name": "@ephemeras/linter",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "description": "Tool to quickly add code lint for your project ",
   "keywords": [
     "ephemeras",
