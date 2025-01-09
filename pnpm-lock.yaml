@@ -202,6 +202,43 @@ importers:
         specifier: ^4.0.5
         version: 4.0.9
 
+  packages/readme:
+    dependencies:
+      '@ephemeras/fs':
+        specifier: workspace:*
+        version: link:../fs
+      '@ephemeras/parser':
+        specifier: workspace:*
+        version: link:../parser
+      cac:
+        specifier: ^6.7.14
+        version: 6.7.14
+      gradient-string:
+        specifier: ^2.0.2
+        version: 2.0.2
+      i18next:
+        specifier: ^23.5.1
+        version: 23.16.8
+      ora:
+        specifier: ^7.0.1
+        version: 7.0.1
+      picocolors:
+        specifier: ^1.0.0
+        version: 1.1.1
+      prompts:
+        specifier: ^2.4.2
+        version: 2.4.2
+      radash:
+        specifier: ^12.1.0
+        version: 12.1.0
+    devDependencies:
+      '@types/gradient-string':
+        specifier: ^1.1.4
+        version: 1.1.6
+      '@types/prompts':
+        specifier: ^2.4.7
+        version: 2.4.9
+
   packages/test:
     devDependencies:
       '@commitlint/cli':
@@ -213,6 +250,9 @@ importers:
       '@ephemeras/linter':
         specifier: workspace:*
         version: link:../linter
+      '@ephemeras/readme':
+        specifier: workspace:*
+        version: link:../readme
       '@eslint/js':
         specifier: 9.15.0
         version: 9.15.0

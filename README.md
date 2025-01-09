@@ -49,8 +49,6 @@
 
 - [@ephemeras/fs](https://kythuen.github.io/ephemeras/profile/) - File system  management, superset of `node:fs/promise`, providing more user-friendly features.
 
-- [@ephemeras/utils](https://kythuen.github.io/ephemeras/utils/) - Tool collections provide useful features for front-end building, efficient and reliable.
-
 
 ## Documents
 

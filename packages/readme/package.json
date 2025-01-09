@@ -1,0 +1,52 @@
+{
+  "name": "@ephemeras/readme",
+  "version": "0.0.1",
+  "description": "Quickly create a nice readme file",
+  "keywords": [
+    "ephemeras",
+    "utils",
+    "command line",
+    "readme"
+  ],
+  "author": {
+    "name": "ephemeras",
+    "email": "ephemeras@qq.com"
+  },
+  "license": "MIT",
+  "type": "module",
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "require": "./dist/index.cjs",
+      "import": "./dist/index.js"
+    },
+    "./dist/*": "./dist/*"
+  },
+  "bin": {
+    "readme": "dist/index.js"
+  },
+  "scripts": {
+    "dev": "tsup --watch src",
+    "build": "tsup",
+    "test": "echo \"@ephemeras/readme ignore\"",
+    "test:coverage": "echo \"@ephemeras/readme coverage ignore\""
+  },
+  "dependencies": {
+    "@ephemeras/fs": "workspace:*",
+    "@ephemeras/parser": "workspace:*",
+    "cac": "^6.7.14",
+    "gradient-string": "^2.0.2",
+    "i18next": "^23.5.1",
+    "ora": "^7.0.1",
+    "picocolors": "^1.0.0",
+    "prompts": "^2.4.2",
+    "radash": "^12.1.0"
+  },
+  "devDependencies": {
+    "@types/gradient-string": "^1.1.4",
+    "@types/prompts": "^2.4.7"
+  }
+}
