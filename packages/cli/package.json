@@ -44,7 +44,6 @@
     "cac": "^6.7.14",
     "giget": "^1.2.3",
     "gradient-string": "^2.0.2",
-    "i18next": "^23.5.1",
     "ora": "^7.0.1",
     "picocolors": "^1.0.0",
     "prompts": "^2.4.2"

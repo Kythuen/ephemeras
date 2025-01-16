@@ -31,10 +31,10 @@ export type ProfileOptions = {
  *
  * // file.getUrl(): get file path
  * // file.getData(): get file data
- * // file.get(propName): get data by propName
- * // file.set({}): set data by subData
- * // file.set(propName, data): set data by propName
- * // file.delete(propName): delete data by propName
+ * // file.get(a.b): get data by propName
+ * // file.set({}): set data by object
+ * // file.set(a.0, data): set data by propName
+ * // file.delete(a.0): delete data by propName
  * // file.clear(): clear file data
  * // file.remove(): remove file
  * ```
@@ -102,16 +102,40 @@ export class Profile {
     return this.url
   }
 
+  private getParent(prop: string) {
+    const props = prop.split('.')
+    let temp = this.data
+    for (let i = 0; i < props.length - 1; i++) {
+      if (!temp[props[i]]) {
+        if (props?.[i + 1] && /^\d+$/.test(props?.[i + 1])) {
+          temp[props[i]] = []
+        } else {
+          temp[props[i]] = {}
+        }
+      }
+      temp = temp[props[i]]
+    }
+    return temp
+  }
   public get(prop: string) {
     this.sync('get')
-    return this.data[prop]
+    const props = prop.split('.')
+    let temp = this.data
+    for (let i = 0; i < props.length - 1; i++) {
+      temp = temp[props[i]]
+    }
+    return temp?.[props[props.length - 1]]
   }
 
   public set(prop: string, value: any): ProfileData
   public set(data: ProfileData): ProfileData
   public set(propOrData: string | ProfileData, propValue?: any) {
     if (typeof propOrData === 'string') {
-      this.data[propOrData] = propValue
+      const props = propOrData.split('.')
+      const data = this.getParent(propOrData)
+      console.log('set', data)
+      data[props[props.length - 1]] = propValue
+      // this.data[propOrData] = propValue
     } else if (
       Object.prototype.toString.call(propOrData) === '[object Object]'
     ) {
@@ -127,7 +151,13 @@ export class Profile {
   }
 
   public delete(prop: string) {
-    delete this.data[prop]
+    const props = prop.split('.')
+    const data = this.getParent(prop)
+    if (Object.prototype.toString.call(data) === '[object Array]') {
+      data.splice(props[props.length - 1], 1)
+    } else {
+      delete data[props[props.length - 1]]
+    }
     this.sync('set')
     return this.data
   }

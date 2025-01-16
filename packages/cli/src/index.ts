@@ -16,9 +16,8 @@ async function run() {
 
   cli
     .command('config [key] [value]', 'global config for create ephemeras')
-    .option('--list', 'display all existing configs')
-    .option('--get', 'get config item')
-    .option('--unset', 'remove config item')
+    .option('-l, --list', 'display all existing configs')
+    .option('-d, --delete', 'remove config item')
     .example('  $ create-ephemeras config --list')
     .example('  $ create-ephemeras config --get language')
     .example('  $ create-ephemeras config language zh-CN')

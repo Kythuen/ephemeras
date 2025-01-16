@@ -1,5 +1,10 @@
 import { promisify } from 'node:util'
 import { execFile } from 'node:child_process'
+import gradient from 'gradient-string'
+import picocolors from 'picocolors'
+
+export const { bold, underline, cyan } = picocolors
+export const { retro, vice } = gradient
 
 export function print(text: string, afterLine = 0, beforeLine = 0) {
   Array.from({ length: beforeLine }).forEach(() => console.log())

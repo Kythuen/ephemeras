@@ -1,7 +1,8 @@
 import prompts, { type PromptObject } from 'prompts'
+import { print } from '../utils'
 import {
-  PROMPTS_OVERWRITE,
   PROMPTS_NAME,
+  PROMPTS_OVERWRITE,
   PROMPTS_TYPE,
   PROMPTS_WEB
 } from './constant'
@@ -24,9 +25,7 @@ export function getPrompts(key: PromptKey) {
 export function answerPrompts(questions: PromptObject[]) {
   return prompts(questions, {
     onCancel: () => {
-      console.log()
-      console.log('❌ Cancel operation')
-      console.log()
+      print('❌ Cancel operation', 1, 1)
       process.exit(0)
     }
   })

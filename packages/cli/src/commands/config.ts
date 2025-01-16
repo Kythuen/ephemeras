@@ -2,8 +2,8 @@ import { print } from '../utils'
 import { profile } from '../utils/profile'
 
 export async function config(
-  configKey: string,
-  configValue: string,
+  key: string,
+  value: string,
   options: Record<string, any>
 ) {
   const configData = profile.getData()
@@ -11,17 +11,18 @@ export async function config(
     showConfigs(configData)
     return
   }
-  if (options.get) {
-    print(JSON.stringify(configData[configKey]))
+  if (options.delete) {
+    profile.delete(key)
+    print(`successfully delete: ${key}`)
     return
   }
-  if (options.unset) {
-    profile.delete(configKey)
-    print(`successfully delete: ${configKey}`)
+  if (key && !value) {
+    print(profile.get(key))
     return
   }
-  if (configKey && configValue) {
-    profile.set(configKey, configValue)
+  if (key && value) {
+    profile.getData()
+    profile.set(key, value)
     print('successfully operation')
   }
 }

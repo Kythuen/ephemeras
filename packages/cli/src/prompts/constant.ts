@@ -14,7 +14,6 @@ export const PROMPTS_NAME: PromptObject[] = [
     }
   }
 ]
-
 export const PROMPTS_OVERWRITE: PromptObject[] = [
   {
     name: 'overwrite',
@@ -25,7 +24,6 @@ export const PROMPTS_OVERWRITE: PromptObject[] = [
     inactive: 'no'
   }
 ]
-
 export const PROMPTS_TYPE: PromptObject[] = [
   {
     name: 'type',
@@ -43,28 +41,20 @@ export const PROMPTS_TYPE: PromptObject[] = [
     inactive: 'no'
   }
 ]
-
 export const PROMPTS_WEB: PromptObject[] = [
   {
     name: 'author',
     type: 'select',
     message: 'select authors:',
-    choices: profile.get('author').map((i: string) => {
-      const [user] = i.split(/\s+/)
-      return {
-        title: user,
-        value: i
+    choices: (profile.get('authors') || ['Kythuen 616332192@qq.com']).map(
+      (i: string) => {
+        const [user] = i.split(/\s+/)
+        return {
+          title: user,
+          value: i
+        }
       }
-    }) ?? [
-      {
-        title: 'Kythuen',
-        value: 'Kythuen 616332192@qq.com'
-      },
-      {
-        title: 'ephemeras',
-        value: 'ephemeras ephemeras@qq.com'
-      }
-    ]
+    )
   },
   {
     name: 'repo',
@@ -83,7 +73,7 @@ export const PROMPTS_WEB: PromptObject[] = [
     name: 'license',
     type: (_: any, values: Answers<'open'>) => (values.open ? 'select' : null),
     message: 'select a license',
-    choices: (profile.get('license') ?? ['MIT', 'Apache2']).map(
+    choices: (profile.get('licenses') || ['MIT', 'Apache2']).map(
       (i: string) => ({
         title: i,
         value: i
