@@ -12,7 +12,7 @@ import {
   unixPath
 } from '@ephemeras/fs'
 import { minimatch } from 'minimatch'
-import { basename, join, resolve } from 'node:path'
+import { join, resolve } from 'node:path'
 import {
   BaseOptions,
   CrossHookOptions,
@@ -394,7 +394,7 @@ export class FileParser {
 
     const resolveSrc = resolve(context, source)
     const resolveDest = resolve(context, destination)
-    const filename = basename(resolveSrc)
+    const filename = relativePath(resolveSrc, context)
 
     const fileMap: Record<string, string> = {
       [filename]: resolveSrc
