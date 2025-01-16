@@ -49,7 +49,13 @@ export const PROMPTS_WEB: PromptObject[] = [
     name: 'author',
     type: 'select',
     message: 'select authors:',
-    choices: profile.get('author') ?? [
+    choices: profile.get('author').map((i: string) => {
+      const [user] = i.split(/\s+/)
+      return {
+        title: user,
+        value: i
+      }
+    }) ?? [
       {
         title: 'Kythuen',
         value: 'Kythuen 616332192@qq.com'
