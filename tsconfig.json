@@ -17,5 +17,10 @@
       "@ephemeras/fs/*": ["packages/fs/src/*"]
     }
   },
-  "exclude": ["**/dist/**", "**/node_modules/**", "packages/*/files/**"]
+  "exclude": [
+    "**/dist/**",
+    "**/node_modules/**",
+    "packages/*/files/**",
+    "**/test/**"
+  ]
 }
