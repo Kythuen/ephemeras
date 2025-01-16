@@ -1,0 +1,56 @@
+{
+  "name": "create-ephemeras",
+  "version": "0.0.0",
+  "description": "create project with @ephemeras/templates",
+  "keywords": [
+    "ephemeras",
+    "command line",
+    "create project"
+  ],
+  "author": {
+    "name": "ephemeras",
+    "email": "ephemeras@qq.com"
+  },
+  "license": "MIT",
+  "type": "module",
+  "main": "dist/index.cjs",
+  "module": "dist/index.js",
+  "typings": "dist/index.d.ts",
+  "files": [
+    "dist",
+    "files"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "require": "./dist/index.cjs",
+      "import": "./dist/index.js"
+    },
+    "./dist/*": "./dist/*"
+  },
+  "bin": {
+    "create-ephemeras": "dist/index.js"
+  },
+  "scripts": {
+    "dev": "tsup --watch src",
+    "build": "tsup",
+    "test": "echo \"create-ephemeras ignore\"",
+    "test:coverage": "echo \"create-ephemeras coverage ignore\""
+  },
+  "dependencies": {
+    "@ephemeras/fs": "workspace:*",
+    "@ephemeras/parser": "workspace:*",
+    "@ephemeras/profile": "workspace:*",
+    "cac": "^6.7.14",
+    "giget": "^1.2.3",
+    "gradient-string": "^2.0.2",
+    "i18next": "^23.5.1",
+    "ora": "^7.0.1",
+    "picocolors": "^1.0.0",
+    "prompts": "^2.4.2"
+  },
+  "devDependencies": {
+    "@types/gradient-string": "^1.1.4",
+    "@types/prompts": "^2.4.7"
+  }
+}
