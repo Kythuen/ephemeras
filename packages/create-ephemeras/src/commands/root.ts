@@ -7,10 +7,13 @@ import { answerPrompts, getPrompts } from '../prompts'
 import { print } from '../utils'
 import { profile } from '../utils/profile'
 
-type RootOptions = { online: boolean }
+type RootOptions = {
+  online: boolean
+  context: string
+}
 export async function root(
   name: string,
-  { online }: Partial<RootOptions> = {}
+  { online, context = '' }: Partial<RootOptions> = {}
 ) {
   print('🚀 Welcome to Create Ephemeras', 1)
 
@@ -19,7 +22,7 @@ export async function root(
   if (!name) {
     projectName = (await answerPrompts(getPrompts('ProjectName'))).name
   }
-  const targetDir = resolve(process.cwd(), projectName)
+  const targetDir = resolve(process.cwd(), context, projectName)
   if (await exist(targetDir)) {
     const { overwrite } = await answerPrompts(getPrompts('Overwrite'))
     if (!overwrite) {
