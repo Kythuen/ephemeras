@@ -19,9 +19,9 @@ async function run() {
     .option('-l, --list', 'display all existing configs')
     .option('-d, --delete', 'remove config item')
     .example('  $ create-ephemeras config --list')
-    .example('  $ create-ephemeras config --get language')
-    .example('  $ create-ephemeras config language zh-CN')
-    .example('  $ create-ephemeras --unset language')
+    .example('  $ create-ephemeras config authors')
+    .example('  $ create-ephemeras config license.0 MIT')
+    .example('  $ create-ephemeras config authors.0 -d')
     .action((key: string, value: string, options: Record<string, any>) => {
       if (!key && Object.keys(options).length === 1) {
         cli.outputHelp()
