@@ -10,11 +10,12 @@ import { profile } from '../utils/profile'
 
 type RootOptions = {
   online: boolean
+  source: string
   context: string
 }
 export async function root(
   name: string,
-  { online, context = '' }: Partial<RootOptions> = {}
+  { online, source, context = '' }: Partial<RootOptions> = {}
 ) {
   print(retro('🚀 Welcome to Create Ephemeras'), 1, 1)
 
@@ -31,25 +32,30 @@ export async function root(
       process.exit(0)
     }
   }
-  const { type, unocss } = await answerPrompts(getPrompts('ProjectType'))
+  const { type, unocss, locale } = await answerPrompts(
+    getPrompts('ProjectType')
+  )
 
   const TEMPLATE_DIR = resolve(homedir(), '.ephemeras/templates')
-  if (online) {
+  if (online || !(await exist(TEMPLATE_DIR))) {
     print(bold('💬 Update templates:'), 0, 1)
     const spinner = ora('download templates ...').start()
     const auth = profile.get('auth')
-    if (!auth) {
-      print('Kythuen/templates is a private repo, please set the auth key')
-    }
+    const resolveSource = source ?? 'github:Kythuen/templates/src'
     try {
-      await downloadTemplate('github:Kythuen/templates/src#feat-web', {
+      await downloadTemplate(resolveSource, {
         dir: TEMPLATE_DIR,
         force: true,
         forceClean: true,
         auth
       })
     } catch (e: any) {
-      print(`download templates fail.\n${e.message}`)
+      print(`download templates fail.\n${e.message}\n`)
+      print(
+        `if your source: ${resolveSource} is private repo,\nuse \`create-ephemeras config auth xxx\` to set the auth key.`,
+        1
+      )
+      process.exit(0)
     }
     spinner.succeed('template update completed')
   }
@@ -59,18 +65,46 @@ export async function root(
     clean: true,
     overwrite: true
   })
+  print(bold(`💬 Create ${type} project:`), 0, 1)
   switch (type) {
     case 'web': {
-      print(bold('💬 Create web project:'), 0, 1)
-      const { author, license, repo } = await answerPrompts(
-        getPrompts('WebTemplate')
+      const { description, author, license, repo } = await answerPrompts(
+        getPrompts('TemplateWeb')
       )
       const [user, email] = author.split(/\s+/)
       const resolveRepo =
         repo || `https://github.com/Kythuen/${projectName}.git`
       parser.source(resolve(TEMPLATE_DIR, unocss ? 'vue-unocss' : 'vue'))
       parser.use(
-        nunjucks({ name: projectName, user, email, repo: resolveRepo, license })
+        nunjucks({
+          name: projectName,
+          description,
+          user,
+          email,
+          repo: resolveRepo,
+          license
+        })
+      )
+      await parser.build()
+      break
+    }
+    case 'cli': {
+      const { description, command, author, license, repo } =
+        await answerPrompts(getPrompts('TemplateCli'))
+      const [user, email] = author.split(/\s+/)
+      const resolveRepo =
+        repo || `https://github.com/Kythuen/${projectName}.git`
+      parser.source(resolve(TEMPLATE_DIR, locale ? 'cli-locale' : 'cli'))
+      parser.use(
+        nunjucks({
+          name: projectName,
+          description,
+          cmd: command,
+          user,
+          email,
+          repo: resolveRepo,
+          license
+        })
       )
       await parser.build()
       break

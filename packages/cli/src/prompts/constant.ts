@@ -39,9 +39,73 @@ export const PROMPTS_TYPE: PromptObject[] = [
     initial: true,
     active: 'yes',
     inactive: 'no'
+  },
+  {
+    name: 'locale',
+    type: (_: any, values: Answers<'type'>) =>
+      values.type === 'cli' ? 'toggle' : null,
+    message: 'need locale?',
+    initial: true,
+    active: 'yes',
+    inactive: 'no'
   }
 ]
 export const PROMPTS_WEB: PromptObject[] = [
+  {
+    name: 'description',
+    type: 'text',
+    message: 'input project description:'
+  },
+  {
+    name: 'author',
+    type: 'select',
+    message: 'select authors:',
+    choices: (profile.get('authors') || ['Kythuen 616332192@qq.com']).map(
+      (i: string) => {
+        const [user] = i.split(/\s+/)
+        return {
+          title: user,
+          value: i
+        }
+      }
+    )
+  },
+  {
+    name: 'repo',
+    type: 'text',
+    message: 'input repositories url:'
+  },
+  {
+    name: 'open',
+    type: 'toggle',
+    message: 'open source?',
+    initial: true,
+    active: 'yes',
+    inactive: 'no'
+  },
+  {
+    name: 'license',
+    type: (_: any, values: Answers<'open'>) => (values.open ? 'select' : null),
+    message: 'select a license',
+    choices: (profile.get('licenses') || ['MIT', 'Apache2']).map(
+      (i: string) => ({
+        title: i,
+        value: i
+      })
+    )
+  }
+]
+export const PROMPTS_CLI: PromptObject[] = [
+  {
+    name: 'description',
+    type: 'text',
+    message: 'input project description:'
+  },
+  {
+    name: 'command',
+    type: 'text',
+    message: 'input cli command:'
+  },
   {
     name: 'author',
     type: 'select',

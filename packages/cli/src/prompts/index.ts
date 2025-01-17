@@ -4,10 +4,16 @@ import {
   PROMPTS_NAME,
   PROMPTS_OVERWRITE,
   PROMPTS_TYPE,
-  PROMPTS_WEB
+  PROMPTS_WEB,
+  PROMPTS_CLI
 } from './constant'
 
-type PromptKey = 'ProjectName' | 'Overwrite' | 'ProjectType' | 'WebTemplate'
+type PromptKey =
+  | 'ProjectName'
+  | 'Overwrite'
+  | 'ProjectType'
+  | 'TemplateWeb'
+  | 'TemplateCli'
 
 export function getPrompts(key: PromptKey) {
   switch (key) {
@@ -17,8 +23,10 @@ export function getPrompts(key: PromptKey) {
       return PROMPTS_OVERWRITE
     case 'ProjectType':
       return PROMPTS_TYPE
-    case 'WebTemplate':
+    case 'TemplateWeb':
       return PROMPTS_WEB
+    case 'TemplateCli':
+      return PROMPTS_CLI
   }
 }
 

@@ -2,4 +2,5 @@
 'create-ephemeras': patch
 ---
 
-add context options
+cli: add context options
+cli: add add short key for boolean options

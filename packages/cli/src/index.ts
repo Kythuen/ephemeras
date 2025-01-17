@@ -10,6 +10,7 @@ async function run() {
   cli
     .command('[root]', description)
     .option('-o, --online', 'use online template')
+    .option('--source <context>', 'use private template repo')
     .option('--context <context>', 'context directory of current operation')
     .example('  $ create-ephemeras --online')
     .example('  $ create-ephemeras --context sub')
