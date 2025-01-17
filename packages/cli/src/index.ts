@@ -9,7 +9,7 @@ async function run() {
 
   cli
     .command('[root]', description)
-    .option('--online', 'use online template')
+    .option('-o, --online', 'use online template')
     .option('--context <context>', 'context directory of current operation')
     .example('  $ create-ephemeras --online')
     .example('  $ create-ephemeras --context sub')
@@ -17,12 +17,12 @@ async function run() {
 
   cli
     .command('config [key] [value]', 'global config for create ephemeras')
-    .option('--list', 'display all existing configs')
-    .option('--delete', 'remove config item')
+    .option('-l, --list', 'display all existing configs')
+    .option('-d, --delete', 'remove config item')
     .example('  $ create-ephemeras config --list')
     .example('  $ create-ephemeras config authors')
     .example('  $ create-ephemeras config license.0 MIT')
-    .example('  $ create-ephemeras config authors.0 --delete')
+    .example('  $ create-ephemeras config authors.0 -d')
     .action((key: string, value: string, options: Record<string, any>) => {
       if (!key && Object.keys(options).length === 1) {
         cli.outputHelp()
