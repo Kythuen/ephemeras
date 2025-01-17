@@ -109,6 +109,27 @@ export async function root(
       await parser.build()
       break
     }
+    case 'lib': {
+      const { description, author, license, repo } = await answerPrompts(
+        getPrompts('TemplateLib')
+      )
+      const [user, email] = author.split(/\s+/)
+      const resolveRepo =
+        repo || `https://github.com/Kythuen/${projectName}.git`
+      parser.source(resolve(TEMPLATE_DIR, 'lib'))
+      parser.use(
+        nunjucks({
+          name: projectName,
+          description,
+          user,
+          email,
+          repo: resolveRepo,
+          license
+        })
+      )
+      await parser.build()
+      break
+    }
   }
   print(vice('⚡ successfully create project'), 1, 1)
   print(

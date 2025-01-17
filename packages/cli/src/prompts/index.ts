@@ -5,7 +5,8 @@ import {
   PROMPTS_OVERWRITE,
   PROMPTS_TYPE,
   PROMPTS_WEB,
-  PROMPTS_CLI
+  PROMPTS_CLI,
+  PROMPTS_LIB
 } from './constant'
 
 type PromptKey =
@@ -14,6 +15,7 @@ type PromptKey =
   | 'ProjectType'
   | 'TemplateWeb'
   | 'TemplateCli'
+  | 'TemplateLib'
 
 export function getPrompts(key: PromptKey) {
   switch (key) {
@@ -27,6 +29,8 @@ export function getPrompts(key: PromptKey) {
       return PROMPTS_WEB
     case 'TemplateCli':
       return PROMPTS_CLI
+    case 'TemplateLib':
+      return PROMPTS_LIB
   }
 }
 

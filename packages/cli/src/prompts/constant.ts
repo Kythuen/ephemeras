@@ -145,3 +145,48 @@ export const PROMPTS_CLI: PromptObject[] = [
     )
   }
 ]
+export const PROMPTS_LIB: PromptObject[] = [
+  {
+    name: 'description',
+    type: 'text',
+    message: 'input project description:'
+  },
+  {
+    name: 'author',
+    type: 'select',
+    message: 'select authors:',
+    choices: (profile.get('authors') || ['Kythuen 616332192@qq.com']).map(
+      (i: string) => {
+        const [user] = i.split(/\s+/)
+        return {
+          title: user,
+          value: i
+        }
+      }
+    )
+  },
+  {
+    name: 'repo',
+    type: 'text',
+    message: 'input repositories url:'
+  },
+  {
+    name: 'open',
+    type: 'toggle',
+    message: 'open source?',
+    initial: true,
+    active: 'yes',
+    inactive: 'no'
+  },
+  {
+    name: 'license',
+    type: (_: any, values: Answers<'open'>) => (values.open ? 'select' : null),
+    message: 'select a license',
+    choices: (profile.get('licenses') || ['MIT', 'Apache2']).map(
+      (i: string) => ({
+        title: i,
+        value: i
+      })
+    )
+  }
+]
