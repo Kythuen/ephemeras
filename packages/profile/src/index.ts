@@ -133,9 +133,15 @@ export class Profile {
     if (typeof propOrData === 'string') {
       const props = propOrData.split('.')
       const data = this.getParent(propOrData)
-      console.log('set', data)
-      data[props[props.length - 1]] = propValue
-      // this.data[propOrData] = propValue
+      if (Object.prototype.toString.call(data) === '[object Array]') {
+        let resolveIndex = props[props.length - 1]
+        if (resolveIndex > data.length) {
+          resolveIndex = data.length
+        }
+        data[resolveIndex] = propValue
+      } else {
+        data[props[props.length - 1]] = propValue
+      }
     } else if (
       Object.prototype.toString.call(propOrData) === '[object Object]'
     ) {

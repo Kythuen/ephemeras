@@ -35,7 +35,7 @@ export async function root(
 
   const TEMPLATE_DIR = resolve(homedir(), '.ephemeras/templates')
   if (online) {
-    print(bold('💬 Create web project:'), 0, 1)
+    print(bold('💬 Update templates:'), 0, 1)
     const spinner = ora('download templates ...').start()
     const auth = profile.get('auth')
     if (!auth) {
