@@ -4,7 +4,7 @@ File system for ephemeras provide more convenient features.
 
 ## Documentation
 
-Please refer to the [documentation](https://kythuen.github.io/ephemeras/fs).
+Please refer to the [documentation](https://kythuen.github.io/ephemeras/packages/fs).
 
 ## License
 

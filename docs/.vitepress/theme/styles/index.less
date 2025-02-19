@@ -1,0 +1,58 @@
+@import url(./overrides.less);
+
+.vp-doc-api {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    color: var(--wb-color-text-main);
+  }
+}
+.api-table {
+  width: 100%;
+  overflow-x: scroll;
+  border-radius: 0.25rem;
+  border: solid 1px var(--wb-color-border);
+  table {
+    margin: 0;
+    min-width: 100%;
+    display: table;
+    overflow: hidden;
+    border-radius: inherit;
+    thead tr th {
+      border-top-color: transparent;
+    }
+    tbody tr:last-child td {
+      border-bottom-color: transparent;
+    }
+    th:first-child,
+    td:first-child {
+      border-left-color: transparent;
+    }
+    th:last-child,
+    td:last-child {
+      border-right-color: transparent;
+    }
+  }
+  td {
+    min-width: 80px;
+  }
+  margin: 1rem 0;
+  a {
+    color: inherit;
+    text-decoration: none;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+@media screen and (min-width: 640px) {
+  .api-table {
+    table {
+      min-width: 100%;
+      display: table;
+    }
+  }
+}

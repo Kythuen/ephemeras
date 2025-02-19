@@ -46,7 +46,8 @@ export default tsEslint.config([
       '@typescript-eslint/no-empty-object-type': 'off',
       '@typescript-eslint/no-unsafe-function-type': 'off',
       'no-constant-binary-expression': 'off',
-      'vue/multi-word-component-names': 'off'
+      'vue/multi-word-component-names': 'off',
+      'vue/no-v-html': 'off'
     }
   },
   prettier

@@ -1,18 +1,15 @@
+import { Theme as WBTheme } from '@white-block/vitepress'
+import 'virtual:group-icons.css'
 import 'virtual:uno.css'
 import type { Theme } from 'vitepress'
-import { Theme as WBTheme } from '@white-block/vitepress'
 import Layout from './Layout.vue'
-import FunctionBlock from './components/global/FunctionBlock.vue'
-import './styles/font.css'
-import './styles/index.css'
-import './styles/landing.css'
+import './styles/index.less'
 
 const theme: Theme = {
   extends: WBTheme,
-  Layout,
-  enhanceApp({ app }) {
-    app.component('FunctionBlock', FunctionBlock)
-  }
+  Layout
+  // enhanceApp({ app }) {
+  // }
 }
 
 export default theme

@@ -1,7 +1,7 @@
 {
   "name": "create-ephemeras",
   "version": "0.0.2",
-  "description": "create project with @ephemeras/templates",
+  "description": "Create project with @ephemeras/templates",
   "keywords": [
     "ephemeras",
     "command line",

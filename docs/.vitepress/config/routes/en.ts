@@ -1,45 +1,70 @@
 import type { DefaultTheme } from 'vitepress'
 
-const SidebarGuides: DefaultTheme.NavItemWithLink[] = [
-  { text: 'Getting Started', link: '/guide' },
-  { text: 'Overview', link: '/guide/overview' },
-  { text: 'Colors', link: '/guide/colors' }
+export const NAV = [
+  // { text: 'Packages', link: '/packages' }
 ]
 
 const SidebarPackages: DefaultTheme.NavItemWithLink[] = [
-  { text: 'Linter', link: '/linter/' },
-  { text: 'Compiler', link: '/compiler/' },
-  { text: 'File', link: '/file/' },
-  { text: 'File System', link: '/fs/' },
-  { text: 'Profile', link: '/profile/' },
-  { text: 'Utils', link: '/utils/' }
+  { text: 'File System', link: '/packages/fs' },
+  { text: 'Linter', link: '/packages/linter' },
+  { text: 'Parser', link: '/packages/parser' },
+  { text: 'Profile', link: '/packages/profile' },
+  { text: 'Readme', link: '/packages/readme' }
 ]
 
+/* ------------------------------------ packages/fs ----------------------------------- */
 const SidebarFS = [
-  { text: 'Getting Started', link: '/fs/guide' },
-  { text: 'Functions', link: '/fs/functions' }
+  { text: 'Guide', link: '/packages/fs' },
+  { text: 'Functions', link: '/packages/fs/functions' },
+  { text: 'Changelogs', link: '/packages/fs/changelogs' }
 ]
 
-const SidebarTP = [
-  { text: 'Getting Started', link: '/parser/guide' },
-  { text: 'Plugins', link: '/parser/plugins' },
-  { text: 'Types', link: '/parser/types' }
+/* ---------------------------------- packages/linter --------------------------------- */
+const SidebarLinter = [
+  { text: 'Usage', link: '/packages/linter' },
+  { text: 'Changelogs', link: '/packages/linter/changelogs' }
+]
+
+/* ---------------------------------- packages/parser --------------------------------- */
+const SidebarParser = [
+  { text: 'Guide', link: '/packages/parser' },
+  { text: 'Plugins', link: '/packages/parser/plugins' },
+  { text: 'Types', link: '/packages/parser/types' },
+  { text: 'Changelogs', link: '/packages/parser/changelogs' }
+]
+
+/* ---------------------------------- packages/profile --------------------------------- */
+const SidebarProfile = [
+  { text: 'Usage', link: '/packages/profile' },
+  { text: 'Changelogs', link: '/packages/profile/changelogs' }
+]
+
+/* ---------------------------------- packages/readme --------------------------------- */
+const SidebarReadme = [
+  { text: 'Usage', link: '/packages/readme' },
+  { text: 'Changelogs', link: '/packages/readme/changelogs' }
 ]
 
 export const SIDEBAR: Record<string, DefaultTheme.SidebarItem[]> = {
-  '/guide': [{ text: 'Packages', items: SidebarGuides }],
-  '/packages/': [{ text: 'Packages', items: SidebarPackages }],
-  '/fs/': [
-    { text: 'Guides', items: SidebarFS },
+  '/packages/fs': [
+    { text: 'All', items: SidebarFS },
     { text: 'Packages', items: SidebarPackages }
   ],
-  '/parser/': [
-    { text: 'Guides', items: SidebarTP },
+  '/packages/linter': [
+    { text: 'All', items: SidebarLinter },
     { text: 'Packages', items: SidebarPackages }
-  ]
+  ],
+  '/packages/parser': [
+    { text: 'All', items: SidebarParser },
+    { text: 'Packages', items: SidebarPackages }
+  ],
+  '/packages/profile': [
+    { text: 'All', items: SidebarProfile },
+    { text: 'Packages', items: SidebarPackages }
+  ],
+  '/packages/readme': [
+    { text: 'All', items: SidebarReadme },
+    { text: 'Packages', items: SidebarPackages }
+  ],
+  '/': [{ text: 'Packages', items: SidebarPackages }]
 }
-
-export const NAV = [
-  { text: 'Guide', link: '/guide' },
-  { text: 'Packages', link: '/packages' }
-]

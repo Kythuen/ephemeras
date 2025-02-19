@@ -1,7 +1,7 @@
 {
   "name": "@ephemeras/linter",
   "version": "1.4.3",
-  "description": "Tool to quickly add code lint for your project ",
+  "description": "Tool to quickly add code lint for your project",
   "keywords": [
     "ephemeras",
     "command line",
@@ -19,7 +19,8 @@
   "typings": "dist/index.d.ts",
   "files": [
     "dist",
-    "files"
+    "files",
+    "files/.gitignore"
   ],
   "exports": {
     ".": {

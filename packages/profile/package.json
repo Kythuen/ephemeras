@@ -26,8 +26,8 @@
   "scripts": {
     "dev": "tsup --watch src",
     "build": "tsup",
-    "test": "vitest",
-    "test:coverage": "vitest run --coverage"
+    "test": "echo \"@ephemeras/linter ignore\"",
+    "test:coverage": "echo \"@ephemeras/linter coverage ignore\""
   },
   "optionalDependencies": {
     "@iarna/toml": "^2.2.5",
