@@ -4,7 +4,7 @@ layout: home
 hero:
   slogan: Make development easier and more efficient
   intro: Ephemeras is a development toolkit collection which improves your development efficiency and provide a better development experience.
-  image: /ephemeras/brand.png
+  image: /brand.png
   actions:
     - theme: neon
       text: Get Started
