@@ -39,15 +39,17 @@
 
 ## Packages
 
-- [@ephemeras/linter](https://kythuen.github.io/ephemeras/linter/) - Command line tool, quickly configuring and completing project code standardization construction.
-
-- [@ephemeras/compiler](https://kythuen.github.io/ephemeras/compiler/) - File template compilation tool.
-
-- [@ephemeras/file](https://kythuen.github.io/ephemeras/file/) - File editing tool based on AST, make modify JS/TS files easier.
-
-- [@ephemeras/profile](https://kythuen.github.io/ephemeras/profile/) - Configuration file management, makes it easy to create and manage configuration information.
-
 - [@ephemeras/fs](https://kythuen.github.io/ephemeras/profile/) - File system  management, superset of `node:fs/promise`, providing more user-friendly features.
+
+- [@ephemeras/linter](https://kythuen.github.io/ephemeras/linter/) - Tool to quickly add code lint for your project.
+
+- [@ephemeras/parser](https://kythuen.github.io/ephemeras/parser/) - Parser template files with data.
+
+- [@ephemeras/profile](https://kythuen.github.io/ephemeras/profile/) - Profile manager for ephemeras.
+
+- [@ephemeras/readme](https://kythuen.github.io/ephemeras/readme/) - Quickly create a nice readme file.
+
+
 
 
 ## Documents
