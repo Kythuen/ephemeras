@@ -13,7 +13,7 @@ hero:
     - theme: contrast
       text: View on GitHub
       icon: i-simple-icons:github
-      link: https://github.com/Kythuen/white-block
+      link: https://github.com/Kythuen/ephemeras
 
 features:
   title: Why use Ephemeras?
