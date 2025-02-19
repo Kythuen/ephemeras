@@ -1,6 +1,6 @@
 {
   "name": "@ephemeras/parser",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Parser template files with data.",
   "keywords": [
     "ephemeras",
