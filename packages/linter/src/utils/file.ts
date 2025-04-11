@@ -63,11 +63,17 @@ export async function copyItemToPWD(
   type: 'file' | 'directory' = 'file'
 ) {
   // await sleep(50)
-  const srcPath = resolve(PROJECT_ROOT, 'files', path)
+  let srcPath = resolve(PROJECT_ROOT, 'files', path)
   const destPath = resolve(process.cwd(), path)
   if (type === 'directory') {
     await copyDir(srcPath, destPath, { overwrite: true })
   } else {
+    // polyfill: fix problem that global install renamed `.gitignore` to `.npmignore` when use nvm
+    if (path === '.gitignore') {
+      if (!(await exist(srcPath))) {
+        srcPath = resolve(PROJECT_ROOT, 'files/.npmignore')
+      }
+    }
     await copyFile(srcPath, destPath, { overwrite: true })
   }
   return `${type === 'directory' ? '📁' : '📃'} ${TEXT.TEXT_CREATE} ${path}`
