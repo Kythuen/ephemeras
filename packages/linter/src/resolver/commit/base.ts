@@ -4,17 +4,18 @@ import {
   removeItemFromPWD,
   runCmd,
   setPkg,
-  deletePkgFiled
+  deletePkgFiled,
+  CURRENT_NODE_VERSIONS
 } from '../../utils'
 
 export function commitBase(resolver: ConfigResolver) {
   resolver.data.packages = resolver.data.packages.concat([
-    { name: '@commitlint/cli', version: '19.5.0' },
-    { name: '@commitlint/config-conventional', version: '19.5.0' },
-    { name: 'commitizen', version: '4.3.1' },
-    { name: 'cz-conventional-changelog', version: '3.3.0' },
-    { name: 'husky', version: '9.1.7' },
-    { name: 'lint-staged', version: '15.2.10' }
+    { name: '@commitlint/cli', version: CURRENT_NODE_VERSIONS['@commitlint/cli'] },
+    { name: '@commitlint/config-conventional', version: CURRENT_NODE_VERSIONS['@commitlint/config-conventional'] },
+    { name: 'commitizen', version: CURRENT_NODE_VERSIONS['commitizen'] },
+    { name: 'cz-conventional-changelog', version: CURRENT_NODE_VERSIONS['cz-conventional-changelog'] },
+    { name: 'husky', version: CURRENT_NODE_VERSIONS['husky'] },
+    { name: 'lint-staged', version: CURRENT_NODE_VERSIONS['lint-staged'] }
   ])
   const files: string[] = [
     '.husky/commit-msg',

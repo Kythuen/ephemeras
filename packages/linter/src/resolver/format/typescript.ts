@@ -1,6 +1,12 @@
+import { existsSync } from 'node:fs'
+import { join } from 'node:path'
 import type { ConfigResolver } from '..'
 import type { PromptData } from '../../types'
-import { copyItemToPWD, removeItemFromPWD } from '../../utils'
+import {
+  copyItemToPWD,
+  removeItemFromPWD,
+  CURRENT_NODE_VERSIONS
+} from '../../utils'
 
 export function formatTypescript(
   resolver: ConfigResolver,
@@ -10,9 +16,11 @@ export function formatTypescript(
     resolver.data.languages.push('typescript')
   }
   resolver.data.packages = resolver.data.packages.concat([
-    { name: '@types/node', version: '20.4.5' },
-    { name: 'typescript', version: '5.0.2' }
+    { name: '@types/node', version: CURRENT_NODE_VERSIONS['@types/node'] },
+    { name: 'typescript', version: CURRENT_NODE_VERSIONS['typescript'] }
   ])
-  resolver.tasks.add.push(() => copyItemToPWD('tsconfig.json'))
-  resolver.tasks.remove.push(() => removeItemFromPWD('tsconfig.json'))
+  if (!existsSync(join(process.cwd(), 'tsconfig.json'))) {
+    resolver.tasks.add.push(() => copyItemToPWD('tsconfig.json'))
+    resolver.tasks.remove.push(() => removeItemFromPWD('tsconfig.json'))
+  }
 }
