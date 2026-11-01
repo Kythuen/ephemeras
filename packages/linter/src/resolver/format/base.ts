@@ -1,6 +1,10 @@
 import type { ConfigResolver } from '..'
 import type { PromptData } from '../../types'
-import { copyItemToPWD, removeItemFromPWD, CURRENT_NODE_VERSIONS } from '../../utils'
+import {
+  copyItemToPWD,
+  removeItemFromPWD,
+  CURRENT_NODE_VERSIONS
+} from '../../utils'
 
 export function formatBase(
   resolver: ConfigResolver,
@@ -21,10 +25,16 @@ export function formatBase(
   resolver.data.packages = resolver.data.packages.concat([
     { name: '@eslint/js', version: CURRENT_NODE_VERSIONS['@eslint/js'] },
     { name: 'eslint', version: CURRENT_NODE_VERSIONS['eslint'] },
-    { name: 'eslint-plugin-prettier', version: CURRENT_NODE_VERSIONS['eslint-plugin-prettier'] },
+    {
+      name: 'eslint-plugin-prettier',
+      version: CURRENT_NODE_VERSIONS['eslint-plugin-prettier']
+    },
     { name: 'globals', version: CURRENT_NODE_VERSIONS['globals'] },
     { name: 'prettier', version: CURRENT_NODE_VERSIONS['prettier'] },
-    { name: 'typescript-eslint', version: CURRENT_NODE_VERSIONS['typescript-eslint'] }
+    {
+      name: 'typescript-eslint',
+      version: CURRENT_NODE_VERSIONS['typescript-eslint']
+    }
   ])
   resolver.tasks.add.push(() => copyItemToPWD('.editorconfig'))
   resolver.tasks.add.push(() => copyItemToPWD('.prettierrc'))
